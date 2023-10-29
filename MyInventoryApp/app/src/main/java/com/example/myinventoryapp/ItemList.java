@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +32,14 @@ public class ItemList extends ArrayAdapter<Item> {
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_list_content,parent, false);
         }
+        Item item = items.get(position);
+        // Get a item using position
+        ImageView photo = view.findViewById(R.id.itemImageView);
+        TextView value = view.findViewById(R.id.itemCostView);
 
+        //TODO: set the photo in the item_list_content to the photo from the item
+        value.setText(item.getEst_value_str());
 
+        return view;
     }
 }

@@ -2,6 +2,8 @@ package com.example.myinventoryapp;
 
 import java.util.List;
 
+//TODO: add photos list
+
 public class Item {
     private String date;
     private String description;
@@ -72,6 +74,7 @@ public class Item {
 
     public void setEst_value(double est_value) {
         this.est_value = est_value;
+        est_value_str = String.valueOf(est_value);
     }
 
     public String getEst_value_str() {
