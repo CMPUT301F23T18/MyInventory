@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="2"
+            android:layout_marginTop="20dp"
+            android:text="Sort by"
+            android:textAlignment="viewStart"
+            android:textSize="50dp"></TextView>
+        <Button
+            android:id="@+id/closeCircle"
+            android:layout_width="0dp"
+            android:layout_height="71dp"
+            android:layout_weight="0.5"
+            android:backgroundTint="@color/bg_white"
+            app:icon="@drawable/close_circle"
+            app:iconSize="50dp"
+            app:iconTint="#000000"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#FFEB3B"
+        android:backgroundTint="#FFC107"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="2"
+            android:text="Estimated Value"
+            android:textAlignment="viewStart"
+            android:textSize="40dp"
+            android:textStyle="bold"></TextView>
+
+        <Button
+            android:id="@+id/down_arrow_S1"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:backgroundTint="#FFC107"
+            app:icon="@drawable/down_arrow"
+            app:iconSize="50dp"
+            app:iconTint="#000000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="#FFEB3B"
+        android:backgroundTint="#FFC107"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="2"
+            android:text="Tags"
+            android:textAlignment="viewStart"
+            android:textSize="40dp"
+            android:textStyle="bold"></TextView>
+
+        <Button
+            android:id="@+id/down_arrow_s2"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:backgroundTint="#FFC107"
+            app:icon="@drawable/down_arrow"
+            app:iconSize="50dp"
+            app:iconTint="#000000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="#FFEB3B"
+        android:backgroundTint="#FFC107"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="2"
+            android:text="Make"
+            android:textAlignment="viewStart"
+            android:textSize="40dp"
+            android:textStyle="bold"></TextView>
+
+        <Button
+            android:id="@+id/down_arrow_s3"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:backgroundTint="#FFC107"
+            app:icon="@drawable/down_arrow"
+            app:iconSize="50dp"
+            app:iconTint="#000000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="#FFEB3B"
+        android:backgroundTint="#FFC107"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="2"
+            android:text="Date"
+            android:textAlignment="viewStart"
+            android:textSize="40dp"
+            android:textStyle="bold"></TextView>
+
+        <Button
+            android:id="@+id/down_arrow_s4"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:backgroundTint="#FFC107"
+            app:icon="@drawable/down_arrow"
+            app:iconSize="50dp"
+            app:iconTint="#000000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="#FFEB3B"
+        android:backgroundTint="#FFC107"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="2"
+            android:text="Description"
+            android:textAlignment="viewStart"
+            android:textSize="40dp"
+            android:textStyle="bold"></TextView>
+
+        <Button
+            android:id="@+id/down_arrow_s5"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:backgroundTint="#FFC107"
+            app:icon="@drawable/down_arrow"
+            app:iconSize="50dp"
+            app:iconTint="#000000" />
+    </LinearLayout>
+
+</LinearLayout>
