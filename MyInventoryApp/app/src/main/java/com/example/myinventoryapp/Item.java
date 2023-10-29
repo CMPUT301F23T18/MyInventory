@@ -1,5 +1,7 @@
 package com.example.myinventoryapp;
 
+import java.util.List;
+
 public class Item {
     private String date;
     private String description;
@@ -9,8 +11,9 @@ public class Item {
     private double est_value;
     private String est_value_str;
     private String comment;
+    private List<String> tags;
 
-    public Item(String date, String description, String make, String model, String serial_num, double est_value, String comment) {
+    public Item(String date, String description, String make, String model, String serial_num, double est_value, String comment, List<String> tags) {
         this.date = date;
         this.description = description;
         this.make = make;
@@ -18,6 +21,7 @@ public class Item {
         this.serial_num = serial_num;
         this.est_value = est_value;
         this.comment = comment;
+        this.tags = tags;
 
         est_value_str = String.valueOf(est_value);
     }
