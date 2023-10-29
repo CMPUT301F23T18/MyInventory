@@ -75,7 +75,7 @@
         android:backgroundTint="#F37135"
         android:fontFamily="@font/inknut_antiqua"
         android:text="Save"
-        android:textSize="28sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
