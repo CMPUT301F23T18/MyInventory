@@ -2,10 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-<<<<<<< HEAD
     <color name="orange">#F37135</color>
-    <color name="bg_white">#FFFFFF</color>
-=======
     <color name="bg_white">#FFFDF3</color>
->>>>>>> 40f6d329cacb9926037392670c14fd58f226b2cc
+
 </resources>
