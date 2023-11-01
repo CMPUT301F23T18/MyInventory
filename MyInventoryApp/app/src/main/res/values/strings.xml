@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MyInventoryApp</string>
     <string name="serial_numb">Serial Number</string>
-    <string name="acquired_da">Acquired Date</string>
+    <string name="acquired_da">Acquired Date (yyyy-mm-dd)</string>
     <string name="make">Make</string>
     <string name="estimated_p">Estimated Price</string>
     <string name="description">Description</string>

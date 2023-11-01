@@ -61,11 +61,10 @@
         android:ems="10"
         android:hint="Estimated Price"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/descEdit"
+        app:layout_constraintBottom_toTopOf="@+id/saveButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/makeEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/descEdit" />
 
     <Button
         android:id="@+id/saveButton"
@@ -89,6 +88,18 @@
         android:hint="Description"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toTopOf="@+id/saveButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/makeEdit" />
+
+    <EditText
+        android:id="@+id/modelEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:hint="Model"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/descEdit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/makeEdit" />
