@@ -67,12 +67,13 @@ public class Global extends Application {
 
     /**
      * creates a document of firebase for storing the information in an item
-     * The make of the item acts as a name for the item
+     * returns the document if it already exists
+     * The make and model of the item acts as a name for the item
      * @param make
      * @return DocumentReference
      */
-    public DocumentReference makeDocumentRef(String make, String model) {
-        String path = USER_PATH + "/" + make + model;
+    public DocumentReference DocumentRef(String make, String model) {
+        String path = "/" + make + " " + model;
         return fbCollRef.document(path);
     }
 
@@ -83,10 +84,10 @@ public class Global extends Application {
      * @param item an item to get the firebase document for
      * @return DocumentReference
      */
-    public DocumentReference makeDocumentRef(Item item) {
+    public DocumentReference DocumentRef(Item item) {
         String make = item.getMake();
         String model = item.getModel();
 
-        return makeDocumentRef(make,model);
+        return DocumentRef(make,model);
     }
 }

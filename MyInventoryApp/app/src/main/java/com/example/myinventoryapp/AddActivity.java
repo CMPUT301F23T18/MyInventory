@@ -1,6 +1,7 @@
 package com.example.myinventoryapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -46,6 +47,7 @@ public class AddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_item_activity);
 
+        // find all text fields
         serialField = findViewById(R.id.serial_numb);
         dateField = findViewById(R.id.acquired_da);
         makeField = findViewById(R.id.make);
@@ -54,11 +56,10 @@ public class AddActivity extends AppCompatActivity {
         descField = findViewById(R.id.description);
         scanButton = findViewById(R.id.scanButtonAdd);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         nextButton = findViewById(R.id.forwardButtonAdd);
         nextButton.setOnClickListener(nextListener);
 
+        // set a listener for the dateField
         dateField.addTextChangedListener(dateListener);
     }
 
@@ -87,6 +88,7 @@ public class AddActivity extends AppCompatActivity {
     View.OnClickListener nextListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            // get all finished strings from user's input
             String serial = serialField.getText().toString();
             String date = dateField.getText().toString();
             String make = makeField.getText().toString();
@@ -96,6 +98,7 @@ public class AddActivity extends AppCompatActivity {
 
             //TODO: check for valid inputs for date, make sure required fields have data
 
+            // map all inputs to a Hashmap
             Map<String, Object> item_new = new HashMap<String, Object>();
             item_new.put("serial",serial);
             item_new.put("date",date);
@@ -104,8 +107,15 @@ public class AddActivity extends AppCompatActivity {
             item_new.put("price",price);
             item_new.put("desc",desc);
 
-            fb_new_item = ((Global) getApplication()).makeDocumentRef(make,model);
-            fb_new_item.set(item_new).addOnCompleteListener(new OnCompleteListener<Void>() {
+            Item actual_item = new Item(date,desc,make,model,serial,price);
+            item_new.put("item",actual_item);
+
+            // create a document for firebase using the make and model as the name
+            fb_new_item = ((Global) getApplication()).DocumentRef(make,model);
+            // add the item to firebase
+            fb_new_item
+                    .set(item_new)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
@@ -116,11 +126,17 @@ public class AddActivity extends AppCompatActivity {
                 }
             });
 
+            //TODO: next activity -> compile data into a item then move on to photos
+            //      currently goes back to listActivity
+
+            // go to photo activity
+            Intent i = new Intent(v.getContext(), ListActivity.class);
+            startActivity(i);
         }
     };
 
     //Toast.makeText(this,"some text",Toast.LENGTH_SHORT).show()
-    //TODO: next activity -> compile data into a item then move on to tags
+
     //TODO: back to list -> needs a button first...
     //TODO: scan function -> scan barcode or scan serial number
 }
