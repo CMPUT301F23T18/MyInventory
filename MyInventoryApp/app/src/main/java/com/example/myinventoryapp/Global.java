@@ -2,26 +2,23 @@ package com.example.myinventoryapp;
 
 import android.app.Application;
 
-import com.google.firebase.Firebase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
 
-
 // set
-//      ((Global) this.getApplication()).setUSER_PATH("Users/<userID>/Items");
+//      ((Global) getApplication()).setUSER_PATH(username);
 
 // get
-//      CollectionReference fb_items = ((Global) this.getApplication()).getFbCollRef();
-
-
-
+//      CollectionReference fb_items = ((Global) getApplication()).getFbCollRef();
 
 
 
 public class Global extends Application {
+    private String USER_PATH;
+    private CollectionReference fbItemsRef; // firebase collection reference
 
     /**
      * creates a default user path and doc reference
@@ -31,11 +28,8 @@ public class Global extends Application {
         super.onCreate();
         // NOTE: the below will get overwrote when the user logs in
         USER_PATH = "Users/test_user/Items";
-        fbCollRef = FirebaseFirestore.getInstance().collection(USER_PATH);
+        fbItemsRef = FirebaseFirestore.getInstance().collection(USER_PATH);
     }
-
-    private String USER_PATH;
-    private CollectionReference fbCollRef; // firebase collection reference
 
     /**
      * returns the user path for the current user, set when they login
@@ -46,14 +40,13 @@ public class Global extends Application {
     }
 
     /**
-     *
-     * @param USER_PATH the string that tells firebase where to store information
-     *                  for the current user.
+     * sets the USER_PATH so firebase directs to the correct list of items
+     * @param username the string that tells firebase who the user is
      *                  Should be set everytime the user logs in to the app
      */
-    public void setUSER_PATH(String USER_PATH) {
-        this.USER_PATH = USER_PATH;
-        this.fbCollRef = FirebaseFirestore.getInstance().collection(USER_PATH);
+    public void setUSER_PATH(String username) {
+        this.USER_PATH = "Users/" + username + "/Items";
+        this.fbItemsRef = FirebaseFirestore.getInstance().collection(USER_PATH);
     }
 
     /**
@@ -61,20 +54,21 @@ public class Global extends Application {
      * by USER_PATH
      * @return CollectionReference
      */
-    public CollectionReference getFbCollRef(){
-        return fbCollRef;
+    public CollectionReference getFbItemsRef(){
+        return fbItemsRef;
     }
 
     /**
      * creates a document of firebase for storing the information in an item
      * returns the document if it already exists
      * The make and model of the item acts as a name for the item
-     * @param make
+     * @param make the name of the item
+     * @param model the model/subtype of the item
      * @return DocumentReference
      */
     public DocumentReference DocumentRef(String make, String model) {
         String path = "/" + make + " " + model;
-        return fbCollRef.document(path);
+        return fbItemsRef.document(path);
     }
 
     /**

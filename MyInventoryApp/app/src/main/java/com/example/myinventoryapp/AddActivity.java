@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,10 +18,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.time.Month;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,6 +65,8 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private final TextWatcher dateListener = new TextWatcher() {
+        int first = 0;
+        int second;
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             //When empty
@@ -72,14 +75,30 @@ public class AddActivity extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             //when a character gets replaced with another character... I think
+
         }
 
         @Override
         public void afterTextChanged(Editable s) {
             // everytime text is edited
+            // below is from stack overflow
+            second = first;
+            first = s.length();
             if (s.length() == 4 || s.length() == 7) {
-                //adds "/" to date input so user doesn't have to
-                s.append("-");
+                //check whether a character was added or deleted
+                if (first > second) {
+                    // a character was added rather than deleted
+                    s.append("-");
+                }
+            } else if (s.length() == 5) {
+                if (s.charAt(4) != '-') {
+                    // the '-' was deleted and must be replaced
+                    s.insert(4,"-");
+                }
+            } else if (s.length() == 8) {
+                if (s.charAt(7) != '-') {
+                    s.insert(7,"-");
+                }
             }
         }
     };
@@ -95,8 +114,28 @@ public class AddActivity extends AppCompatActivity {
             String model = modelField.getText().toString();
             String price = priceField.getText().toString();
             String desc = descField.getText().toString();
+            //NOTE: Make is the brand, model is the product
 
-            //TODO: check for valid inputs for date, make sure required fields have data
+            // check validity of fields
+            //check date
+            if (!FieldValidator.checkDate(date,getApplicationContext())) {
+                return;
+            }
+            // check make and model
+            if (!FieldValidator.checkFieldSize(make)) {
+                Toast.makeText(getApplicationContext(),"make is required to proceed",Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!FieldValidator.checkFieldSize(model)) {
+                Toast.makeText(getApplicationContext(),"model is required to proceed",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!FieldValidator.checkFieldSize(price)) {
+                Toast.makeText(getApplicationContext(),"price is required to proceed",Toast.LENGTH_SHORT).show();
+            }
+
+
 
             // map all inputs to a Hashmap
             Map<String, Object> item_new = new HashMap<String, Object>();
@@ -131,9 +170,15 @@ public class AddActivity extends AppCompatActivity {
 
             // go to photo activity
             Intent i = new Intent(v.getContext(), ListActivity.class);
+            // put make and model in the intent so on the next activity
+            // the item can be retrieved from the firebase
+            // just call getIntent().getExtras().getString("make"); on the next activity
+            i.putExtra("make",make);
+            i.putExtra("model",model);
             startActivity(i);
         }
     };
+
 
     //Toast.makeText(this,"some text",Toast.LENGTH_SHORT).show()
 
