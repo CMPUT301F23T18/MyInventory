@@ -10,22 +10,21 @@ public class Item {
     private String make;
     private String model;
     private String serial_num;
-    private double est_value;
-    private String est_value_str;
+    private String est_value;
+    private double est_value_num;
     private String comment;
     private List<String> tags;
 
-    public Item(String date, String description, String make, String model, String serial_num, double est_value, String comment, List<String> tags) {
+    public Item(String date, String description, String make, String model, String serial_num, String est_value) {
+        // NOTE: comment, tags and photos are NOT added on item creation
         this.date = date;
         this.description = description;
         this.make = make;
         this.model = model;
         this.serial_num = serial_num;
         this.est_value = est_value;
-        this.comment = comment;
-        this.tags = tags;
 
-        est_value_str = String.valueOf(est_value);
+        est_value_num = Double.parseDouble(est_value);
     }
 
     public String getDate() {
@@ -68,21 +67,21 @@ public class Item {
         this.serial_num = serial_num;
     }
 
-    public double getEst_value() {
+    public String getEst_value() {
         return est_value;
     }
 
-    public void setEst_value(double est_value) {
+    public void setEst_value(String est_value) {
         this.est_value = est_value;
-        est_value_str = String.valueOf(est_value);
+        est_value_num = Double.parseDouble(est_value);
     }
 
-    public String getEst_value_str() {
-        return est_value_str;
+    public double getEst_value_num() {
+        return est_value_num;
     }
 
-    public void setEst_value_str(String est_value_str) {
-        this.est_value_str = est_value_str;
+    public void setEst_value_num(double est_value_num) {
+        this.est_value_num = est_value_num;
     }
 
     public String getComment() {

@@ -21,10 +21,12 @@
     <EditText
         android:id="@+id/serial_numb"
         android:layout_width="298dp"
-        android:layout_height="43dp"
+        android:layout_height="48dp"
         android:layout_marginTop="96dp"
         android:gravity="center_vertical"
         android:hint="@string/serial_numb"
+        android:inputType="textCapCharacters"
+        android:digits="1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-"
         android:textAppearance="@style/new_item_activity_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -35,10 +37,13 @@
     <EditText
         android:id="@+id/acquired_da"
         android:layout_width="298dp"
-        android:layout_height="43dp"
+        android:layout_height="48dp"
         android:layout_marginTop="7dp"
         android:gravity="center_vertical"
         android:hint="@string/acquired_da"
+        android:digits="1234567890-"
+        android:maxLength="10"
+        android:inputType="phone"
         android:textAppearance="@style/new_item_activity_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +52,7 @@
     <EditText
         android:id="@+id/make"
         android:layout_width="298dp"
-        android:layout_height="43dp"
+        android:layout_height="48dp"
         android:layout_marginTop="7dp"
         android:gravity="center_vertical"
         android:hint="@string/make"
@@ -56,24 +61,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/acquired_da" />
 
+
     <EditText
         android:id="@+id/estimated_p"
         android:layout_width="298dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="7dp"
+        android:layout_height="48dp"
         android:gravity="center_vertical"
         android:hint="@string/estimated_p"
+        android:inputType="numberDecimal"
         android:textAppearance="@style/new_item_activity_text"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/make" />
-
+        app:layout_constraintTop_toBottomOf="@+id/model" />
 
     <EditText
         android:id="@+id/description"
         android:layout_width="298dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="7dp"
+        android:layout_height="48dp"
         android:gravity="center_vertical"
         android:hint="@string/description"
         android:textAppearance="@style/new_item_activity_text"
@@ -83,29 +88,43 @@
         app:layout_constraintTop_toBottomOf="@id/estimated_p" />
 
     <Button
-        android:id="@+id/rectangle_1"
+        android:id="@+id/scanButtonAdd"
         android:layout_width="119dp"
         android:layout_height="48dp"
         android:layout_marginTop="52dp"
         android:backgroundTint="@color/orange"
         android:text="@string/scan_image"
         android:textAppearance="@style/scan_image"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description" />
 
     <ImageView
-        android:id="@+id/icon_chevro"
+        android:id="@+id/forwardButtonAdd"
         android:layout_width="64dp"
         android:layout_height="86dp"
         android:layout_marginTop="45dp"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rectangle_1"
+        app:layout_constraintTop_toBottomOf="@+id/scanButtonAdd"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+
+    <EditText
+        android:id="@+id/model"
+        android:layout_width="298dp"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:hint="Model"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/make" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
