@@ -22,6 +22,10 @@ public class ItemList extends ArrayAdapter<Item> {
         super(context, 0, expenses);
         this.items = expenses;
         this.context = context;
+
+        // Remove later.
+        Item item1 = new Item("", "", "", "", "","2000");
+        items.add(item1);
     }
 
     @NonNull
@@ -38,6 +42,7 @@ public class ItemList extends ArrayAdapter<Item> {
         TextView value = view.findViewById(R.id.itemCostView);
 
         //TODO: set the photo in the item_list_content to the photo from the item
+        photo.setImageResource(R.drawable.house_placeholder);
         value.setText(item.getEst_value());
 
         return view;

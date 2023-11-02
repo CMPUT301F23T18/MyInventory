@@ -15,6 +15,8 @@ public class Item {
     private String comment;
     private List<String> tags;
 
+    // photos
+
     public Item(String date, String description, String make, String model, String serial_num, String est_value) {
         // NOTE: comment, tags and photos are NOT added on item creation
         this.date = date;
