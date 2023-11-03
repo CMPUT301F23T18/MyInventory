@@ -62,18 +62,21 @@ public class ListActivity extends AppCompatActivity {
                         Log.d("Firestore", String.format("Item(%s, %s) fetched", item.getMake(), item.getModel()));
                         items.add(item);
                     }
+                    // Calculate total value after resetting total.
+                    totalValue = 0;
+                    for (int i = 0; i < items.size(); i++){
+                        String est_value =  items.get(i).getEst_value();
+                        if (est_value != null){
+                            totalValue += Double.parseDouble(est_value);
+                        }
+
+                    }
+                    totalCostView.setText(String.format("Total Value = $%.2f", totalValue));
                     itemAdapter.notifyDataSetChanged();
                 }
             }
                     });
 
-        for (int i = 0; i < items.size(); i++){
-            double est_value =  items.get(i).getEst_value_num();
-
-            totalValue += est_value;
-        }
-
-        totalCostView.setText(String.format(Locale.CANADA,"Total Value = $%.2f", totalValue));
 
         itemList.setAdapter(itemAdapter);
 
