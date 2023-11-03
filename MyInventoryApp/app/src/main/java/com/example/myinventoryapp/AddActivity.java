@@ -138,22 +138,22 @@ public class AddActivity extends AppCompatActivity {
 
 
             // map all inputs to a Hashmap
-            Map<String, Object> item_new = new HashMap<String, Object>();
-            item_new.put("serial",serial);
-            item_new.put("date",date);
-            item_new.put("make",make);
-            item_new.put("model",model);
-            item_new.put("price",price);
-            item_new.put("desc",desc);
+            Map<String, Object> item_hash = new HashMap<String, Object>();
+            item_hash.put("serial",serial);
+            item_hash.put("date",date);
+            item_hash.put("make",make);
+            item_hash.put("model",model);
+            item_hash.put("price",price);
+            item_hash.put("desc",desc);
 
-            Item actual_item = new Item(date,desc,make,model,serial,price);
-            item_new.put("item",actual_item);
+            //Item actual_item = new Item(date,desc,make,model,serial,price);
+            //item_hash.put("item",actual_item);
 
             // create a document for firebase using the make and model as the name
             fb_new_item = ((Global) getApplication()).DocumentRef(make,model);
             // add the item to firebase
             fb_new_item
-                    .set(item_new)
+                    .set(item_hash)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
