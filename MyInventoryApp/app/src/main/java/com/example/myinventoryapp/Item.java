@@ -15,6 +15,11 @@ public class Item {
     private String comment;
     private List<String> tags;
 
+    // photos
+
+    public Item() {
+    }
+
     public Item(String date, String description, String make, String model, String serial_num, String est_value) {
         // NOTE: comment, tags and photos are NOT added on item creation
         this.date = date;
@@ -68,12 +73,18 @@ public class Item {
     }
 
     public String getEst_value() {
+        if (est_value != null){
+            return String.format("%.2f", Double.parseDouble(est_value));
+        }
+
         return est_value;
     }
 
     public void setEst_value(String est_value) {
         this.est_value = est_value;
-        est_value_num = Double.parseDouble(est_value);
+        if (est_value != null){
+            est_value_num = Double.parseDouble(est_value);
+        }
     }
 
     public double getEst_value_num() {
