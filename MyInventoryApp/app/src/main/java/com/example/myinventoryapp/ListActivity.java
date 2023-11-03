@@ -2,6 +2,7 @@ package com.example.myinventoryapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -11,6 +12,12 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -30,19 +37,43 @@ public class ListActivity extends AppCompatActivity {
 
         items = new ArrayList<>();
         itemAdapter = new ItemList(this, items);
-        // Remove later.
-        Item item1 = new Item("", "", "", "", "","2000");
-        items.add(item1);
 
-        Item item2 = new Item("", "", "", "", "","300");
-        items.add(item2);
+        CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
+        fb_items.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot querySnapshots,@Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.e("Firestore", error.toString());
+                    return;
+                }
+                if (querySnapshots != null) {
+                    items.clear();
+                    for (QueryDocumentSnapshot doc: querySnapshots) {
+                        Item item = new Item();
+                        item.setSerial_num(doc.getString("serial"));
+                        item.setDate(doc.getString("date"));
+                        item.setMake(doc.getString("make"));
+                        item.setModel(doc.getString("model"));
+                        item.setEst_value(doc.getString("price"));
+                        item.setDescription(doc.getString("desc"));
 
-        Item item3 = new Item("", "", "", "", "","45.5");
-        items.add(item3);
+                        // TODO: Get photo
+                        Log.d("Firestore", String.format("Item(%s, %s) fetched", item.getMake(), item.getModel()));
+                        items.add(item);
+                    }
+                    itemAdapter.notifyDataSetChanged();
+                }
+            }
+                    });
 
         for (int i = 0; i < items.size(); i++){
-            totalValue += Double.parseDouble(items.get(i).getEst_value());
+            String est_value =  items.get(i).getEst_value();
+            if (est_value != null){
+                totalValue += Double.parseDouble(est_value);
+            }
+
         }
+
         totalCostView.setText(String.format("Total Value = $%.2f", totalValue));
 
         itemList.setAdapter(itemAdapter);
