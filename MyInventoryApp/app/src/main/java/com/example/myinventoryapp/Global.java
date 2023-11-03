@@ -61,27 +61,25 @@ public class Global extends Application {
     /**
      * creates a document of firebase for storing the information in an item
      * returns the document if it already exists
-     * The make and model of the item acts as a name for the item
-     * @param make the name of the item
-     * @param model the model/subtype of the item
+     * @param ID the name of the item on firebase, generated using UTC
      * @return DocumentReference
      */
-    public DocumentReference DocumentRef(String make, String model) {
-        String path = "/" + make + " " + model;
+    public DocumentReference DocumentRef(long ID) {
+        String str_id = Long.toString(ID);
+        String path = "/" + str_id;
         return fbItemsRef.document(path);
     }
 
     /**
      * an alternative method of making a document reference where the item is given
-     * and the make and model are taken from there
+     * and the Id is taken from there
      * + faster to code
      * @param item an item to get the firebase document for
      * @return DocumentReference
      */
     public DocumentReference DocumentRef(Item item) {
-        String make = item.getMake();
-        String model = item.getModel();
+        long ID = item.getID();
 
-        return DocumentRef(make,model);
+        return DocumentRef(ID);
     }
 }
