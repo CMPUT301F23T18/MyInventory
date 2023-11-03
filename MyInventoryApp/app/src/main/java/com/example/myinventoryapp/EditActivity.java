@@ -95,7 +95,7 @@ public class EditActivity extends AppCompatActivity {
     // Function to populate ui elements from Firestore data
     private void populateUIFromFirestore(String itemId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance(); // Initialize Firestore
-        DocumentReference itemDocRef = db.collection("your_collection_name").document(itemId); // Replace "your_collection_name" with your Firestore collection name
+        DocumentReference itemDocRef = db.collection("Users/test_user/Items").document(itemId); // Replace "your_collection_name" with your Firestore collection name
 
         itemDocRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

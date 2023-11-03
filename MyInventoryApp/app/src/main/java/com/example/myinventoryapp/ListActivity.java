@@ -20,6 +20,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ListActivity extends AppCompatActivity {
     ImageView addButton;
@@ -70,11 +71,12 @@ public class ListActivity extends AppCompatActivity {
                         }
 
                     }
-                    totalCostView.setText(String.format("Total Value = $%.2f", totalValue));
+                    totalCostView.setText(String.format(Locale.CANADA,"Total Value = $%.2f", totalValue));
                     itemAdapter.notifyDataSetChanged();
                 }
             }
                     });
+
 
         itemList.setAdapter(itemAdapter);
 

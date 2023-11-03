@@ -13,6 +13,7 @@ public class Item {
     private String est_value;
     private double est_value_num;
     private String comment;
+    private long ID;
     private List<String> tags;
 
     // photos
@@ -101,5 +102,13 @@ public class Item {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public long getID() {
+        return ID;
+    }
+
+    public void setID(long ID) {
+        this.ID = ID;
     }
 }
