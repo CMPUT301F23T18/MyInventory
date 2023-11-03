@@ -146,11 +146,11 @@ public class AddActivity extends AppCompatActivity {
             item_hash.put("price",price);
             item_hash.put("desc",desc);
 
-            //Item actual_item = new Item(date,desc,make,model,serial,price);
-            //item_hash.put("item",actual_item);
+            long ID = System.currentTimeMillis();
+            item_hash.put("ID",ID);
 
             // create a document for firebase using the make and model as the name
-            fb_new_item = ((Global) getApplication()).DocumentRef(make,model);
+            fb_new_item = ((Global) getApplication()).DocumentRef(ID);
             // add the item to firebase
             fb_new_item
                     .set(item_hash)

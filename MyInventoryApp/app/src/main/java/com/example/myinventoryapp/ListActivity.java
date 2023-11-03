@@ -71,7 +71,7 @@ public class ListActivity extends AppCompatActivity {
                         }
 
                     }
-                    totalCostView.setText(String.format("Total Value = $%.2f", totalValue));
+                    totalCostView.setText(String.format(Locale.CANADA,"Total Value = $%.2f", totalValue));
                     itemAdapter.notifyDataSetChanged();
                 }
             }
