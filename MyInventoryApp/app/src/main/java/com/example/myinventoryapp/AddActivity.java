@@ -180,8 +180,6 @@ public class AddActivity extends AppCompatActivity {
     };
 
 
-    //Toast.makeText(this,"some text",Toast.LENGTH_SHORT).show()
-
     //TODO: back to list -> needs a button first...
     //TODO: scan function -> scan barcode or scan serial number
 }
