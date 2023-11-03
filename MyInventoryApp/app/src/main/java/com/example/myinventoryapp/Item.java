@@ -70,7 +70,7 @@ public class Item {
     }
 
     public String getEst_value() {
-        return est_value;
+        return String.format("%.2f", Double.parseDouble(est_value));
     }
 
     public void setEst_value(String est_value) {
