@@ -61,7 +61,8 @@ public class ListActivity extends AppCompatActivity {
                         Log.d("Firestore", String.format("Item(%s, %s) fetched", item.getMake(), item.getModel()));
                         items.add(item);
                     }
-                    // Calculate t
+                    // Calculate total value after resetting total.
+                    totalValue = 0;
                     for (int i = 0; i < items.size(); i++){
                         String est_value =  items.get(i).getEst_value();
                         if (est_value != null){
