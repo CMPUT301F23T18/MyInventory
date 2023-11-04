@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -57,6 +58,7 @@ public class ListActivity extends AppCompatActivity {
                         item.setModel(doc.getString("model"));
                         item.setEst_value(doc.getString("price"));
                         item.setDescription(doc.getString("desc"));
+                        item.setID(Long.parseLong(doc.getId()));
 
                         // TODO: Get photo
                         Log.d("Firestore", String.format("Item(%s, %s) fetched", item.getMake(), item.getModel()));
@@ -77,7 +79,7 @@ public class ListActivity extends AppCompatActivity {
             }
                     });
 
-
+        itemList.setOnItemClickListener(itemClicker);
         itemList.setAdapter(itemAdapter);
 
         addButton = findViewById(R.id.add_button);
@@ -91,4 +93,14 @@ public class ListActivity extends AppCompatActivity {
             }
         });
     }
+
+    AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent i = new Intent(view.getContext(), ViewItemActivity.class);
+            long ID = items.get(position).getID();
+            i.putExtra("ID",ID);
+            startActivity(i);
+        }
+    };
 }
