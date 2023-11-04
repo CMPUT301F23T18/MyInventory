@@ -1,6 +1,7 @@
 package com.example.myinventoryapp;
 
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -117,5 +118,6 @@ public class EditActivity extends AppCompatActivity {
                 Log.d("EditActivity", "Error getting document: " + task.getException());
             }
         });
+
     }
 }
