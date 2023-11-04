@@ -22,6 +22,10 @@
             android:name=".StartUpActivity"
             android:exported="true"
             />
+        <activity android:name=".EditActivity"
+            android:exported="false"/>
+        <activity android:name=".GalleryActivity"
+            android:exported="false"/>
 
         <activity
             android:name=".ListActivity"
