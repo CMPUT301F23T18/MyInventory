@@ -26,14 +26,8 @@ public class ViewItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
 
-        // get name of the item that was clicked to get user's path make and model:
-        Intent intent = getIntent();
-        String itemName = intent.getStringExtra("item_name");
-        // split the item name into "make" and "model" using a space as the delimiter
-        String[] parts = itemName.split(" ");
-        // access "make" and "model" from the parts array
-        String make = parts[0];
-        String model = parts[1];
+        // get id of the item that was clicked:
+        long id = getIntent().getLongExtra("ID",0);
 
         // find the IDs of all the list of information when viewing an item, but get it from firebase
         serialField = findViewById(R.id.serialNumEdit);
@@ -44,7 +38,7 @@ public class ViewItemActivity extends AppCompatActivity {
         modelField = findViewById(R.id.modelEdit);
 
         // access the database of default user make and model
-        fb_view_item = ((Global) getApplication()).DocumentRef(make, model);
+        fb_view_item = ((Global) getApplication()).DocumentRef(id);
 
         // get keys and set values to appropriate text fields
         fb_view_item.get().addOnSuccessListener(documentSnapshot -> {
