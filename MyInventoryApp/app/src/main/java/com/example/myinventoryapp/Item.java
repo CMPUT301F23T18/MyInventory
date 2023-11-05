@@ -13,7 +13,13 @@ public class Item {
     private String est_value;
     private double est_value_num;
     private String comment;
+    private long ID;
     private List<String> tags;
+
+    // photos
+
+    public Item() {
+    }
 
     public Item(String date, String description, String make, String model, String serial_num, String est_value) {
         // NOTE: comment, tags and photos are NOT added on item creation
@@ -68,12 +74,18 @@ public class Item {
     }
 
     public String getEst_value() {
+        if (est_value != null){
+            return String.format("%.2f", Double.parseDouble(est_value));
+        }
+
         return est_value;
     }
 
     public void setEst_value(String est_value) {
         this.est_value = est_value;
-        est_value_num = Double.parseDouble(est_value);
+        if (est_value != null){
+            est_value_num = Double.parseDouble(est_value);
+        }
     }
 
     public double getEst_value_num() {
@@ -90,5 +102,13 @@ public class Item {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public long getID() {
+        return ID;
+    }
+
+    public void setID(long ID) {
+        this.ID = ID;
     }
 }

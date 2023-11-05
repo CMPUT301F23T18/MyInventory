@@ -1,6 +1,7 @@
 package com.example.myinventoryapp;
 
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +24,7 @@ public class EditActivity extends AppCompatActivity {
     EditText editPriceField;
     EditText editDescField;
     Button updateButton;
-    String itemId;
+    long itemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +39,7 @@ public class EditActivity extends AppCompatActivity {
         editPriceField = findViewById(R.id.estPriceEdit);
         editDescField = findViewById(R.id.descEdit);
         updateButton = findViewById(R.id.saveButton);
-
-        itemId = getIntent().getStringExtra("item_id");
-
+        itemId = getIntent().getLongExtra("item_id",0);
         populateUIFromFirestore(itemId); // Call the function to populate ui from Firestore
 
         updateButton.setOnClickListener(new View.OnClickListener() {
@@ -61,9 +60,8 @@ public class EditActivity extends AppCompatActivity {
                 finish(); // Close the EditActivity after saving
             }
 
-            private void updateItemInFirestore(String itemId, String editedSerial, String editedDate, String editedMake, String editedModel, String editedPrice, String editedDesc) {
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                DocumentReference itemDocRef = db.collection("your_collection_name").document(itemId); // Replace "your_collection_name" with your Firestore collection name
+            private void updateItemInFirestore(long itemId, String editedSerial, String editedDate, String editedMake, String editedModel, String editedPrice, String editedDesc) {
+                DocumentReference itemDocRef = ((Global) getApplication()).DocumentRef(itemId);
 
                 // Create a map to hold the updated item data
                 Map<String, Object> updatedData = new HashMap<>();
@@ -93,9 +91,8 @@ public class EditActivity extends AppCompatActivity {
 
 
     // Function to populate ui elements from Firestore data
-    private void populateUIFromFirestore(String itemId) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance(); // Initialize Firestore
-        DocumentReference itemDocRef = db.collection("your_collection_name").document(itemId); // Replace "your_collection_name" with your Firestore collection name
+    private void populateUIFromFirestore(long itemId) {
+        DocumentReference itemDocRef = ((Global) getApplication()).DocumentRef(itemId);
 
         itemDocRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -121,5 +118,6 @@ public class EditActivity extends AppCompatActivity {
                 Log.d("EditActivity", "Error getting document: " + task.getException());
             }
         });
+
     }
 }

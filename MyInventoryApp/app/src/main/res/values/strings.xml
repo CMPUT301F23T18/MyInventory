@@ -6,4 +6,10 @@
     <string name="estimated_p">Estimated Price</string>
     <string name="description">Description</string>
     <string name="scan_image">Scan Image</string>
+    <string name="total_cost_view_value">Total Value = $0</string>
+    <string name="sort_button_text">Sort</string>
+    <string name="filter_button_text">Filter</string>
+    <string name="capture_popup_question">Would like to select a photo from \n your gallery or take a new photo?</string>
+    <string name="capture">Capture</string>
+    <string name="gallery">Gallery</string>
 </resources>
