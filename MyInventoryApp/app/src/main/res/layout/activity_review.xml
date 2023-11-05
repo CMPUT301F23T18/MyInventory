@@ -12,7 +12,7 @@
         android:id="@+id/serialNumEdit"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="30dp"
         android:ems="10"
         android:hint="Serial Number"
         android:inputType="text"
@@ -27,11 +27,9 @@
         android:layout_height="50dp"
         android:ems="10"
         android:hint="Acquired Date"
-
         android:inputType="text"
         android:textColorHint="@color/white"
         android:textColor="@color/white"
-
         android:layout_marginLeft="107dp"/>
 
     <EditText
@@ -40,25 +38,11 @@
         android:layout_height="50dp"
         android:ems="10"
         android:hint="Make"
-
         android:inputType="text"
         android:textColorHint="@color/white"
         android:textColor="@color/white"
         tools:layout_editor_absoluteY="278dp"
         android:layout_marginLeft="107dp"/>
-    <EditText
-        android:id="@+id/modelEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:ems="10"
-        android:hint="Model"
-        android:inputType="text"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
-        tools:layout_editor_absoluteY="278dp"
-        android:layout_marginLeft="107dp"/>
-
-
 
     <EditText
         android:id="@+id/modelEdit"
@@ -66,12 +50,8 @@
         android:layout_height="50dp"
         android:ems="10"
         android:hint="Model"
-        android:inputType="none"
-        android:enabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/makeEdit"
-        app:layout_constraintBottom_toTopOf="@id/estPriceEdit"
+        android:textColorHint="@color/white"
+        android:inputType="text"
         android:layout_marginLeft="107dp"/>
 
     <EditText
@@ -86,7 +66,6 @@
         android:textColor="@color/white"
 
         android:layout_marginLeft="107dp"/>
-
 
     <EditText
         android:id="@+id/descEdit"
@@ -105,7 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="20dp">
         <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -114,12 +93,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
             </LinearLayout>
-
         </HorizontalScrollView>
 
     </LinearLayout>
+
     <ImageView
         android:layout_marginTop="50dp"
         android:id="@+id/add_tag_button"
@@ -129,7 +107,6 @@
         android:clickable="true"
         app:srcCompat="@drawable/add_tag" />
     <LinearLayout
-        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -156,33 +133,28 @@
             android:layout_marginLeft="10dp"/>
     </LinearLayout>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginTop="70dp"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="match_parent"
-            android:layout_height="313dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/footer_bg"
-            tools:layout_editor_absoluteY="-114dp" />
+            app:srcCompat="@drawable/footer_bg" />
 
         <ImageView
             android:id="@+id/cameraButton"
             android:layout_width="85dp"
             android:layout_height="70dp"
-            android:layout_marginBottom="16dp"
             android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteX="163dp"
+            tools:layout_editor_absoluteY="-4dp"
             app:srcCompat="@drawable/camera_button"
             tools:ignore="MissingConstraints" />
 
@@ -194,27 +166,23 @@
             android:layout_marginEnd="16dp"
             android:backgroundTint="#F37135"
             android:fontFamily="@font/inknut_antiqua"
+            tools:layout_editor_absoluteX="271dp"
+            tools:layout_editor_absoluteY="22dp"
             android:text="Edit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/imageView4"
-            app:layout_constraintTop_toTopOf="@+id/cameraButton"
             tools:ignore="MissingConstraints" />
 
         <Button
             android:id="@+id/backButton"
             android:layout_width="82dp"
             android:layout_height="71dp"
-            android:backgroundTint="@color/button"
+            android:backgroundTint="@color/clear"
             android:pointerIcon="arrow"
             app:icon="@drawable/back_arrow"
             app:iconPadding="0dp"
             app:iconSize="50dp"
             app:iconTint="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/saveButtonGallery"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/imageView4"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="16dp" />
+            tools:layout_editor_absoluteY="6dp"
+            tools:ignore="MissingConstraints" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
