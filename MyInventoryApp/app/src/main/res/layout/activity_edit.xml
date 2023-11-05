@@ -15,6 +15,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/delete_btn"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
+        android:backgroundTint="@color/clear"
+        app:icon="@android:drawable/ic_menu_delete"
+        app:iconSize="30dp"
+        app:iconTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="@id/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="visible"/>
 
     <EditText
         android:id="@+id/serialNumEdit"

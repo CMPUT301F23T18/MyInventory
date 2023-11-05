@@ -140,9 +140,11 @@ public class ListActivity extends AppCompatActivity {
         yes_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: show fragment asking to comfirm deletion
+                //TODO: show fragment asking to confirm deletion
             }
         });
+
+        //TODO: add fragment layout
     }
 
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
@@ -155,9 +157,4 @@ public class ListActivity extends AppCompatActivity {
         }
     };
 }
-//TODO: clicking on an item takes it to the activity_review layout
-//TODO: within the layout, it should let you click on the delete button and delete the item.
-// once the item is deleted, return to the listview activity. make sure it deletes from the
-// listview and from firebase.
-//TODO: make activity to go to activity_review
 
