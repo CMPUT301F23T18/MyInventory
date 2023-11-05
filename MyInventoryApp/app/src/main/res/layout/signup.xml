@@ -4,19 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:rotationX="0">
-
-    <View
-        android:id="@+id/image"
-        android:layout_width="411dp"
-        android:layout_height="328dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/logo_banner_big"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:rotationX="0"
+    android:backgroundTint="@color/bg_white">
 
 
     <EditText
@@ -25,13 +14,13 @@
         android:layout_height="54dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="108dp"
         android:hint="Name"
-        android:textColor="@color/black"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image" />
+        tools:layout_editor_absoluteY="203dp" />
 
     <EditText
         android:id="@+id/email"
@@ -39,9 +28,10 @@
         android:layout_height="54dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="68dp"
         android:hint="Email"
-        android:textColor="@color/black"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,9 +43,10 @@
         android:layout_height="54dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="76dp"
         android:hint="Password"
-        android:textColor="@color/black"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,31 +58,57 @@
         android:layout_height="54dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:backgroundTint="#BDE1BD00"
+        android:backgroundTint="@color/button"
         android:contextClickable="false"
         android:text="Sign Up"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="686dp" />
+        tools:layout_editor_absoluteY="607dp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="412dp"
+        android:layout_height="125dp"
+        app:srcCompat="@drawable/footer_bg"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="744dp" />
 
     <Button
         android:id="@+id/backButton"
-        android:layout_width="73dp"
-        android:layout_height="75dp"
+        android:layout_width="81dp"
+        android:layout_height="82dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="1dp"
-        android:backgroundTint="@color/bg_white"
+        android:layout_marginEnd="18dp"
+        android:backgroundTint="@color/clear"
         android:pointerIcon="arrow"
         app:icon="@drawable/back_arrow"
         app:iconPadding="0dp"
         app:iconSize="50dp"
         app:iconTint="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintHorizontal_bias="0.181"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="773dp" />
+
+    <Button
+        android:id="@+id/forwardButton"
+        android:layout_width="81dp"
+        android:layout_height="82dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="2dp"
+        android:backgroundTint="@color/clear"
+        android:pointerIcon="arrow"
+        app:icon="@drawable/forward_arrow"
+        app:iconPadding="0dp"
+        app:iconSize="50dp"
+        app:iconTint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        tools:layout_editor_absoluteY="773dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
