@@ -168,30 +168,37 @@
             android:id="@+id/imageView4"
             android:layout_width="match_parent"
             android:layout_height="313dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/footer_bg"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="-111dp" />
+            tools:layout_editor_absoluteY="-114dp" />
 
         <ImageView
             android:id="@+id/cameraButton"
             android:layout_width="85dp"
             android:layout_height="70dp"
+            android:layout_marginBottom="16dp"
             android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/camera_button"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="166dp"
-            tools:layout_editor_absoluteY="0dp" />
+            tools:ignore="MissingConstraints" />
 
         <Button
             android:id="@+id/saveButtonGallery"
             android:layout_width="124dp"
             android:layout_height="44dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
             android:backgroundTint="#F37135"
             android:fontFamily="@font/inknut_antiqua"
             android:text="Edit"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="277dp"
-            tools:layout_editor_absoluteY="35dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imageView4"
+            app:layout_constraintTop_toTopOf="@+id/cameraButton"
+            tools:ignore="MissingConstraints" />
 
         <Button
             android:id="@+id/backButton"
@@ -203,8 +210,10 @@
             app:iconPadding="0dp"
             app:iconSize="50dp"
             app:iconTint="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/saveButtonGallery"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/imageView4"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="16dp" />
 
 

@@ -6,24 +6,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".StartUpActivity"
-    android:backgroundTint="@color/bg_white">
+    android:background="@color/bg_white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        app:layout_constraintBottom_toTopOf="@+id/totalCostView"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/totalCostView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-    <ListView
-        android:id="@+id/item_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dividerHeight="10.0sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <ListView
+            android:id="@+id/item_list"
+            android:layout_width="411dp"
+            android:layout_height="602dp"
+            android:dividerHeight="10.0sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -31,15 +33,14 @@
         android:id="@+id/totalCostView"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/white"
-        android:text="@string/total_cost_view_value"
+        android:background="@color/grey_dark"
         android:gravity="center"
-        android:textColor="@color/black"
+        android:text="Total Value = $20000"
+        android:textColor="@color/white"
         android:textSize="24dp"
         app:layout_constraintBottom_toTopOf="@+id/footer"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteX="42dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/footer"
@@ -48,7 +49,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/footer" />
+        app:srcCompat="@drawable/footer_bg" />
 
     <Button
         android:id="@+id/sortButton"
@@ -57,7 +58,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#F37135"
-        android:text="@string/sort_button_text"
+        android:text="Sort"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -70,7 +71,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#F37135"
-        android:text="@string/filter_button_text"
+        android:text="Filter"
         app:iconSize="50dp"
         app:iconTint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
