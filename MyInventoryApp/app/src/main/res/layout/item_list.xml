@@ -13,12 +13,12 @@
         android:layout_width="60dp"
         android:layout_height="45dp"
         android:backgroundTint="@color/clear"
+        android:visibility="visible"
         app:icon="@android:drawable/ic_menu_delete"
         app:iconSize="30dp"
-        app:iconTint="@color/black"
+        app:iconTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="visible"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"

@@ -8,6 +8,7 @@
         android:id="@+id/check"
         android:layout_width="25dp"
         android:layout_height="200dp"
+        android:buttonTint="@color/orange"
         android:visibility="invisible"/>
     <ImageView
         android:id="@+id/itemImageView"
