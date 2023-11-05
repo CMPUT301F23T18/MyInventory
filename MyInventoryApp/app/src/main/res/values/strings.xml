@@ -3,6 +3,7 @@
     <string name="serial_numb">Serial Number</string>
     <string name="acquired_da">Acquired Date (yyyy-mm-dd)</string>
     <string name="make">Make</string>
+    <string name="model">Model</string>
     <string name="estimated_p">Estimated Price</string>
     <string name="description">Description</string>
     <string name="scan_image">Scan Image</string>
