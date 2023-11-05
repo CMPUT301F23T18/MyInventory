@@ -13,19 +13,19 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/totalCostView"
+        app:layout_constraintTop_toBottomOf="@id/tag_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <ListView
             android:id="@+id/item_list"
-            android:layout_width="411dp"
-            android:layout_height="602dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:dividerHeight="10.0sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -97,7 +97,7 @@
         app:icon="@drawable/tags_button"
         app:iconSize="30dp"
         app:iconTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="@id/logo"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
