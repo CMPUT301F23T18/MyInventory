@@ -132,6 +132,9 @@ public class ListActivity extends AppCompatActivity {
                 no_button.setVisibility(View.GONE);
                 for(int i = 0; i < items.size();i++){
                     CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
+                    if (cBox.isChecked()){
+                        cBox.setChecked(false);
+                    }
                     cBox.setVisibility(View.INVISIBLE);
                 }
             }
@@ -140,6 +143,12 @@ public class ListActivity extends AppCompatActivity {
         yes_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for(int i = 0; i < items.size();i++){
+                    CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
+                    if (cBox.isChecked()) {
+                        Log.d("checked item", items.get(i).getMake());
+                    }
+                }
                 //TODO: show fragment asking to confirm deletion
             }
         });
