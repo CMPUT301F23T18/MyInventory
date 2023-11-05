@@ -119,6 +119,30 @@ public class ListActivity extends AppCompatActivity {
             }
         });
         //TODO: get data from checked boxes to delete
+
+        no_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteButton.setVisibility(View.VISIBLE);
+                filterbutton.setVisibility(View.VISIBLE);
+                sortbutton.setVisibility(View.VISIBLE);
+                addButton.setVisibility(View.VISIBLE);
+                totalCostView.setVisibility(View.VISIBLE);
+                yes_button.setVisibility(View.GONE);
+                no_button.setVisibility(View.GONE);
+                for(int i = 0; i < items.size();i++){
+                    CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
+                    cBox.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        yes_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: show fragment asking to comfirm deletion
+            }
+        });
     }
 
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
