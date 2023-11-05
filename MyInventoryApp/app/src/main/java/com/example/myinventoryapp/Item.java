@@ -102,4 +102,14 @@ public class Item {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    public void add_tag(String tag){
+        if (!tags.contains(tag)){
+            tags.add(tag);
+        }
+    }
+
+    public List<String> getTags(){
+        return tags;
+    }
 }
