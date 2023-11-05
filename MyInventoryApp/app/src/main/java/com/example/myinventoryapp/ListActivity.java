@@ -22,13 +22,15 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
-public class ListActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity implements DeleteFragment.OnFragmentInteractionListener{
     ImageView addButton;
     ListView itemList;
     ArrayAdapter<Item> itemAdapter;
     ArrayList<Item> items;
+    List<Long> delete_items;
     double totalValue = 0;
     TextView totalCostView;
     Button filterbutton, sortbutton, deleteButton, yes_button, no_button;
@@ -123,37 +125,48 @@ public class ListActivity extends AppCompatActivity {
         no_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteButton.setVisibility(View.VISIBLE);
-                filterbutton.setVisibility(View.VISIBLE);
-                sortbutton.setVisibility(View.VISIBLE);
-                addButton.setVisibility(View.VISIBLE);
-                totalCostView.setVisibility(View.VISIBLE);
-                yes_button.setVisibility(View.GONE);
-                no_button.setVisibility(View.GONE);
-                for(int i = 0; i < items.size();i++){
-                    CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
-                    if (cBox.isChecked()){
-                        cBox.setChecked(false);
-                    }
-                    cBox.setVisibility(View.INVISIBLE);
-                }
+                Reset();
             }
         });
 
         yes_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(int i = 0; i < items.size();i++){
-                    CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
-                    if (cBox.isChecked()) {
-                        Log.d("checked item", items.get(i).getMake());
-                    }
-                }
+                new DeleteFragment().show(getSupportFragmentManager(),"Delete_item");
                 //TODO: show fragment asking to confirm deletion
             }
         });
 
         //TODO: add fragment layout
+
+    }
+
+    private void Reset() {
+        deleteButton.setVisibility(View.VISIBLE);
+        filterbutton.setVisibility(View.VISIBLE);
+        sortbutton.setVisibility(View.VISIBLE);
+        addButton.setVisibility(View.VISIBLE);
+        totalCostView.setVisibility(View.VISIBLE);
+        yes_button.setVisibility(View.GONE);
+        no_button.setVisibility(View.GONE);
+        for(int i = 0; i < items.size();i++){
+            CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
+            if (cBox.isChecked()){
+                cBox.setChecked(false);
+            }
+            cBox.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public int CheckedItems(){
+        delete_items = new ArrayList<>();
+        for(int i = 0; i < items.size();i++){
+            CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
+            if (cBox.isChecked()){
+                delete_items.add(items.get(i).getID());
+            }
+        }
+        return delete_items.size();
     }
 
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
@@ -165,5 +178,17 @@ public class ListActivity extends AppCompatActivity {
             startActivity(i);
         }
     };
+
+    @Override
+    public void onYESPressed() {
+        for(int i = 0; i < items.size();i++){
+            CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
+            if (cBox.isChecked()) {
+                Log.d("checked item", items.get(i).getMake());
+            }
+        }
+        Reset();
+
+    }
 }
 
