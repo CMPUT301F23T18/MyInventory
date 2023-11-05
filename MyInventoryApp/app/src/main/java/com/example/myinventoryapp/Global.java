@@ -73,8 +73,7 @@ public class Global extends Application {
      */
     public DocumentReference DocumentRef(long ID) {
         String str_id = Long.toString(ID);
-        String path = "/Items/" + str_id;
-        return fbItemsRef.document(path);
+        return fbItemsRef.document(str_id);
     }
 
     /**

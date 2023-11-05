@@ -54,7 +54,6 @@ public class CameraFragment extends Fragment {
                 e.printStackTrace();
             }
         }, getExecutor());
-        return null;
     }
 
     private Executor getExecutor() {

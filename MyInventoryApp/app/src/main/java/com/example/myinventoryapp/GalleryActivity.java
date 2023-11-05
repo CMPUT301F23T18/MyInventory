@@ -1,29 +1,18 @@
 package com.example.myinventoryapp;
 
-import static android.app.PendingIntent.getActivity;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.core.ImageCapture;
-import androidx.core.content.ContextCompat;
-
-import java.util.ArrayList;
 
 public class GalleryActivity extends AppCompatActivity implements CapturePopUp.OnFragmentInteractionListener {
 
-    private final int REQUEST_CODE_PERMISSIONS = 1001;
-    private final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA", "android.permission.WRITE_EXTERNAL_STORAGE"};
     View image1,image2,image3,image4,image5,image6;
     TextView image_total;
     Button back_btn, save_btn;
@@ -91,8 +80,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
     /**
      * Opens the "capture or gallery" popup, called by capture button click or image click
      */
-    private void openPopup(View view) {
-        CapturePopUp popUp = new CapturePopUp();
+    private void openPopup() {
         new CapturePopUp().show(getSupportFragmentManager(), "CAP_CHOOSE");
     }
 
@@ -100,7 +88,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         @Override
         public void onClick(View v) {
             // opens the popup
-            openPopup(v);
+            openPopup();
         }
     };
 
