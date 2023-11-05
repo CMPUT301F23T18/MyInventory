@@ -55,7 +55,7 @@
         android:layout_height="54dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="48dp"
         android:backgroundTint="#BDE1BD00"
         android:contextClickable="false"
         android:fontFamily="@font/inknut_antiqua"

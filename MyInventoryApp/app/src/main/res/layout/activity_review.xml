@@ -17,13 +17,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="360dp"
+        app:srcCompat="@android:drawable/ic_menu_delete" />
+
     <EditText
         android:id="@+id/serialNumEdit"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginTop="30dp"
         android:ems="10"
-        android:hint="Serial Number"
+        android:hint="@string/serial_numb"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +42,8 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:ems="10"
-        android:hint="Acquired Date"
+        android:layout_marginTop="5dp"
+        android:hint="@string/acquired_da"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/makeEdit"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +58,8 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:ems="10"
-        android:hint="Make"
+        android:layout_marginTop="5dp"
+        android:hint="@string/make"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,11 +69,27 @@
         android:layout_marginLeft="107dp"/>
 
     <EditText
-        android:id="@+id/estPriceEdit"
+        android:id="@+id/modelEdit"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:ems="10"
-        android:hint="Estimated Price"
+        android:layout_marginTop="5dp"
+        android:hint="@string/model"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/estPriceEdit"
+        app:layout_constraintTop_toBottomOf="@id/makeEdit"
+        tools:layout_editor_absoluteY="278dp"
+        android:layout_marginLeft="107dp"/>
+
+    <EditText
+        android:id="@+id/estPriceEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="@string/estimated_p"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/descEdit"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,8 +105,9 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:ems="10"
+        android:layout_marginTop="5dp"
         android:gravity="start|top"
-        android:hint="Description"
+        android:hint="@string/description"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -94,7 +119,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="2dp">
         <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -103,9 +128,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
             </LinearLayout>
-
         </HorizontalScrollView>
 
     </LinearLayout>
@@ -115,7 +138,7 @@
         android:layout_height="67dp"
         android:layout_marginLeft="163dp"
         android:clickable="true"
-        app:srcCompat="@drawable/add_tag" />
+        app:srcCompat="@drawable/add_button" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -148,8 +171,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="70dp">
-
+        android:layout_marginTop="dp">
 
         <ImageView
             android:id="@+id/footer"
@@ -166,21 +188,27 @@
             android:id="@+id/cameraButton"
             android:layout_width="85dp"
             android:layout_height="70dp"
+            android:layout_marginBottom="12dp"
             android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/saveButton"
+            app:layout_constraintHorizontal_bias="0.778"
+            app:layout_constraintStart_toEndOf="@+id/backButton"
             app:srcCompat="@drawable/camera_button"
-            tools:layout_editor_absoluteX="163dp"
-            tools:layout_editor_absoluteY="0dp"
             tools:ignore="MissingConstraints" />
 
         <Button
-            android:id="@+id/saveButton2"
+            android:id="@+id/saveButton"
             android:layout_width="124dp"
             android:layout_height="44dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="12dp"
             android:backgroundTint="#F37135"
             android:fontFamily="@font/inknut_antiqua"
-            android:text="Edit"
-            tools:layout_editor_absoluteX="271dp"
-            tools:layout_editor_absoluteY="22dp"
+            android:text="Save"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingConstraints" />
 
         <Button
@@ -193,8 +221,8 @@
             app:iconPadding="0dp"
             app:iconSize="50dp"
             app:iconTint="@color/black"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="11dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
 
 

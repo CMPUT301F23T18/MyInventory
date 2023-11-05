@@ -18,136 +18,113 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/serial_numb"
         android:layout_width="298dp"
-        android:layout_height="43dp"
+        android:layout_height="48dp"
         android:layout_marginTop="96dp"
         android:gravity="center_vertical"
         android:hint="@string/serial_numb"
+        android:inputType="textCapCharacters"
+        android:digits="1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-"
         android:textAppearance="@style/serial_numb"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_2" />
 
-    <View
-        android:id="@+id/line_2"
-        android:layout_width="298dp"
-        android:layout_height="1dp"
-        android:background="@drawable/line_2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/serial_numb" />
 
-    <TextView
+    <EditText
         android:id="@+id/acquired_da"
         android:layout_width="298dp"
-        android:layout_height="43dp"
+        android:layout_height="48dp"
         android:layout_marginTop="7dp"
         android:gravity="center_vertical"
         android:hint="@string/acquired_da"
+        android:digits="1234567890-"
+        android:maxLength="10"
+        android:inputType="phone"
         android:textAppearance="@style/acquired_da"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line_2" />
+        app:layout_constraintTop_toBottomOf="@id/serial_numb" />
 
-    <View
-        android:id="@+id/line_5"
-        android:layout_width="298dp"
-        android:layout_height="1dp"
-        android:background="@drawable/line_2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/acquired_da" />
-
-    <TextView
+    <EditText
         android:id="@+id/make"
         android:layout_width="298dp"
-        android:layout_height="43dp"
+        android:layout_height="48dp"
         android:layout_marginTop="7dp"
         android:gravity="center_vertical"
         android:hint="@string/make"
         android:textAppearance="@style/make"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line_5" />
+        app:layout_constraintTop_toBottomOf="@id/acquired_da" />
 
-    <View
-        android:id="@+id/line_4"
+    <EditText
+        android:id="@+id/model"
         android:layout_width="298dp"
-        android:layout_height="1dp"
-        android:background="@drawable/line_2"
+        android:layout_height="48dp"
+        android:layout_marginTop="7dp"
+        android:textSize="20sp"
+        android:gravity="center_vertical"
+        android:hint="@string/model"
+        android:textAppearance="@string/model"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/make" />
+        app:layout_constraintTop_toBottomOf="@+id/make" />
 
-    <TextView
+    <EditText
         android:id="@+id/estimated_p"
         android:layout_width="298dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="7dp"
+        android:layout_height="48dp"
         android:gravity="center_vertical"
         android:hint="@string/estimated_p"
+        android:inputType="numberDecimal"
         android:textAppearance="@style/estimated_p"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line_4" />
+        app:layout_constraintTop_toBottomOf="@+id/model" />
 
-    <View
-        android:id="@+id/line_3"
-        android:layout_width="298dp"
-        android:layout_height="1dp"
-        android:background="@drawable/line_2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/estimated_p" />
-
-    <TextView
+    <EditText
         android:id="@+id/description"
         android:layout_width="298dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="7dp"
+        android:layout_height="48dp"
         android:gravity="center_vertical"
+        android:textSize="20sp"
         android:hint="@string/description"
         android:textAppearance="@style/description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/line_3" />
-
-    <View
-        android:id="@+id/line_6"
-        android:layout_width="298dp"
-        android:layout_height="1dp"
-        android:background="@drawable/line_2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description" />
+        app:layout_constraintTop_toBottomOf="@id/estimated_p" />
 
     <Button
-        android:id="@+id/rectangle_1"
+        android:id="@+id/scanButtonAdd"
         android:layout_width="119dp"
         android:layout_height="48dp"
         android:layout_marginTop="52dp"
         android:backgroundTint="@color/orange"
         android:text="@string/scan_image"
         android:textAppearance="@style/scan_image"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description" />
 
     <ImageView
-        android:id="@+id/icon_chevro"
+        android:id="@+id/forwardButtonAdd"
         android:layout_width="64dp"
         android:layout_height="86dp"
         android:layout_marginTop="45dp"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rectangle_1"
+        app:layout_constraintTop_toBottomOf="@+id/scanButtonAdd"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
 
