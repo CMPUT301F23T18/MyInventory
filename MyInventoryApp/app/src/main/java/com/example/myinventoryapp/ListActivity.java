@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,6 +31,8 @@ public class ListActivity extends AppCompatActivity {
     ArrayList<Item> items;
     double totalValue = 0;
     TextView totalCostView;
+    Button filterbutton, sortbutton, deleteButton, yes_button, no_button;
+    CheckBox item_checkBox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +95,30 @@ public class ListActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        deleteButton = findViewById(R.id.delete_btn);
+        filterbutton = findViewById(R.id.filterButton);
+        sortbutton = findViewById(R.id.sortButton);
+        yes_button = findViewById(R.id.yes_delete);
+        no_button = findViewById(R.id.no_delete);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Set the visibility of buttons and checkboxes
+                deleteButton.setVisibility(View.INVISIBLE);
+                filterbutton.setVisibility(View.GONE);
+                sortbutton.setVisibility(View.GONE);
+                addButton.setVisibility(View.INVISIBLE);
+                totalCostView.setVisibility(View.INVISIBLE);
+                yes_button.setVisibility(View.VISIBLE);
+                no_button.setVisibility(View.VISIBLE);
+                for(int i = 0; i < items.size();i++){
+                    CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
+                    cBox.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        //TODO: get data from checked boxes to delete
     }
 
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
