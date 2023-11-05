@@ -43,6 +43,9 @@ dependencies {
     // Fragments
     implementation("androidx.fragment:fragment:1.6.2")
 
+
+    implementation("org.apache.commons:commons-lang3:3.6")
+
     testImplementation("junit:junit:4.13.2")
 
     //Camera & Gallery
