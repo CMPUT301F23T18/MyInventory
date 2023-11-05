@@ -35,6 +35,7 @@ dependencies {
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.gms:play-services-tasks:18.0.2")
+    implementation("org.apache.commons:commons-lang3:3.6")
     testImplementation("junit:junit:4.13.2")
 
     //Espresso
