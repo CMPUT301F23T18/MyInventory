@@ -93,10 +93,13 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="288dp"
+        android:layout_marginTop="144dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/footer_bg" />
 
     <Button
@@ -104,7 +107,7 @@
         android:layout_width="119dp"
         android:layout_height="48dp"
         android:layout_marginTop="24dp"
-        android:backgroundTint="@color/orange"
+        android:backgroundTint="@color/black"
         android:text="@string/scan_image"
         android:textAppearance="@style/scan_image"
         android:textSize="22sp"
@@ -128,11 +131,12 @@
         app:layout_constraintTop_toBottomOf="@+id/make" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/forwardButtonAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="220dp"
         android:layout_marginTop="24dp"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/scanButtonAdd"
         app:layout_constraintTop_toTopOf="@+id/imageView"

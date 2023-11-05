@@ -1,222 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/bg_white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    android:layout_height="match_parent">
 
     <EditText
         android:id="@+id/serialNumEdit"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
         android:ems="10"
         android:hint="Serial Number"
         android:inputType="text"
-        android:textColorHint="@color/white"
         android:textColor="@color/white"
-        android:layout_marginLeft="107dp"/>
-
+        android:textColorHint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/acqDateEdit"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Acquired Date"
-
         android:inputType="text"
-        android:textColorHint="@color/white"
         android:textColor="@color/white"
-
-        android:layout_marginLeft="107dp"/>
+        android:textColorHint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/serialNumEdit" />
 
     <EditText
         android:id="@+id/makeEdit"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Make"
-
         android:inputType="text"
         android:textColorHint="@color/white"
         android:textColor="@color/white"
-        tools:layout_editor_absoluteY="278dp"
-        android:layout_marginLeft="107dp"/>
-    <EditText
-        android:id="@+id/modelEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:ems="10"
-        android:hint="Model"
-        android:inputType="text"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
-        tools:layout_editor_absoluteY="278dp"
-        android:layout_marginLeft="107dp"/>
-
-
-
-    <EditText
-        android:id="@+id/modelEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:ems="10"
-        android:hint="Model"
-        android:inputType="none"
-        android:enabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/acqDateEdit"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/makeEdit"
-        app:layout_constraintBottom_toTopOf="@id/estPriceEdit"
-        android:layout_marginLeft="107dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5" />
+
+    <EditText
+        android:id="@+id/modelEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Model"
+        android:inputType="text"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/makeEdit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5" />
 
     <EditText
         android:id="@+id/estPriceEdit"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Estimated Price"
-
         android:inputType="text"
         android:textColorHint="@color/white"
         android:textColor="@color/white"
-
-        android:layout_marginLeft="107dp"/>
-
+        app:layout_constraintTop_toBottomOf="@+id/modelEdit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5" />
 
     <EditText
         android:id="@+id/descEdit"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="start|top"
         android:hint="Description"
-
         android:inputType="textMultiLine"
         android:textColorHint="@color/white"
         android:textColor="@color/white"
-        android:layout_marginLeft="107dp"
-        tools:layout_editor_absoluteY="464dp" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:id="@+id/tag_display"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+        app:layout_constraintTop_toBottomOf="@+id/estPriceEdit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5" />
 
-            </LinearLayout>
-
-        </HorizontalScrollView>
-
-    </LinearLayout>
-    <ImageView
-        android:layout_marginTop="50dp"
+    <Button
         android:id="@+id/add_tag_button"
-        android:layout_width="89dp"
-        android:layout_height="67dp"
-        android:layout_marginLeft="163dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="add tag"
+        android:backgroundTint="@color/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descEdit" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/footer_bg" />
+
+    <ImageView
+        android:id="@+id/cameraButton"
+        android:layout_width="85dp"
+        android:layout_height="70dp"
         android:clickable="true"
-        app:srcCompat="@drawable/add_tag" />
-    <LinearLayout
-        android:layout_marginTop="30dp"
-        android:layout_width="match_parent"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView4"
+        app:layout_constraintVertical_bias="0.166"
+        app:srcCompat="@drawable/camera_button" />
+
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="124dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/black"
+        android:text="Edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/cameraButton"
+        app:layout_constraintTop_toTopOf="@+id/imageView4"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="83dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="18dp"
+        android:backgroundTint="@color/button"
+        android:pointerIcon="arrow"
+        app:icon="@drawable/back_arrow"
+        app:iconPadding="0dp"
+        app:iconSize="50dp"
+        app:iconTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cameraButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView4"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginLeft="98dp">
-        <ImageView
-            android:id="@+id/back_picture_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/back_grey"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="10dp"/>
-        <View
-            android:id="@+id/image1Edit"
-            android:layout_width="153dp"
-            android:layout_height="124dp"
-            android:background="@drawable/house_placeholder"
-            />
-        <ImageView
-            android:id="@+id/next_picture_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/next_grey"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="10dp"/>
-    </LinearLayout>
+        app:layout_constraintBottom_toTopOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_tag_button"
+        app:layout_constraintVertical_bias="0.445"
+        app:srcCompat="@drawable/house_placeholder"
+        tools:ignore="MissingConstraints" />
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="95dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView4"
+        app:layout_constraintEnd_toStartOf="@+id/imageView10"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView10"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/back_grey" />
 
-        android:layout_marginTop="70dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="match_parent"
-            android:layout_height="313dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/footer_bg"
-            tools:layout_editor_absoluteY="-114dp" />
-
-        <ImageView
-            android:id="@+id/cameraButton"
-            android:layout_width="85dp"
-            android:layout_height="70dp"
-            android:layout_marginBottom="16dp"
-            android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/camera_button"
-            tools:ignore="MissingConstraints" />
-
-        <Button
-            android:id="@+id/saveButtonGallery"
-            android:layout_width="124dp"
-            android:layout_height="44dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="#F37135"
-            android:fontFamily="@font/inknut_antiqua"
-            android:text="Edit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/imageView4"
-            app:layout_constraintTop_toTopOf="@+id/cameraButton"
-            tools:ignore="MissingConstraints" />
-
-        <Button
-            android:id="@+id/backButton"
-            android:layout_width="82dp"
-            android:layout_height="71dp"
-            android:backgroundTint="@color/button"
-            android:pointerIcon="arrow"
-            app:icon="@drawable/back_arrow"
-            app:iconPadding="0dp"
-            app:iconSize="50dp"
-            app:iconTint="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/saveButtonGallery"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/imageView4"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="16dp" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</LinearLayout>
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="95dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView10"
+        app:layout_constraintTop_toTopOf="@+id/imageView10"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/next_grey" />
+</androidx.constraintlayout.widget.ConstraintLayout>
