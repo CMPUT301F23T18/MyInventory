@@ -45,10 +45,6 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="28dp"
         android:backgroundTint="#D9D9D9"
-<<<<<<< HEAD
-        android:fontFamily="@font/inknut_antiqua"
-=======
->>>>>>> main
         android:text="Sign Up"
         android:textColor="@color/black"
         android:textSize="28dp"

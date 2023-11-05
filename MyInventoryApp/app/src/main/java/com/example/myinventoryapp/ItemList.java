@@ -39,13 +39,8 @@ public class ItemList extends ArrayAdapter<Item> {
         TextView value = view.findViewById(R.id.itemCostView);
 
         //TODO: set the photo in the item_list_content to the photo from the item
-<<<<<<< HEAD
-        value.setText(item.getEst_value());
-
-=======
         photo.setImageResource(R.drawable.house_placeholder);
         value.setText("$ " + item.getEst_value());
->>>>>>> main
         return view;
     }
 }

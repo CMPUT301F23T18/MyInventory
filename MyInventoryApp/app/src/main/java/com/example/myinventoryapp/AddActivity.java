@@ -103,10 +103,6 @@ public class AddActivity extends AppCompatActivity {
         }
     };
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
     View.OnClickListener nextListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -141,34 +137,6 @@ public class AddActivity extends AppCompatActivity {
 
 
             // map all inputs to a Hashmap
-<<<<<<< HEAD
-            Map<String, Object> item_new = new HashMap<String, Object>();
-            item_new.put("serial",serial);
-            item_new.put("date",date);
-            item_new.put("make",make);
-            item_new.put("model",model);
-            item_new.put("price",price);
-            item_new.put("desc",desc);
-
-            Item actual_item = new Item(date,desc,make,model,serial,price);
-            item_new.put("item",actual_item);
-
-            // create a document for firebase using the make and model as the name
-            fb_new_item = ((Global) getApplication()).DocumentRef(make,model);
-            // add the item to firebase
-            fb_new_item
-                    .set(item_new)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Log.d("Firestore","document saved");
-                            } else {
-                                Log.w("Firestore","failed:",task.getException());
-                            }
-                        }
-                    });
-=======
             Map<String, Object> item_hash = new HashMap<String, Object>();
             item_hash.put("serial",serial);
             item_hash.put("date",date);
@@ -193,27 +161,10 @@ public class AddActivity extends AppCompatActivity {
                     }
                 }
             });
->>>>>>> main
 
             //TODO: next activity -> compile data into a item then move on to photos
             //      currently goes back to listActivity
 
-<<<<<<< HEAD
-            // go to photo activity
-            Intent i = new Intent(v.getContext(), ListActivity.class);
-            // put make and model in the intent so on the next activity
-            // the item can be retrieved from the firebase
-            // just call getIntent().getExtras().getString("make"); on the next activity
-            i.putExtra("make",make);
-            i.putExtra("model",model);
-            startActivity(i);
-        }
-    };
-
-
-    //Toast.makeText(this,"some text",Toast.LENGTH_SHORT).show()
-
-=======
             // go to gallery activity
             nextActivity(ID,v);
         }
@@ -231,7 +182,6 @@ public class AddActivity extends AppCompatActivity {
         i.putExtra("ID",ID);
         startActivity(i);
     }
->>>>>>> main
     //TODO: back to list -> needs a button first...
     //TODO: scan function -> scan barcode or scan serial number
 }

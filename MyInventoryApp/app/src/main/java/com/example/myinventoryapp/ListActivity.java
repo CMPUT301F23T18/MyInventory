@@ -2,11 +2,6 @@ package com.example.myinventoryapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-=======
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,17 +10,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
->>>>>>> main
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-<<<<<<< HEAD
-public class ListActivity extends AppCompatActivity {
-
-    ImageView addButton;
-
-=======
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -42,17 +30,10 @@ public class ListActivity extends AppCompatActivity {
     ArrayList<Item> items;
     double totalValue = 0;
     TextView totalCostView;
->>>>>>> main
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_list);
-<<<<<<< HEAD
-
-        addButton = findViewById(R.id.add_button);
-        //TODO: activity_edit needs to have inputType changed for applicable entries
-        //TODO: make listview and adapter that shows the items of the list
-=======
         totalCostView = findViewById(R.id.totalCostView);
         itemList = findViewById(R.id.item_list);
 
@@ -96,7 +77,7 @@ public class ListActivity extends AppCompatActivity {
                     itemAdapter.notifyDataSetChanged();
                 }
             }
-                    });
+        });
 
         itemList.setOnItemClickListener(itemClicker);
         itemList.setAdapter(itemAdapter);
@@ -104,7 +85,6 @@ public class ListActivity extends AppCompatActivity {
         addButton = findViewById(R.id.add_button);
         //TODO: activity_edit needs to have inputType changed for applicable entries
 
->>>>>>> main
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,15 +92,6 @@ public class ListActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-<<<<<<< HEAD
-        //TODO: clicking on an item takes it to the activity_review layout
-        //TODO: within the layout, it should let you click on the delete button and delete the item.
-        // once the item is deleted, return to the listview activity. make sure it deletes from the
-        // listview and from firebase.
-        //TODO: make activity to go to activity_review
-
-    }
-=======
     }
 
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
@@ -132,5 +103,10 @@ public class ListActivity extends AppCompatActivity {
             startActivity(i);
         }
     };
->>>>>>> main
 }
+//TODO: clicking on an item takes it to the activity_review layout
+//TODO: within the layout, it should let you click on the delete button and delete the item.
+// once the item is deleted, return to the listview activity. make sure it deletes from the
+// listview and from firebase.
+//TODO: make activity to go to activity_review
+
