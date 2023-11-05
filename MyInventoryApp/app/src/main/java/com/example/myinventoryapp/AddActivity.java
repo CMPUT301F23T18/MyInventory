@@ -57,7 +57,7 @@ public class AddActivity extends AppCompatActivity {
         descField = findViewById(R.id.description);
         scanButton = findViewById(R.id.scanButtonAdd);
 
-        nextButton = findViewById(R.id.imageView3);
+        nextButton = findViewById(R.id.forwardButtonAdd);
         nextButton.setOnClickListener(nextListener);
 
         // set a listener for the dateField
