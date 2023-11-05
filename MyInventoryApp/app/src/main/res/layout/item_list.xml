@@ -99,4 +99,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/add_button" />
 
+    <Button
+        android:id="@+id/tag_btn"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
+        android:backgroundTint="@color/clear"
+        app:drawableTint="@color/orange"
+        android:visibility="visible"
+        app:icon="@drawable/label"
+        app:iconSize="30dp"
+        app:layout_constraintBottom_toBottomOf="@id/logo"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
