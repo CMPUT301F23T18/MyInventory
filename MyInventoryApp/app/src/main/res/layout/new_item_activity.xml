@@ -27,7 +27,11 @@
         android:hint="@string/serial_numb"
         android:inputType="textCapCharacters"
         android:digits="1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-"
+<<<<<<< HEAD
         android:textAppearance="@style/serial_numb"
+=======
+        android:textAppearance="@style/new_item_activity_text"
+>>>>>>> main
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +48,11 @@
         android:digits="1234567890-"
         android:maxLength="10"
         android:inputType="phone"
+<<<<<<< HEAD
         android:textAppearance="@style/acquired_da"
+=======
+        android:textAppearance="@style/new_item_activity_text"
+>>>>>>> main
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/serial_numb" />
@@ -56,6 +64,7 @@
         android:layout_marginTop="7dp"
         android:gravity="center_vertical"
         android:hint="@string/make"
+<<<<<<< HEAD
         android:textAppearance="@style/make"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -77,12 +86,22 @@
         app:layout_constraintTop_toBottomOf="@+id/make" />
 
     <EditText
+=======
+        android:textAppearance="@style/new_item_activity_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/acquired_da" />
+
+
+    <EditText
+>>>>>>> main
         android:id="@+id/estimated_p"
         android:layout_width="298dp"
         android:layout_height="48dp"
         android:gravity="center_vertical"
         android:hint="@string/estimated_p"
         android:inputType="numberDecimal"
+<<<<<<< HEAD
         android:textAppearance="@style/estimated_p"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,8 +115,26 @@
         android:textSize="20sp"
         android:hint="@string/description"
         android:textAppearance="@style/description"
+=======
+        android:textAppearance="@style/new_item_activity_text"
+>>>>>>> main
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+<<<<<<< HEAD
+=======
+        app:layout_constraintTop_toBottomOf="@+id/model" />
+
+    <EditText
+        android:id="@+id/description"
+        android:layout_width="298dp"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:hint="@string/description"
+        android:textAppearance="@style/new_item_activity_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+>>>>>>> main
         app:layout_constraintTop_toBottomOf="@id/estimated_p" />
 
     <Button
@@ -127,6 +164,17 @@
         app:layout_constraintTop_toBottomOf="@+id/scanButtonAdd"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+
+    <EditText
+        android:id="@+id/model"
+        android:layout_width="298dp"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:hint="Model"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/make" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

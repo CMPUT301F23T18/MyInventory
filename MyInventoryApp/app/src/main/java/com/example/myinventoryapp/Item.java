@@ -13,8 +13,17 @@ public class Item {
     private String est_value;
     private double est_value_num;
     private String comment;
+    private long ID;
     private List<String> tags;
 
+<<<<<<< HEAD
+=======
+    // photos
+
+    public Item() {
+    }
+
+>>>>>>> main
     public Item(String date, String description, String make, String model, String serial_num, String est_value) {
         // NOTE: comment, tags and photos are NOT added on item creation
         this.date = date;
@@ -68,12 +77,25 @@ public class Item {
     }
 
     public String getEst_value() {
+<<<<<<< HEAD
+=======
+        if (est_value != null){
+            return String.format("%.2f", Double.parseDouble(est_value));
+        }
+
+>>>>>>> main
         return est_value;
     }
 
     public void setEst_value(String est_value) {
         this.est_value = est_value;
+<<<<<<< HEAD
         est_value_num = Double.parseDouble(est_value);
+=======
+        if (est_value != null){
+            est_value_num = Double.parseDouble(est_value);
+        }
+>>>>>>> main
     }
 
     public double getEst_value_num() {
@@ -91,4 +113,16 @@ public class Item {
     public void setComment(String comment) {
         this.comment = comment;
     }
+<<<<<<< HEAD
 }
+=======
+
+    public long getID() {
+        return ID;
+    }
+
+    public void setID(long ID) {
+        this.ID = ID;
+    }
+}
+>>>>>>> main

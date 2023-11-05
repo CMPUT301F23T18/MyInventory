@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< HEAD
     <style name="serial_numb">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">#000000</item>
@@ -26,13 +27,15 @@
     </style>
 
     <style name="description">
+=======
+    <style name="new_item_activity_text">
+>>>>>>> main
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">#000000</item>
     </style>
 
     <style name="scan_image">
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">13sp</item>
         <item name="android:textColor">#FFFFFF</item>
-        <item name="android:fontFamily">@font/inknut_antiqua</item>
     </style>
 </resources>
