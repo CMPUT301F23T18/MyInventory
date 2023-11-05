@@ -44,7 +44,7 @@ public class DeleteFragment extends DialogFragment {
         View view  = LayoutInflater.from(getActivity()).inflate(R.layout.delete_fragment, null);
 
         ListActivity activity = (ListActivity) getActivity();
-        String length = "Delete "+ activity.CheckedItems() +" items?";
+        String length = "Delete "+ activity.CheckedItems().size() +" items?";
         confirm_text = view.findViewById(R.id.confirm_textview);
         confirm_text.setText(length);
 

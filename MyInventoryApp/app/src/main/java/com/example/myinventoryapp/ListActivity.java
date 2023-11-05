@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -30,11 +31,10 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
     ListView itemList;
     ArrayAdapter<Item> itemAdapter;
     ArrayList<Item> items;
-    List<Long> delete_items;
+    List<Integer> delete_items;
     double totalValue = 0;
     TextView totalCostView;
     Button filterbutton, sortbutton, deleteButton, yes_button, no_button;
-    CheckBox item_checkBox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,12 +133,8 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
             @Override
             public void onClick(View v) {
                 new DeleteFragment().show(getSupportFragmentManager(),"Delete_item");
-                //TODO: show fragment asking to confirm deletion
             }
         });
-
-        //TODO: add fragment layout
-
     }
 
     private void Reset() {
@@ -158,15 +154,27 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
         }
     }
 
-    public int CheckedItems(){
+    public List<Integer> CheckedItems(){
         delete_items = new ArrayList<>();
         for(int i = 0; i < items.size();i++){
             CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
             if (cBox.isChecked()){
-                delete_items.add(items.get(i).getID());
+                delete_items.add(i);
             }
         }
-        return delete_items.size();
+        return delete_items;
+    }
+
+    private void DeleteItems(){
+        List<Integer> temp_list = CheckedItems();
+        CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
+        for(int i = 0; i < temp_list.size(); i++){
+            long id = items.get(temp_list.get(i)).getID();
+            int position = temp_list.get(i);
+            items.remove(position);
+            fb_items.document(Long.toString(id)).delete();
+            itemAdapter.notifyDataSetChanged();
+        }
     }
 
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
@@ -181,14 +189,8 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
 
     @Override
     public void onYESPressed() {
-        for(int i = 0; i < items.size();i++){
-            CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
-            if (cBox.isChecked()) {
-                Log.d("checked item", items.get(i).getMake());
-            }
-        }
+        DeleteItems();
         Reset();
-
     }
 }
 
