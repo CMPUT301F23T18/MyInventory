@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/bg_white"
+    android:background="@color/bg_white"
     android:rotationX="0">
 
     <!--    <View-->
@@ -28,8 +28,8 @@
         android:layout_centerVertical="true"
         android:layout_marginTop="256dp"
         android:hint="Username"
-        android:textColorHint="@color/white"
         android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,8 +43,8 @@
         android:layout_centerVertical="true"
         android:layout_marginTop="68dp"
         android:hint="Password"
-        android:textColorHint="@color/white"
         android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

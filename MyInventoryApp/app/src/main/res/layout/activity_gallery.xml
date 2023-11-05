@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bg_white">
 
     <TextView
         android:id="@+id/imageTotal"
@@ -11,52 +12,65 @@
         android:layout_height="wrap_content"
         android:text="0/6 Images"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/footer"
+        app:layout_constraintBottom_toTopOf="@+id/footer_constraint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/footer"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/footer_constraint"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/footer" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <Button
-        android:id="@+id/saveButtonGallery"
-        android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        style="@style/saveButtonGallery" />
+        <ImageView
+            android:id="@+id/footer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/footer_bg" />
 
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="82dp"
-        android:layout_height="71dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:backgroundTint="@color/bg_white"
-        android:pointerIcon="arrow"
-        app:icon="@drawable/back_arrow"
-        app:iconPadding="0dp"
-        app:iconSize="50dp"
-        app:iconTint="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        <Button
+            android:id="@+id/saveButtonGallery"
+            style="@style/saveButtonGallery"
+            android:layout_marginTop="19dp"
+            android:layout_marginEnd="4dp"
+            android:text="Save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/footer" />
 
-    <ImageView
-        android:id="@+id/cameraButton"
-        android:layout_width="85dp"
-        android:layout_height="72dp"
-        android:layout_marginBottom="20dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/camera_button" />
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:backgroundTint="@color/button"
+            android:pointerIcon="arrow"
+            app:icon="@drawable/back_arrow"
+            app:iconPadding="0dp"
+            app:iconSize="50dp"
+            app:iconTint="#000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/cameraButton"
+            android:layout_width="85dp"
+            android:layout_height="72dp"
+            android:layout_marginBottom="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/camera_button" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <TableLayout
         android:id="@+id/gallery"
@@ -119,5 +133,23 @@
         </TableRow>
 
     </TableLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/footer_constraint"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_container_view"
+            android:name="com.example.myinventoryapp.CameraFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,25 +1,35 @@
 package com.example.myinventoryapp;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.ImageCapture;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
 public class GalleryActivity extends AppCompatActivity {
+
+    private final int REQUEST_CODE_PERMISSIONS = 1001;
+    private final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA", "android.permission.WRITE_EXTERNAL_STORAGE"};
     View image1,image2,image3,image4,image5,image6;
     TextView image_total;
-    Button back_btn;
+    Button back_btn, save_btn;
     ImageView capture_btn;
-    Button save_btn;
     long id;
+    Boolean edit_activity;
     /**
      * @param savedInstanceState If the activity is being re-initialized after
      *                           previously being shut down then this Bundle contains the data it most
@@ -30,6 +40,8 @@ public class GalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
         this.id = getIntent().getLongExtra("ID",0);
+        this.edit_activity = getIntent().getBooleanExtra("Edit",false);
+
         //TODO: I would like to use this activity for both add and edit,
         //      therefore I need to differentiate between the two, probably with
         //      something coming from the intent
@@ -61,19 +73,31 @@ public class GalleryActivity extends AppCompatActivity {
         //TODO: increment image total
         //TODO: Set Back button
         //TODO: Set Save button
+
+        if (edit_activity) {
+            // This Activity was called as the edit version, populate the gallery right away
+            populateFromItem();
+        }
     }
 
     /**
      * Opens the phone camera for taking pictures
      */
     public static void handleCamera(View view) {
-
     }
 
     /**
      * Opens the phone's gallery for retrieving pictures
      */
     public static void handleGallery(View view) {
+
+    }
+
+    /**
+     * Populates the gallery with the photos already assigned to the Item, only called
+     * when the activity is accessed from the view item class
+     */
+    private void populateFromItem() {
 
     }
 
@@ -92,4 +116,6 @@ public class GalleryActivity extends AppCompatActivity {
             openPopup(v);
         }
     };
+
 }
+
