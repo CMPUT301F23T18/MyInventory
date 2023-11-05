@@ -25,16 +25,11 @@
         app:srcCompat="@drawable/footer" />
 
     <Button
-        android:id="@+id/saveButton2"
-        android:layout_width="137dp"
-        android:layout_height="59dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="#F37135"
+        android:id="@+id/saveButtonGallery"
         android:text="Save"
-        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/saveButtonGallery" />
 
     <Button
         android:id="@+id/backButton"

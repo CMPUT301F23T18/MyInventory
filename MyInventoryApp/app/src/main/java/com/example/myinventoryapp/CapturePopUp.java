@@ -13,6 +13,7 @@ public class CapturePopUp {
     Button capture_button;
     Button gallery_button;
     PopupWindow popupWindow;
+    View view;
 
     /**
      * generates a popup for user to select if they want to take a photo or add a photo
@@ -20,6 +21,7 @@ public class CapturePopUp {
      * @param view view from calling activity
      */
     public void showWindow(final View view) {
+        this.view = view;
         LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.capture_popup, null);
 
@@ -58,8 +60,8 @@ public class CapturePopUp {
         @Override
         public void onClick(View v) {
             // open the camera
+            GalleryActivity.handleCamera(view);
             popupWindow.dismiss();
-            GalleryActivity.handleCamera();
         }
     };
 
@@ -67,8 +69,8 @@ public class CapturePopUp {
         @Override
         public void onClick(View v) {
             // open the gallery
+            GalleryActivity.handleGallery(view);
             popupWindow.dismiss();
-            GalleryActivity.handleGallery();
         }
     };
 }

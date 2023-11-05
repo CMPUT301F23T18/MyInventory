@@ -186,34 +186,38 @@
             android:layout_width="85dp"
             android:layout_height="70dp"
             android:clickable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/camera_button"
-            tools:layout_editor_absoluteX="163dp"
-            tools:layout_editor_absoluteY="0dp"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
 
         <Button
-            android:id="@+id/saveButton2"
-            android:layout_width="124dp"
-            android:layout_height="44dp"
+            android:id="@+id/saveButtonGallery"
+            android:layout_width="134dp"
+            android:layout_height="52dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"
             android:backgroundTint="#F37135"
             android:fontFamily="@font/inknut_antiqua"
             android:text="Edit"
-            tools:layout_editor_absoluteX="271dp"
-            tools:layout_editor_absoluteY="22dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingConstraints" />
 
         <Button
             android:id="@+id/backButton"
             android:layout_width="82dp"
             android:layout_height="71dp"
+            android:layout_marginBottom="10dp"
             android:backgroundTint="@color/white"
             android:pointerIcon="arrow"
             app:icon="@drawable/back_arrow"
             app:iconPadding="0dp"
             app:iconSize="50dp"
             app:iconTint="@color/black"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="11dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
 
 

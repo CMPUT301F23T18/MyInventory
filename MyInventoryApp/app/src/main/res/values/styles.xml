@@ -9,4 +9,13 @@
         <item name="android:textSize">13sp</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
+
+    <style name="saveButtonGallery">
+        <item name="android:layout_width">137dp</item>
+        <item name="android:layout_height">59dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:backgroundTint">#F37135</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>
