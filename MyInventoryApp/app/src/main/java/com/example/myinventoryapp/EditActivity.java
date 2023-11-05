@@ -87,6 +87,8 @@ public class EditActivity extends AppCompatActivity {
             }
 
         });
+
+        //TODO: add delete activity
     }
 
 

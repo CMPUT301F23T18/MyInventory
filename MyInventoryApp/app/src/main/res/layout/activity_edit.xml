@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/bg_white">
 
-
     <EditText
         android:id="@+id/serialNumEdit"
         android:layout_width="wrap_content"
