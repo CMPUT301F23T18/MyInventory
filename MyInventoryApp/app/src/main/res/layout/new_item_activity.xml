@@ -141,7 +141,6 @@
         app:layout_constraintStart_toEndOf="@+id/scanButtonAdd"
         app:layout_constraintTop_toTopOf="@+id/imageView"
         app:srcCompat="@drawable/forward_arrow"
-        android:clickable="true"
         />
 
 
