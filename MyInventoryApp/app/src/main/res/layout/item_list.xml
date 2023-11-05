@@ -6,24 +6,38 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".StartUpActivity"
-    android:backgroundTint="@color/bg_white">
+    android:background="@color/bg_white">
+
+    <Button
+        android:id="@+id/delete_btn"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
+        android:backgroundTint="@color/clear"
+        app:icon="@android:drawable/ic_menu_delete"
+        app:iconSize="30dp"
+        app:iconTint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="visible"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        app:layout_constraintBottom_toTopOf="@+id/totalCostView"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/totalCostView"
+        app:layout_constraintTop_toBottomOf="@id/tag_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-    <ListView
-        android:id="@+id/item_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dividerHeight="10.0sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <ListView
+            android:id="@+id/item_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="10.0sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -31,15 +45,15 @@
         android:id="@+id/totalCostView"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/white"
-        android:text="@string/total_cost_view_value"
+        android:background="@color/grey_dark"
         android:gravity="center"
-        android:textColor="@color/black"
+        android:text="Total Value = $20000"
+        android:textColor="@color/white"
         android:textSize="24dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/footer"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteX="42dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/footer"
@@ -48,7 +62,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/footer" />
+        app:srcCompat="@drawable/footer_bg" />
 
     <Button
         android:id="@+id/sortButton"
@@ -57,9 +71,10 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#F37135"
-        android:text="@string/sort_button_text"
+        android:text="Sort"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="visible"/>
 
     <Button
         android:id="@+id/filterButton"
@@ -70,11 +85,12 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#F37135"
-        android:text="@string/filter_button_text"
+        android:text="Filter"
         app:iconSize="50dp"
         app:iconTint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="visible"/>
 
     <ImageView
         android:id="@+id/add_button"
@@ -86,7 +102,38 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/add_button" />
+        app:srcCompat="@drawable/add_button"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/yes_delete"
+        android:layout_width="124dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/clear"
+        app:iconTint="@color/black"
+        android:visibility="gone"
+        app:iconSize="50dp"
+        app:icon="?android:attr/textCheckMark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/no_delete"
+        android:layout_width="124dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="20dp"
+        app:iconTint="@color/black"
+        android:backgroundTint="@color/clear"
+        android:visibility="gone"
+        app:icon="@android:drawable/ic_delete"
+        app:iconSize="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/tag_btn"
@@ -96,7 +143,7 @@
         app:icon="@drawable/tags_button"
         app:iconSize="30dp"
         app:iconTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="@id/logo"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
