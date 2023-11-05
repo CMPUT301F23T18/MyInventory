@@ -13,28 +13,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="236dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_tag"
         app:srcCompat="@drawable/footer_bg" />
 
     <EditText
         android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="360dp"
-        android:hint="Add Tag"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:layout_marginTop="68dp"
+        android:background="@color/white"
+        android:backgroundTint="@color/white"
+        android:hint="Enter new tag name"
+        android:minWidth="200dp"
+        android:minHeight="48dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></EditText>
 
     <Button
-        android:id="@+id/add_tag"
+        android:id="@+id/create_tag"
         android:layout_width="140dp"
         android:layout_height="65dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="12dp"
         android:backgroundTint="@color/button"
         android:text="Add"
         android:textSize="28dp"
@@ -43,17 +48,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText"></Button>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tagConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView9"
+        app:layout_constraintTop_toBottomOf="@id/create_tag"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.498">
+
+        <ListView
+            android:id="@+id/tags_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="10.0sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <Button
         android:id="@+id/save_tag"
         android:layout_width="134dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="204dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
         android:backgroundTint="@color/orange"
         android:text="Save"
         android:textSize="28dp"
-        app:layout_constraintStart_toEndOf="@+id/backButton2"
-        app:layout_constraintTop_toTopOf="@+id/imageView9"></Button>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"></Button>
 
     <Button
         android:id="@+id/backButton2"
@@ -65,7 +92,7 @@
         app:iconSize="50dp"
         app:iconTint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
