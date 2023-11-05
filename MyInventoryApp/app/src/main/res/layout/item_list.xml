@@ -13,7 +13,6 @@
         android:layout_width="60dp"
         android:layout_height="45dp"
         android:backgroundTint="@color/clear"
-        android:visibility="visible"
         app:icon="@android:drawable/ic_menu_delete"
         app:iconSize="30dp"
         app:iconTint="@color/white"
