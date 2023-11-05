@@ -20,7 +20,7 @@ import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
-public class GalleryActivity extends AppCompatActivity {
+public class GalleryActivity extends AppCompatActivity implements CapturePopUp.OnFragmentInteractionListener {
 
     private final int REQUEST_CODE_PERMISSIONS = 1001;
     private final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA", "android.permission.WRITE_EXTERNAL_STORAGE"};
@@ -81,19 +81,6 @@ public class GalleryActivity extends AppCompatActivity {
     }
 
     /**
-     * Opens the phone camera for taking pictures
-     */
-    public static void handleCamera(View view) {
-    }
-
-    /**
-     * Opens the phone's gallery for retrieving pictures
-     */
-    public static void handleGallery(View view) {
-
-    }
-
-    /**
      * Populates the gallery with the photos already assigned to the Item, only called
      * when the activity is accessed from the view item class
      */
@@ -106,7 +93,7 @@ public class GalleryActivity extends AppCompatActivity {
      */
     private void openPopup(View view) {
         CapturePopUp popUp = new CapturePopUp();
-        popUp.showWindow(view);
+        new CapturePopUp().show(getSupportFragmentManager(), "CAP_CHOOSE");
     }
 
     View.OnClickListener captureListener = new View.OnClickListener() {
@@ -117,5 +104,20 @@ public class GalleryActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Opens the phone camera for taking pictures
+     */
+    @Override
+    public void onCapturePressed() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view, new CameraFragment()).commit();
+    }
+
+    /**
+     * Opens the phone's gallery for retrieving pictures
+     */
+    @Override
+    public void onGalleryPressed() {
+
+    }
 }
 

@@ -9,6 +9,7 @@
     android:weightSum="100">
 
     <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="100"/>

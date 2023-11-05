@@ -19,6 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class Global extends Application {
     private String USER_PATH;
     private CollectionReference fbItemsRef; // firebase collection reference
+    private CollectionReference fbTagsRef;
 
     /**
      * creates a default user path and doc reference
@@ -27,8 +28,9 @@ public class Global extends Application {
     public void onCreate() {
         super.onCreate();
         // NOTE: the below will get overwrote when the user logs in
-        USER_PATH = "Users/test_user/Items";
-        fbItemsRef = FirebaseFirestore.getInstance().collection(USER_PATH);
+        USER_PATH = "Users/test_user";
+        fbItemsRef = FirebaseFirestore.getInstance().collection(USER_PATH + "/Items");
+        fbTagsRef = FirebaseFirestore.getInstance().collection(USER_PATH + "/Tags");
     }
 
     /**
@@ -45,8 +47,9 @@ public class Global extends Application {
      *                  Should be set everytime the user logs in to the app
      */
     public void setUSER_PATH(String username) {
-        this.USER_PATH = "Users/" + username + "/Items";
-        this.fbItemsRef = FirebaseFirestore.getInstance().collection(USER_PATH);
+        this.USER_PATH = "Users/" + username;
+        this.fbItemsRef = FirebaseFirestore.getInstance().collection(USER_PATH + "/Items");
+        this.fbTagsRef = FirebaseFirestore.getInstance().collection(USER_PATH + "/Tags");
     }
 
     /**
@@ -58,6 +61,10 @@ public class Global extends Application {
         return fbItemsRef;
     }
 
+    public CollectionReference getFBTagsRef() {
+        return fbTagsRef;
+    }
+
     /**
      * creates a document of firebase for storing the information in an item
      * returns the document if it already exists
@@ -66,7 +73,7 @@ public class Global extends Application {
      */
     public DocumentReference DocumentRef(long ID) {
         String str_id = Long.toString(ID);
-        String path = "/" + str_id;
+        String path = "/Items/" + str_id;
         return fbItemsRef.document(path);
     }
 
