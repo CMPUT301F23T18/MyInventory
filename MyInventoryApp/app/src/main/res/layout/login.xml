@@ -7,18 +7,6 @@
     android:background="@color/bg_white"
     android:rotationX="0">
 
-    <!--    <View-->
-    <!--        android:id="@+id/image"-->
-    <!--        android:layout_width="411dp"-->
-    <!--        android:layout_height="328dp"-->
-    <!--        android:layout_alignParentLeft="true"-->
-    <!--        android:layout_alignParentTop="true"-->
-    <!--        android:background="@drawable/logo_banner_big"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.52"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
 
     <EditText
         android:id="@+id/usernameButton"
