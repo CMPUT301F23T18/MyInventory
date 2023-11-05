@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:background="@color/grey_dark">
 
+    <CheckBox
+        android:id="@+id/check"
+        android:layout_width="25dp"
+        android:layout_height="200dp"
+        android:visibility="invisible"/>
+
     <ImageView
         android:id="@+id/itemImageView"
         android:layout_width="200dp"

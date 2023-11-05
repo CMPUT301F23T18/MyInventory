@@ -104,6 +104,16 @@ public class Item {
         this.comment = comment;
     }
 
+    public void add_tag(String tag){
+        if (!tags.contains(tag)){
+            tags.add(tag);
+        }
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
     public long getID() {
         return ID;
     }
