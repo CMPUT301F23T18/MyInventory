@@ -21,15 +21,16 @@
         android:id="@+id/serialNumEdit"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginLeft="107dp"
+        android:layout_marginTop="15dp"
         android:ems="10"
         android:hint="Serial Number"
-        android:inputType="text"
+        android:inputType="none"
+        android:enabled="false"
+        app:layout_constraintBottom_toTopOf="@id/acqDateEdit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
-        app:layout_constraintBottom_toTopOf="@id/acqDateEdit"
-        android:layout_marginLeft="107dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
 
     <EditText
         android:id="@+id/acqDateEdit"
@@ -37,7 +38,8 @@
         android:layout_height="50dp"
         android:ems="10"
         android:hint="Acquired Date"
-        android:inputType="text"
+        android:inputType="none"
+        android:enabled="false"
         app:layout_constraintBottom_toTopOf="@+id/makeEdit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +54,8 @@
         android:layout_height="50dp"
         android:ems="10"
         android:hint="Make"
-        android:inputType="text"
+        android:inputType="none"
+        android:enabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/estPriceEdit"
@@ -61,12 +64,27 @@
         android:layout_marginLeft="107dp"/>
 
     <EditText
+        android:id="@+id/modelEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:hint="Model"
+        android:inputType="none"
+        android:enabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/makeEdit"
+        app:layout_constraintBottom_toTopOf="@id/estPriceEdit"
+        android:layout_marginLeft="107dp"/>
+
+    <EditText
         android:id="@+id/estPriceEdit"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:ems="10"
         android:hint="Estimated Price"
-        android:inputType="text"
+        android:inputType="none"
+        android:enabled="false"
         app:layout_constraintBottom_toTopOf="@+id/descEdit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -83,7 +101,8 @@
         android:ems="10"
         android:gravity="start|top"
         android:hint="Description"
-        android:inputType="textMultiLine"
+        android:inputType="none"
+        android:enabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +113,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
         <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -148,7 +167,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="70dp">
+        android:layout_marginTop="30dp">
 
 
         <ImageView
