@@ -139,7 +139,7 @@ public class ListActivity extends AppCompatActivity {
         add_tags_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Redirect to Add Tags Activity
+                startActivity(new Intent(ListActivity.this, TagsActivity.class));
             }
         });
 
