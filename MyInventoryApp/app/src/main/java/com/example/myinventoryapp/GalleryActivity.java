@@ -1,7 +1,7 @@
 package com.example.myinventoryapp;
 
+
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,15 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
+public class GalleryActivity extends AppCompatActivity implements CapturePopUp.OnFragmentInteractionListener {
 
-public class GalleryActivity extends AppCompatActivity {
     View image1,image2,image3,image4,image5,image6;
-    ArrayList<View> images;
     TextView image_total;
-    Button back_btn;
+    Button back_btn, save_btn;
     ImageView capture_btn;
-    Button save_btn;
+    long id;
+    Boolean edit_activity;
     /**
      * @param savedInstanceState If the activity is being re-initialized after
      *                           previously being shut down then this Bundle contains the data it most
@@ -29,7 +28,12 @@ public class GalleryActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
-        long id = getIntent().getLongExtra("ID",0);
+        this.id = getIntent().getLongExtra("ID",0);
+        this.edit_activity = getIntent().getBooleanExtra("Edit",false);
+
+        //TODO: I would like to use this activity for both add and edit,
+        //      therefore I need to differentiate between the two, probably with
+        //      something coming from the intent
 
         if (id == 0) {
             //Just go back to the add activity because clearly something is wrong
@@ -38,27 +42,70 @@ public class GalleryActivity extends AppCompatActivity {
         }
 
         //Get all views
+        image1 = findViewById(R.id.image1Edit);
+        image2 = findViewById(R.id.image2Edit);
+        image3 = findViewById(R.id.image3Edit);
+        image4 = findViewById(R.id.image4Edit);
+        image5 = findViewById(R.id.image5Edit);
+        image6 = findViewById(R.id.image6Edit);
+        image_total = findViewById(R.id.imageTotal);
 
-        //TODO: Set capture button -> call popup window
+        back_btn = findViewById(R.id.backButton);
+        save_btn = findViewById(R.id.saveButtonGallery);
+        capture_btn = findViewById(R.id.cameraButton);
+
+        //Set capture button -> call popup window
+        capture_btn.setOnClickListener(captureListener);
         //TODO: Open camera and save photo
-        //TODO: Populate Gallery
+        //TODO: Populate Gallery -> onClickListener for table?
         //TODO: Tap on a photo to give pop up to delete or replace (CapturePopUp)
         //TODO: increment image total
         //TODO: Set Back button
         //TODO: Set Save button
+
+        if (edit_activity) {
+            // This Activity was called as the edit version, populate the gallery right away
+            populateFromItem();
+        }
     }
+
+    /**
+     * Populates the gallery with the photos already assigned to the Item, only called
+     * when the activity is accessed from the view item class
+     */
+    private void populateFromItem() {
+
+    }
+
+    /**
+     * Opens the "capture or gallery" popup, called by capture button click or image click
+     */
+    private void openPopup() {
+        new CapturePopUp().show(getSupportFragmentManager(), "CAP_CHOOSE");
+    }
+
+    View.OnClickListener captureListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // opens the popup
+            openPopup();
+        }
+    };
 
     /**
      * Opens the phone camera for taking pictures
      */
-    public static void handleCamera() {
-
+    @Override
+    public void onCapturePressed() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view, new CameraFragment()).commit();
     }
 
     /**
      * Opens the phone's gallery for retrieving pictures
      */
-    public static void handleGallery() {
+    @Override
+    public void onGalleryPressed() {
 
     }
 }
+

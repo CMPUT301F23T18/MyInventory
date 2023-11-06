@@ -115,6 +115,7 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
                 sortbutton.setVisibility(View.GONE);
                 addButton.setVisibility(View.INVISIBLE);
                 totalCostView.setVisibility(View.INVISIBLE);
+                tagButton.setVisibility(View.INVISIBLE);
                 yes_button.setVisibility(View.VISIBLE);
                 no_button.setVisibility(View.VISIBLE);
                 for (int i = 0; i < items.size(); i++) {
@@ -134,6 +135,7 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
                 totalCostView.setVisibility(View.INVISIBLE);
                 add_tags_button.setVisibility(View.VISIBLE);
                 cancel_tags_button.setVisibility(View.VISIBLE);
+                deleteButton.setVisibility(View.INVISIBLE);
                 for (int i = 0; i < items.size(); i++) {
                     CheckBox cBox = (CheckBox) itemList.getChildAt(i).findViewById(R.id.check);
                     cBox.setVisibility(View.VISIBLE);
@@ -157,17 +159,7 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
         cancel_tags_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tagButton.setVisibility(View.VISIBLE);
-                filterbutton.setVisibility(View.VISIBLE);
-                sortbutton.setVisibility(View.VISIBLE);
-                addButton.setVisibility(View.VISIBLE);
-                totalCostView.setVisibility(View.VISIBLE);
-                add_tags_button.setVisibility(View.GONE);
-                cancel_tags_button.setVisibility(View.GONE);
-                for(int i = 0; i < items.size();i++){
-                    CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
-                    cBox.setVisibility(View.INVISIBLE);
-                }
+                Reset();
             }
         });
 
@@ -188,6 +180,9 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
             totalCostView.setVisibility(View.VISIBLE);
             yes_button.setVisibility(View.GONE);
             no_button.setVisibility(View.GONE);
+            tagButton.setVisibility(View.VISIBLE);
+            add_tags_button.setVisibility(View.GONE);
+            cancel_tags_button.setVisibility(View.GONE);
             for(int i = 0; i < items.size();i++){
                 CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
                 if (cBox.isChecked()){

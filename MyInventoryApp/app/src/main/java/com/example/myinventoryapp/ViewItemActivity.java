@@ -20,6 +20,7 @@ public class ViewItemActivity extends AppCompatActivity {
     EditText descField;
     EditText modelField;
     DocumentReference fb_view_item;
+    long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class ViewItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_review);
 
         // get id of the item that was clicked:
-        long id = getIntent().getLongExtra("ID",0);
+        this.id = getIntent().getLongExtra("ID",0);
 
         // find the IDs of all the list of information when viewing an item, but get it from firebase
         serialField = findViewById(R.id.serialNumEdit);
@@ -60,11 +61,12 @@ public class ViewItemActivity extends AppCompatActivity {
         });
 
         // Edit Button
-        final Button editButton = findViewById(R.id.saveButton2);
+        final Button editButton = findViewById(R.id.saveButtonGallery);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent2 = new Intent(ViewItemActivity.this, EditActivity.class);
+                intent2.putExtra("item_id",id);
                 startActivity(intent2);
             }
         });
