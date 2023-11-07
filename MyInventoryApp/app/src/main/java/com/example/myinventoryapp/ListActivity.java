@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -152,7 +153,24 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
         yes_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DeleteFragment().show(getSupportFragmentManager(), "Delete_item");
+                if(CheckedItems().size()>0){
+                    Bundle bundle = new Bundle();
+                    DeleteFragment del_fragment = new DeleteFragment();
+                    if(CheckedItems().size()==1){
+                        bundle.putString("confirm_text", "Delete 1 item?");
+                    }
+                    else {
+                        String strtext = "Delete "+CheckedItems().size()+" items?";
+                        bundle.putString("confirm_text", strtext);
+                    }
+                    del_fragment.setArguments(bundle);
+                    del_fragment.show(getSupportFragmentManager(), "delete_item");
+                    //TODO: delete below line once done
+                    //new DeleteFragment().show(getSupportFragmentManager(), "Delete_item");
+                }
+                else{
+                    Toast.makeText(ListActivity.this, "Please select item(s) to delete.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -166,7 +184,12 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
         add_tags_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ListActivity.this, TagsActivity.class));
+                if(CheckedItems().size()>0) {
+                    startActivity(new Intent(ListActivity.this, TagsActivity.class));
+                }
+                else{
+                    Toast.makeText(ListActivity.this, "Please select item(s) to add tags to.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -229,5 +252,12 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
     public void onYESPressed() {
         DeleteItems();
         Reset();
+        if(CheckedItems().size()==1){
+            Toast.makeText(ListActivity.this, "1 item was deleted",Toast.LENGTH_SHORT).show();
+        }
+        else {
+            String strtext = CheckedItems().size()+" items were deleted";
+            Toast.makeText(ListActivity.this, strtext,Toast.LENGTH_SHORT).show();
+        }
     }
 }
