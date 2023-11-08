@@ -3,19 +3,26 @@ package com.example.myinventoryapp;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
@@ -24,6 +31,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.common.util.concurrent.ListenableFuture;
+
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -42,7 +51,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
 
     private static final int CAMERA_PERMISSION_CODE = 1111;
     private static final int GALLERY_PERMISSION_CODE = 2222;
-    View image1,image2,image3,image4,image5,image6;
+    ImageView image1,image2,image3,image4,image5,image6;
     TextView image_total;
     Button back_btn, save_btn, capture_cam_btn;
     PreviewView cam_preview;
@@ -51,6 +60,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
     Boolean edit_activity;
     ConstraintLayout capture_layout;
     ProcessCameraProvider cameraProvider;
+    ImageCapture imageCapture;
     /**
      * @param savedInstanceState If the activity is being re-initialized after
      *                           previously being shut down then this Bundle contains the data it most
@@ -150,6 +160,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
             startActivity(i);
         } else if (vID == R.id.captureButtonCam) {
             // The button that appears with the camera preview
+            capturePhoto();
             capture_layout.setVisibility(View.GONE);
         }
     }
@@ -171,6 +182,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
             // Camera set up
 
             ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture = ProcessCameraProvider.getInstance(this);
+
             cameraProviderListenableFuture.addListener(new Runnable() {
                 @Override
                 public void run() {
@@ -201,13 +213,44 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         Preview preview = new Preview.Builder().build();
         preview.setSurfaceProvider(cam_preview.getSurfaceProvider());
 
+        imageCapture = new ImageCapture.Builder().build();
+
         try {
             cameraProvider.unbindAll();
 
-            cameraProvider.bindToLifecycle(this,cameraSelector,preview);
+            cameraProvider.bindToLifecycle(this,cameraSelector,preview,imageCapture);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Uses the camera to take a picture and upload it to the phone's storage, as well as firestore
+     */
+    private void capturePhoto() {
+        if (imageCapture == null) return;
+
+        // The name of the photo will the the id of its item
+        String name = System.currentTimeMillis() + "";
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME,name);
+        contentValues.put(MediaStore.MediaColumns.MIME_TYPE,"image/jpeg");
+
+        ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(
+                getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues).build();
+
+        imageCapture.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this), new ImageCapture.OnImageSavedCallback() {
+            @Override
+            public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                Toast.makeText(getApplicationContext(), "Image captured!",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(@NonNull ImageCaptureException exception) {
+                exception.printStackTrace();
+            }
+        });
+
     }
 
 

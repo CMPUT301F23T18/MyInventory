@@ -84,14 +84,14 @@
 
         <TableRow android:layout_margin="30dp">
 
-            <View
+            <ImageView
                 android:id="@+id/image1Edit"
                 android:layout_width="153dp"
                 android:layout_height="124dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginBottom="20dp" />
 
-            <View
+            <ImageView
                 android:id="@+id/image2Edit"
                 android:layout_width="153dp"
                 android:layout_height="124dp"
@@ -101,14 +101,14 @@
 
         <TableRow android:layout_margin="30dp">
 
-            <View
+            <ImageView
                 android:id="@+id/image3Edit"
                 android:layout_width="153dp"
                 android:layout_height="124dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginBottom="20dp" />
 
-            <View
+            <ImageView
                 android:id="@+id/image4Edit"
                 android:layout_width="153dp"
                 android:layout_height="124dp"
@@ -118,14 +118,14 @@
 
         <TableRow android:layout_margin="30dp">
 
-            <View
+            <ImageView
                 android:id="@+id/image5Edit"
                 android:layout_width="153dp"
                 android:layout_height="124dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginBottom="20dp" />
 
-            <View
+            <ImageView
                 android:id="@+id/image6Edit"
                 android:layout_width="153dp"
                 android:layout_height="124dp"
