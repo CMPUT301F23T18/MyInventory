@@ -1,24 +1,56 @@
 package com.example.myinventoryapp;
 
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.CameraSelector;
+import androidx.camera.core.Preview;
+import androidx.camera.lifecycle.ProcessCameraProvider;
+import androidx.camera.view.PreviewView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
-public class GalleryActivity extends AppCompatActivity implements CapturePopUp.OnFragmentInteractionListener {
+import com.google.common.util.concurrent.ListenableFuture;
 
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
+
+// Note: This class is split into 3 sections as follows:
+//          - General/Gallery populating
+//          - Camera
+//          - Permissions
+//      I tried to seperate all of them but that didn't work so it is what it is
+
+
+public class GalleryActivity extends AppCompatActivity implements CapturePopUp.OnFragmentInteractionListener, EasyPermissions.PermissionCallbacks, View.OnClickListener {
+
+    private static final int CAMERA_PERMISSION_CODE = 1111;
+    private static final int GALLERY_PERMISSION_CODE = 2222;
     View image1,image2,image3,image4,image5,image6;
     TextView image_total;
-    Button back_btn, save_btn;
+    Button back_btn, save_btn, capture_cam_btn;
+    PreviewView cam_preview;
     ImageView capture_btn;
     long id;
     Boolean edit_activity;
+    ConstraintLayout capture_layout;
+    ProcessCameraProvider cameraProvider;
     /**
      * @param savedInstanceState If the activity is being re-initialized after
      *                           previously being shut down then this Bundle contains the data it most
@@ -30,10 +62,6 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         setContentView(R.layout.activity_gallery);
         this.id = getIntent().getLongExtra("ID",0);
         this.edit_activity = getIntent().getBooleanExtra("Edit",false);
-
-        //TODO: I would like to use this activity for both add and edit,
-        //      therefore I need to differentiate between the two, probably with
-        //      something coming from the intent
 
         if (id == 0) {
             //Just go back to the add activity because clearly something is wrong
@@ -50,12 +78,21 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         image6 = findViewById(R.id.image6Edit);
         image_total = findViewById(R.id.imageTotal);
 
+        cam_preview = findViewById(R.id.camPreview);
+        capture_layout = findViewById(R.id.captureConstraints);
+        capture_layout.setVisibility(View.GONE);
+
         back_btn = findViewById(R.id.backButton);
         save_btn = findViewById(R.id.saveButtonGallery);
         capture_btn = findViewById(R.id.cameraButton);
+        capture_cam_btn = findViewById(R.id.captureButtonCam);
+
 
         //Set capture button -> call popup window
-        capture_btn.setOnClickListener(captureListener);
+        capture_btn.setOnClickListener(this);
+        back_btn.setOnClickListener(this);
+        save_btn.setOnClickListener(this);
+        capture_cam_btn.setOnClickListener(this);
         //TODO: Open camera and save photo
         //TODO: Populate Gallery -> onClickListener for table?
         //TODO: Tap on a photo to give pop up to delete or replace (CapturePopUp)
@@ -84,21 +121,6 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         new CapturePopUp().show(getSupportFragmentManager(), "CAP_CHOOSE");
     }
 
-    View.OnClickListener captureListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // opens the popup
-            openPopup();
-        }
-    };
-
-    /**
-     * Opens the phone camera for taking pictures
-     */
-    @Override
-    public void onCapturePressed() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view, new CameraFragment()).commit();
-    }
 
     /**
      * Opens the phone's gallery for retrieving pictures
@@ -106,6 +128,128 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
     @Override
     public void onGalleryPressed() {
 
+    }
+
+    /**
+     * handles all onclick listeners for the activity
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        int vID = v.getId();
+        if (vID == R.id.cameraButton) {
+            openPopup();
+        } else if (vID == R.id.backButton) {
+            // Go back to add activity
+            Intent i = new Intent(this,AddActivity.class);
+            startActivity(i);
+        } else if (vID == R.id.saveButtonGallery) {
+            // return to list activity
+            //TODO: save pictures to firebase
+            Intent i = new Intent(this,ListActivity.class);
+            startActivity(i);
+        } else if (vID == R.id.captureButtonCam) {
+            // The button that appears with the camera preview
+            capture_layout.setVisibility(View.GONE);
+        }
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Dealing with the camera
+
+    /**
+     * Opens the phone camera for taking pictures, called when dialog fragment is closed
+     */
+    @Override
+    public void onCapturePressed() {
+        // check if app has permission to use the camera, else ask for permission
+        String permission = Manifest.permission.CAMERA;
+
+        if (EasyPermissions.hasPermissions(this,permission)) {
+            capture_layout.setVisibility(View.VISIBLE);
+            // Activate the camera
+            // Camera set up
+
+            ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture = ProcessCameraProvider.getInstance(this);
+            cameraProviderListenableFuture.addListener(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        cameraProvider = cameraProviderListenableFuture.get();
+
+                        startCamera(cameraProvider);
+                    } catch (ExecutionException e) {
+                        throw new RuntimeException(e);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }, ContextCompat.getMainExecutor(this));
+
+        }  else {
+            EasyPermissions.requestPermissions(this, "Our App Requires permission to access your camera", CAMERA_PERMISSION_CODE, permission);
+        }
+    }
+
+    /**
+     * Turns on the camera, sets options
+     * @param cameraProvider a provider used to bind the lifecycle of cameras
+     */
+    private void startCamera(ProcessCameraProvider cameraProvider) {
+        CameraSelector cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA;
+
+        Preview preview = new Preview.Builder().build();
+        preview.setSurfaceProvider(cam_preview.getSurfaceProvider());
+
+        try {
+            cameraProvider.unbindAll();
+
+            cameraProvider.bindToLifecycle(this,cameraSelector,preview);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Dealing with permissions for camera/Gallery
+
+    /**
+     * Prompts the user to giver permission to access the camera, and photo picker
+     * @param requestCode The request code passed in
+     * @param permissions The requested permissions. Never null.
+     * @param grantResults The grant results for the corresponding permissions
+     *     which is either {@link android.content.pm.PackageManager#PERMISSION_GRANTED}
+     *     or {@link android.content.pm.PackageManager#PERMISSION_DENIED}. Never null.
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    /**
+     * @param requestCode The request code passed in
+     * @param perms the required permissions
+     */
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+
+    }
+
+    /**
+     * @param requestCode The request code passed in
+     * @param perms the required permissions
+     */
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        if(EasyPermissions.somePermissionPermanentlyDenied(this, perms)){
+
+            new AppSettingsDialog.Builder(this).build().show();
+        }
     }
 }
 

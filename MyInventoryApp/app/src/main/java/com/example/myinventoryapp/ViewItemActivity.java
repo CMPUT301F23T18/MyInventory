@@ -61,7 +61,7 @@ public class ViewItemActivity extends AppCompatActivity {
         });
 
         // Edit Button
-        final Button editButton = findViewById(R.id.saveButtonGallery);
+        final Button editButton = findViewById(R.id.editButton);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

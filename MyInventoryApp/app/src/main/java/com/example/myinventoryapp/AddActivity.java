@@ -176,8 +176,8 @@ public class AddActivity extends AppCompatActivity {
      * @param v view of the activity
      */
     private void nextActivity(long ID, View v) {
-        Intent i = new Intent(v.getContext(), ListActivity.class);
-        //Intent i = new Intent(v.getContext(), GalleryActivity.class);
+        //Intent i = new Intent(v.getContext(), ListActivity.class);
+        Intent i = new Intent(v.getContext(), GalleryActivity.class);
         // put ID in the intent
         i.putExtra("ID",ID);
         startActivity(i);
