@@ -18,4 +18,8 @@
         <item name="android:backgroundTint">#F37135</item>
         <item name="android:textSize">20sp</item>
     </style>
+
+    <style name="capturePop">
+        <item name="android:backgroundTint">#2B2A2A</item>
+    </style>
 </resources>

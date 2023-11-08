@@ -89,14 +89,18 @@
                 android:layout_width="153dp"
                 android:layout_height="124dp"
                 android:layout_marginEnd="40dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="20dp"
+                android:clickable="true"
+                android:focusable="true"/>
 
             <ImageView
                 android:id="@+id/image2Edit"
                 android:layout_width="153dp"
                 android:layout_height="124dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="20dp"
+                android:clickable="true"
+                android:focusable="true" />
         </TableRow>
 
         <TableRow android:layout_margin="30dp">
@@ -106,14 +110,18 @@
                 android:layout_width="153dp"
                 android:layout_height="124dp"
                 android:layout_marginEnd="40dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="20dp"
+                android:clickable="true"
+                android:focusable="true" />
 
             <ImageView
                 android:id="@+id/image4Edit"
                 android:layout_width="153dp"
                 android:layout_height="124dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="20dp"
+                android:clickable="true"
+                android:focusable="true" />
         </TableRow>
 
         <TableRow android:layout_margin="30dp">
@@ -123,14 +131,18 @@
                 android:layout_width="153dp"
                 android:layout_height="124dp"
                 android:layout_marginEnd="40dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="20dp"
+                android:clickable="true"
+                android:focusable="true" />
 
             <ImageView
                 android:id="@+id/image6Edit"
                 android:layout_width="153dp"
                 android:layout_height="124dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="20dp"
+                android:clickable="true"
+                android:focusable="true" />
         </TableRow>
 
     </TableLayout>

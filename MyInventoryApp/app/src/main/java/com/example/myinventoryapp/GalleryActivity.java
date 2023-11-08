@@ -103,12 +103,10 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         back_btn.setOnClickListener(this);
         save_btn.setOnClickListener(this);
         capture_cam_btn.setOnClickListener(this);
-        //TODO: Open camera and save photo
         //TODO: Populate Gallery -> onClickListener for table?
+        //TODO: Get photo from phone gallery -> need permission
         //TODO: Tap on a photo to give pop up to delete or replace (CapturePopUp)
         //TODO: increment image total
-        //TODO: Set Back button
-        //TODO: Set Save button
 
         if (edit_activity) {
             // This Activity was called as the edit version, populate the gallery right away
@@ -141,6 +139,14 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
     }
 
     /**
+     * Deletes the photo that has been selected
+     */
+    @Override
+    public void onDeletePressed() {
+
+    }
+
+    /**
      * handles all onclick listeners for the activity
      * @param v The view that was clicked.
      */
@@ -155,7 +161,6 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
             startActivity(i);
         } else if (vID == R.id.saveButtonGallery) {
             // return to list activity
-            //TODO: save pictures to firebase
             Intent i = new Intent(this,ListActivity.class);
             startActivity(i);
         } else if (vID == R.id.captureButtonCam) {
@@ -235,6 +240,8 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         ContentValues contentValues = new ContentValues();
         contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME,name);
         contentValues.put(MediaStore.MediaColumns.MIME_TYPE,"image/jpeg");
+
+        //TODO: save pictures to firebase
 
         ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(
                 getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues).build();

@@ -5,7 +5,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +16,7 @@ import androidx.fragment.app.DialogFragment;
 
 public class CapturePopUp extends DialogFragment {
     View view;
+    View root;
     private OnFragmentInteractionListener listener;
 
 
@@ -27,6 +30,8 @@ public class CapturePopUp extends DialogFragment {
     public interface OnFragmentInteractionListener {
         void onCapturePressed();
         void onGalleryPressed();
+
+        void onDeletePressed();
     }
 
     /**
@@ -38,27 +43,55 @@ public class CapturePopUp extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.view = getLayoutInflater().inflate(R.layout.capture_popup,null);
+        boolean on_image = getArguments().getBoolean("onImage"); //checks if click was from image
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.capturePop);
 
-        return builder
-                .setView(view)
-                .setNeutralButton("cancel",null)
-                .setPositiveButton("Capture", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+        if (!on_image) {
+            return builder
+                    .setView(view)
+                    .setNeutralButton("Cancel", null)
+                    .setPositiveButton("Capture", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
 
-                        listener.onCapturePressed();
-                    }
-                })
-                .setNegativeButton("Gallery", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // delete button gets clicked
-                        listener.onGalleryPressed();
-                    }
-                })
-                .create();
+                            listener.onCapturePressed();
+                        }
+                    })
+                    .setNegativeButton("Gallery", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // delete button gets clicked
+                            listener.onGalleryPressed();
+                        }
+                    })
+                    .create();
+        } else {
+            return builder
+                    .setView(view)
+                    .setCancelable(true)
+                    .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            listener.onDeletePressed();
+                        }
+                    })
+                    .setPositiveButton("Capture", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            listener.onCapturePressed();
+                        }
+                    })
+                    .setNegativeButton("Gallery", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // delete button gets clicked
+                            listener.onGalleryPressed();
+                        }
+                    })
+                    .create();
+        }
     }
 
 }

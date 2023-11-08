@@ -162,8 +162,6 @@ public class AddActivity extends AppCompatActivity {
                 }
             });
 
-            //TODO: next activity -> compile data into a item then move on to photos
-            //      currently goes back to listActivity
 
             // go to gallery activity
             nextActivity(ID,v);
