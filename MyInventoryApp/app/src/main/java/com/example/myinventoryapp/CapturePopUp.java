@@ -45,8 +45,9 @@ public class CapturePopUp extends DialogFragment {
         this.view = getLayoutInflater().inflate(R.layout.capture_popup,null);
         boolean on_image = getArguments().getBoolean("onImage"); //checks if click was from image
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.capturePop);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
+        // If called by clicking on an image provide a delete button, else provide cancel button
         if (!on_image) {
             return builder
                     .setView(view)
