@@ -1,8 +1,9 @@
 package com.example.myinventoryapp;
 
-import java.util.List;
+import android.graphics.Bitmap;
 
-//TODO: add photos list
+import java.util.ArrayList;
+import java.util.List;
 
 public class Item {
     private String date;
@@ -15,6 +16,8 @@ public class Item {
     private String comment;
     private long ID;
     private List<String> tags;
+
+    private ArrayList<Bitmap> images = new ArrayList<Bitmap>();
 
     // photos
 
@@ -31,6 +34,25 @@ public class Item {
         this.est_value = est_value;
 
         est_value_num = Double.parseDouble(est_value);
+    }
+
+    public ArrayList<Bitmap> getImages() {
+        return images;
+    }
+
+    public void setImages(ArrayList<Bitmap> images) {
+        this.images = images;
+    }
+    public Bitmap getImage(int index) {
+        try {
+            return images.get(index);
+        } catch (Exception exception) {
+            return null;
+        }
+    }
+
+    public void addImage(Bitmap image) {
+        this.images.add(image);
     }
 
     public String getDate() {

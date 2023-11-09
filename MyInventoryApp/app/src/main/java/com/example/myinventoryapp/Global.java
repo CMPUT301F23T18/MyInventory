@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -23,6 +24,9 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 // set
@@ -110,6 +114,7 @@ public class Global extends Application {
         return DocumentRef(ID);
     }
 
+
     /**
      * gets the storage reference for photos
      * @return
@@ -122,14 +127,13 @@ public class Global extends Application {
      * Uploads a photo for a specific item, using the id, photo_id and the file
      * @param id id of the item to assign the photo to
      * @param photo the actual photo to be assigned
-     * @param photo_id the id for the photo, generated when it was captured/selected
+     * @param name the name for the photo, generated when it was captured/selected
      */
-    public void setPhoto(long id, Bitmap photo, long photo_id) {
+    public void setPhoto(long id, Bitmap photo, String name, int index) {
         String str_id = String.valueOf(id);
-        String str_photo_id = String.valueOf(photo_id);
-        StorageReference photoRef = photoStorageRef.child(str_id + "/" + str_photo_id + ".jpg");
+        StorageReference photoRef = photoStorageRef.child(str_id + "/" + name + ".jpg");
 
-        // compress photo
+        // compress photo and apply to byte array
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         photo.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
@@ -145,8 +149,8 @@ public class Global extends Application {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                //...
             }
         });
     }
+
 }

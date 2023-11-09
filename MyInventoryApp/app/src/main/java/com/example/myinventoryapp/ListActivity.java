@@ -1,6 +1,9 @@
 package com.example.myinventoryapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,21 +15,28 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class ListActivity extends AppCompatActivity implements DeleteFragment.OnFragmentInteractionListener{
+    final long ONE_MEGABYTE = 1024 * 1024;
     ImageView addButton;
     ListView itemList;
     ArrayAdapter<Item> itemAdapter;
@@ -35,6 +45,7 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
     double totalValue = 0;
     TextView totalCostView;
     Button filterbutton, sortbutton, deleteButton, yes_button, no_button, tagButton, add_tags_button, cancel_tags_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,15 +68,44 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
                     items.clear();
                     for (QueryDocumentSnapshot doc : querySnapshots) {
                         Item item = new Item();
+                        String id = doc.getId();
                         item.setSerial_num(doc.getString("serial"));
                         item.setDate(doc.getString("date"));
                         item.setMake(doc.getString("make"));
                         item.setModel(doc.getString("model"));
                         item.setEst_value(doc.getString("price"));
                         item.setDescription(doc.getString("desc"));
-                        item.setID(Long.parseLong(doc.getId()));
+                        item.setID(Long.parseLong(id));
 
-                        // TODO: Get photo
+
+                        // set photos
+                        StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
+                        for (int i = 0; i < 6; ++i) {
+                            // set path for current image
+                            StorageReference photoRef = photosRef.child(id + "/image" + i + ".jpg");
+                            photoRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                @Override
+                                public void onSuccess(byte[] bytes) {
+                                    // get the bitmap of the byte array and add it to the item's list
+                                    Bitmap img_bit = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                                    item.addImage(img_bit);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    // Handle any errors
+                                    // Note: there is an error when the image isn't
+                                    // found, so we leave this blank to avoid printing the message
+                                }
+                            }).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+                                @Override
+                                public void onComplete(@NonNull Task<byte[]> task) {
+                                    // Update the list when finished to load all the pictures
+                                    itemAdapter.notifyDataSetChanged();
+                                }
+                            });
+                        }
+
                         Log.d("Firestore", String.format("Item(%s, %s) fetched", item.getMake(), item.getModel()));
                         items.add(item);
                     }

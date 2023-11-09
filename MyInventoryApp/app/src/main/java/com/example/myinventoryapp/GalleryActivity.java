@@ -106,21 +106,10 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         capture_layout = findViewById(R.id.captureConstraints);
         capture_layout.setVisibility(View.GONE);
 
-        back_btn = findViewById(R.id.backButton);
-        save_btn = findViewById(R.id.saveButtonGallery);
-        capture_btn = findViewById(R.id.cameraButton);
-        capture_cam_btn = findViewById(R.id.captureButtonCam);
-
-
-        //Set capture button -> call popup window
-        capture_btn.setOnClickListener(this);
-        back_btn.setOnClickListener(this);
-        save_btn.setOnClickListener(this);
-        capture_cam_btn.setOnClickListener(this);
-        //TODO: Populate Gallery -> onClickListener for table?
-        //TODO: Get photo from phone gallery -> need permission
-        //TODO: Tap on a photo to give pop up to delete or replace (CapturePopUp)
-        //TODO: increment image total
+        back_btn = findViewById(R.id.backButton); back_btn.setOnClickListener(this);
+        save_btn = findViewById(R.id.saveButtonGallery); save_btn.setOnClickListener(this);
+        capture_btn = findViewById(R.id.cameraButton); capture_btn.setOnClickListener(this);
+        capture_cam_btn = findViewById(R.id.captureButtonCam); capture_cam_btn.setOnClickListener(this);
 
         if (edit_activity) {
             // This Activity was called as the edit version, populate the gallery right away
@@ -133,7 +122,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
      * when the activity is accessed from the view item class
      */
     private void populateFromItem() {
-
+        //TODO: Populate Gallery -> onClickListener for table?
     }
 
 
@@ -142,7 +131,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
      */
     @Override
     public void onGalleryPressed() {
-
+        //TODO: Get photo from phone gallery -> need permission
     }
 
     /**
@@ -150,7 +139,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
      */
     @Override
     public void onDeletePressed() {
-
+        //TODO: delete photos, change total
     }
 
     /**
@@ -261,11 +250,6 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
     private void capturePhoto() {
         if (imageCapture == null) return;
 
-        // Set the name of photo
-        long name = System.currentTimeMillis();
-
-        //TODO: save pictures to firebase
-
         imageCapture.takePicture(ContextCompat.getMainExecutor(getBaseContext()), new ImageCapture.OnImageCapturedCallback() {
             /**
              * called on successful image capture
@@ -283,7 +267,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
                         matrix.postRotate(90);
                         Bitmap scaledBitmap = Bitmap.createScaledBitmap(image_bit, image.getWidth(), image.getHeight(), true);
                         Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
-                        attachToItem(rotatedBitmap, name);
+                        attachToItem(rotatedBitmap);
                     }
 
             /**
@@ -298,9 +282,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
                         exception.printStackTrace();
                         Toast.makeText(getApplicationContext(),"Failed to capture image",Toast.LENGTH_SHORT).show();
                     }
-                }
-
-        );
+                });
 
     }
 
@@ -308,13 +290,15 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
      * Takes an image and attaches to a item, increments image total and sends image to firebase
      * @param image_bit
      */
-    private void attachToItem(Bitmap image_bit, long name) {
+    private void attachToItem(Bitmap image_bit) {
         // img_idx is set on view click, either equal to the total or the index of the clicked ImageView
         ImageView image = images.get(img_idx);
         image.setImageBitmap(image_bit);
+        String name = "image" + img_idx;
         total += 1;
 
-        ((Global) getApplication()).setPhoto(id,image_bit,name);
+        // send to firebase storage
+        ((Global) getApplication()).setPhoto(id,image_bit,name, img_idx);
     }
 
 
