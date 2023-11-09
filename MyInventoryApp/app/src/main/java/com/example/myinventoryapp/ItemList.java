@@ -40,7 +40,7 @@ public class ItemList extends ArrayAdapter<Item> {
 
         //TODO: set the photo in the item_list_content to the photo from the item
         photo.setImageResource(R.drawable.house_placeholder);
-        value.setText("$ " + item.getEst_value());
+        value.setText("$" + item.getEst_value());
         return view;
     }
 }
