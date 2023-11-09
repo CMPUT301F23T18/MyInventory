@@ -1,6 +1,5 @@
 package com.example.myinventoryapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,12 +19,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 
-import java.time.Month;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * This activity handles the creation of items and their upload to firebase
+ */
 public class AddActivity extends AppCompatActivity {
     ImageView nextButton;
     Button scanButton;
@@ -36,7 +35,6 @@ public class AddActivity extends AppCompatActivity {
     EditText descField;
     EditText modelField;
     DocumentReference fb_new_item;
-    Context context;
 
     /**
      * @param savedInstanceState If the activity is being re-initialized after

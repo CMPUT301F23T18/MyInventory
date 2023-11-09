@@ -2,20 +2,13 @@ package com.example.myinventoryapp;
 
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.media.Image;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,12 +23,10 @@ import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +41,10 @@ import pub.devrel.easypermissions.EasyPermissions;
 //          - Permissions
 //      I tried to seperate all of them but that didn't work so it is what it is
 
-
+/**
+ * This activity handles using the camera and the phone's photo gallery, additionally it also
+ * handles permissions for the above.
+ */
 public class GalleryActivity extends AppCompatActivity implements CapturePopUp.OnFragmentInteractionListener, EasyPermissions.PermissionCallbacks, View.OnClickListener {
 
     private static final int CAMERA_PERMISSION_CODE = 1111;
@@ -209,9 +203,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
                         cameraProvider = cameraProviderListenableFuture.get();
 
                         startCamera(cameraProvider);
-                    } catch (ExecutionException e) {
-                        throw new RuntimeException(e);
-                    } catch (InterruptedException e) {
+                    } catch (ExecutionException | InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                 }
@@ -287,7 +279,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
 
     /**
      * Takes an image and attaches to a item, increments image total and sends image to firebase
-     * @param image_bit
+     * @param image_bit the bit map of the image to be attached
      */
     private void attachToItem(Bitmap image_bit) {
         // img_idx is set on view click, either equal to the total or the index of the clicked ImageView

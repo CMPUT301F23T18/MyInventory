@@ -98,10 +98,6 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
             }
         });
 
-
-        //TODO: when user clicks photo button, open the gallery in edit mode
-
-
         final Button deleteButton = findViewById(R.id.delete_btn);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +109,8 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
                 del_fragment.show(getSupportFragmentManager(), "delete_item");
             }
         });
+
+        //TODO: when user clicks photo button, open the gallery in edit mode
     }
 
     @Override
