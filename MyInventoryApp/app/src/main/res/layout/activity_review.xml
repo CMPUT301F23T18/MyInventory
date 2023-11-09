@@ -7,6 +7,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/delete_btn"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
+        android:backgroundTint="@color/clear"
+        android:visibility="visible"
+        android:layout_marginRight="10dp"
+        app:icon="@drawable/garbage_can"
+        app:iconSize="30dp"
+        app:iconTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <EditText
         android:id="@+id/serialNumEdit"
         android:layout_width="wrap_content"
@@ -202,5 +214,5 @@
         app:layout_constraintStart_toEndOf="@+id/imagePreview"
         app:layout_constraintTop_toTopOf="@+id/imagePreview"
         app:srcCompat="@drawable/next_grey" />
-  
+
 </androidx.constraintlayout.widget.ConstraintLayout>

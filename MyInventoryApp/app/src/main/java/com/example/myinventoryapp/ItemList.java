@@ -45,6 +45,7 @@ public class ItemList extends ArrayAdapter<Item> {
             photo.setImageResource(R.drawable.bg_colored_image);
         }
         value.setText("$ " + item.getEst_value());
+
         return view;
     }
 }

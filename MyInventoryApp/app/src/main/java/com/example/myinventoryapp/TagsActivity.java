@@ -1,9 +1,11 @@
 package com.example.myinventoryapp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,9 +62,10 @@ public class TagsActivity extends AppCompatActivity {
                 }
                 else if (TextUtils.isEmpty(userInput)){
                     Toast.makeText(getApplicationContext(), "Tag cannot be empty", Toast.LENGTH_SHORT).show();
-                }
-
-                else {
+                } else if("None".equals(userInput)){
+                    Toast.makeText(getApplicationContext(), "Tag cannot be called None", Toast.LENGTH_SHORT).show();
+                    tagEditText.setText("");
+                } else {
                     tagEditText.setText("");
                     dataList.add(userInput);
 
