@@ -5,14 +5,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.util.Map;
 
-public class ViewItemActivity extends AppCompatActivity {
+public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.OnFragmentInteractionListener {
     EditText serialField;
     EditText dateField;
     EditText makeField;
@@ -61,7 +63,7 @@ public class ViewItemActivity extends AppCompatActivity {
         });
 
         // Edit Button
-        final Button editButton = findViewById(R.id.saveButtonGallery);
+        final Button editButton = findViewById(R.id.editButton);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +73,26 @@ public class ViewItemActivity extends AppCompatActivity {
             }
         });
 
+        final Button deleteButton = findViewById(R.id.delete_btn);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                DeletePopUp del_fragment = new DeletePopUp();
+                bundle.putString("confirm_text", "Delete item?");
+                del_fragment.setArguments(bundle);
+                del_fragment.show(getSupportFragmentManager(), "delete_item");
+            }
+        });
+
     }
 
+    @Override
+    public void onYESPressed() {
+        CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
+        fb_items.document(Long.toString(id)).delete();
+        finish();
+        Toast.makeText(ViewItemActivity.this,"Item was deleted" ,Toast.LENGTH_SHORT).show();
+    }
 
 }

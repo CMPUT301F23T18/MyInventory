@@ -11,12 +11,12 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class ListActivity extends AppCompatActivity implements DeleteFragment.OnFragmentInteractionListener{
+public class ListActivity extends AppCompatActivity{
     ImageView addButton;
     ListView itemList;
     ArrayAdapter<Item> itemAdapter;
@@ -83,7 +83,6 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
                 }
             }
         });
-
         itemList.setOnItemClickListener(itemClicker);
         itemList.setAdapter(itemAdapter);
 
@@ -102,26 +101,15 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
         tagButton = findViewById(R.id.tag_btn);
         filterbutton = findViewById(R.id.filterButton);
         sortbutton = findViewById(R.id.sortButton);
-        yes_button = findViewById(R.id.yes_delete);
-        no_button = findViewById(R.id.no_delete);
         add_tags_button = findViewById(R.id.add_tag);
         cancel_tags_button = findViewById(R.id.no_tag);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Set the visibility of buttons and checkboxes
-                deleteButton.setVisibility(View.INVISIBLE);
-                filterbutton.setVisibility(View.GONE);
-                sortbutton.setVisibility(View.GONE);
-                addButton.setVisibility(View.INVISIBLE);
-                totalCostView.setVisibility(View.INVISIBLE);
-                tagButton.setVisibility(View.INVISIBLE);
-                yes_button.setVisibility(View.VISIBLE);
-                no_button.setVisibility(View.VISIBLE);
-                for (int i = 0; i < items.size(); i++) {
-                    CheckBox cBox = (CheckBox) itemList.getChildAt(i).findViewById(R.id.check);
-                    cBox.setVisibility(View.VISIBLE);
-                }
+                ArrayList<Item> listToAdd = new ArrayList<>();
+                Intent i = new Intent(ListActivity.this, DeleteActivity.class);
+                i.putParcelableArrayListExtra("list",items);
+                startActivity(i);
             }
         });
         tagButton.setOnClickListener(new View.OnClickListener() {
@@ -143,19 +131,6 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
             }
         });
 
-        no_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Reset();
-            }
-        });
-        yes_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DeleteFragment().show(getSupportFragmentManager(), "Delete_item");
-            }
-        });
-
         cancel_tags_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,20 +141,20 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
         add_tags_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ListActivity.this, TagsActivity.class));
+                if(CheckedItems().size()>0) {
+                    startActivity(new Intent(ListActivity.this, TagsActivity.class));
+                }
+                else{
+                    Toast.makeText(ListActivity.this, "Please select item(s) to add tags to.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
-        //TODO: add fragment layout
     }
         private void Reset(){
-            deleteButton.setVisibility(View.VISIBLE);
             filterbutton.setVisibility(View.VISIBLE);
             sortbutton.setVisibility(View.VISIBLE);
             addButton.setVisibility(View.VISIBLE);
             totalCostView.setVisibility(View.VISIBLE);
-            yes_button.setVisibility(View.GONE);
-            no_button.setVisibility(View.GONE);
             tagButton.setVisibility(View.VISIBLE);
             add_tags_button.setVisibility(View.GONE);
             cancel_tags_button.setVisibility(View.GONE);
@@ -203,18 +178,6 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
             return delete_items;
         }
 
-        private void DeleteItems() {
-            List<Integer> temp_list = CheckedItems();
-            CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
-            for (int i = 0; i < temp_list.size(); i++) {
-                long id = items.get(temp_list.get(i)).getID();
-                int position = temp_list.get(i);
-                items.remove(position);
-                fb_items.document(Long.toString(id)).delete();
-                itemAdapter.notifyDataSetChanged();
-            }
-        }
-
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -224,10 +187,4 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
             startActivity(i);
         }
     };
-
-    @Override
-    public void onYESPressed() {
-        DeleteItems();
-        Reset();
-    }
 }

@@ -1,10 +1,16 @@
 package com.example.myinventoryapp;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.widget.CheckBox;
+
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 //TODO: add photos list
 
-public class Item {
+public class Item implements Parcelable {
     private String date;
     private String description;
     private String make;
@@ -15,8 +21,54 @@ public class Item {
     private String comment;
     private long ID;
     private List<String> tags;
+    private boolean selected = false;
 
     // photos
+
+    protected Item(Parcel in) {
+        date = in.readString();
+        description = in.readString();
+        make = in.readString();
+        model = in.readString();
+        serial_num = in.readString();
+        est_value = in.readString();
+        est_value_num = in.readDouble();
+        comment = in.readString();
+        ID = in.readLong();
+        tags = in.createStringArrayList();
+    }
+
+    public static final Creator<Item> CREATOR = new Creator<Item>() {
+        @Override
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
+        }
+
+        @Override
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+
+        dest.writeString(date);
+        dest.writeString(description);
+        dest.writeString(make);
+        dest.writeString(model);
+        dest.writeString(serial_num);
+        dest.writeString(est_value);
+        dest.writeDouble(est_value_num);
+        dest.writeString(comment);
+        dest.writeLong(ID);
+        dest.writeStringList(tags);
+    }
 
     public Item() {
     }
@@ -121,4 +173,13 @@ public class Item {
     public void setID(long ID) {
         this.ID = ID;
     }
+
+    public void setChecked(boolean sel){
+        selected = sel;
+    }
+
+    public boolean getChecked(){
+        return selected;
+    }
+
 }

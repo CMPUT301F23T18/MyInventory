@@ -36,6 +36,8 @@
             android:exported="true"/>
         <activity android:name=".TagsActivity"
             android:exported="false"/>
+        <activity android:name=".DeleteActivity"
+            android:exported="false"/>
 
         <activity
             android:name=".ListActivity"

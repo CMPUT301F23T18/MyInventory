@@ -13,12 +13,14 @@
         android:layout_width="60dp"
         android:layout_height="45dp"
         android:backgroundTint="@color/clear"
-        app:icon="@android:drawable/ic_menu_delete"
+        android:visibility="visible"
+        android:layout_marginRight="10dp"
+        app:icon="@drawable/garbage_can"
         app:iconSize="30dp"
         app:iconTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
+        android:contentDescription="Click to remove items"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -37,7 +39,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:choiceMode="multipleChoice"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -100,24 +103,24 @@
         android:layout_marginBottom="20dp"
         android:clickable="true"
         android:focusable="true"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/add_button"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck"/>
+        android:visibility="visible"
+        android:contentDescription="Click to add item"/>
 
     <Button
         android:id="@+id/yes_delete"
         android:layout_width="124dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="15dp"
         android:backgroundTint="@color/clear"
-        app:iconTint="@color/black"
         android:visibility="gone"
+        app:icon="@drawable/check"
         app:iconSize="50dp"
-        app:icon="?android:attr/textCheckMark"
+        app:iconTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -127,13 +130,13 @@
         android:layout_height="48dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="20dp"
-        app:iconTint="@color/black"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="15dp"
         android:backgroundTint="@color/clear"
         android:visibility="gone"
-        app:icon="@android:drawable/ic_delete"
-        app:iconSize="50dp"
+        app:icon="@drawable/cross"
+        app:iconSize="45dp"
+        app:iconTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -147,7 +150,7 @@
         app:iconTint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
+        android:contentDescription="Click to apply tags"/>
 
     <Button
         android:id="@+id/add_tag"
