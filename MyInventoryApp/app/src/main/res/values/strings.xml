@@ -14,6 +14,6 @@
     <string name="capture">Capture</string>
     <string name="gallery">Gallery</string>
     <string name="preview_area">preview_area</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="total_value">Total Value = $0</string>
+    <string name="add_tags_button_text">Add tags</string>
 </resources>

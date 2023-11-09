@@ -50,7 +50,7 @@
         android:layout_height="44dp"
         android:background="@color/grey_dark"
         android:gravity="center"
-        android:text="Total Value = $20000"
+        android:text="@string/total_value"
         android:textColor="@color/white"
         android:textSize="24dp"
         android:visibility="visible"
@@ -65,7 +65,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/footer_bg" />
+        app:srcCompat="@drawable/footer_bg"
+        tools:ignore="ContentDescription" />
 
     <Button
         android:id="@+id/sortButton"
@@ -74,7 +75,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#F37135"
-        android:text="Sort"
+        android:text="@string/sort_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="visible"/>
@@ -88,7 +89,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#F37135"
-        android:text="Filter"
+        android:text="@string/filter_button_text"
         app:iconSize="50dp"
         app:iconTint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -147,8 +148,8 @@
         app:icon="@drawable/tags_button"
         app:iconSize="30dp"
         app:iconTint="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="Click to apply tags"/>
 
     <Button
@@ -160,7 +161,7 @@
         app:iconTint="@color/black"
         android:visibility="gone"
         android:backgroundTint="#F37135"
-        android:text="Add tags"
+        android:text="@string/add_tags_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

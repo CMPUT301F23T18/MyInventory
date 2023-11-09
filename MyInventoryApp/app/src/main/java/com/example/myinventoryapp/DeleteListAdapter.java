@@ -45,17 +45,14 @@ public class DeleteListAdapter extends RecyclerView.Adapter<DeleteListAdapter.Vi
         if(select){
             holder.cBox.setChecked(true);
             items.get(i).setChecked(true);
-            holder.cBox.setTag(items.get(i));
         } else if (unselect) {
             holder.cBox.setChecked(false);
             items.get(i).setChecked(false);
-            holder.cBox.setTag(items.get(i));
         }
         else{
             holder.cBox.setChecked(items.get(i).getChecked());
-            holder.cBox.setTag(items.get(i));
         }
-        //holder.cBox.setTag(items.get(i));
+        holder.cBox.setTag(items.get(i));
 
         holder.cBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,9 +103,5 @@ public class DeleteListAdapter extends RecyclerView.Adapter<DeleteListAdapter.Vi
             value = view.findViewById(R.id.itemCostView);
             cBox = view.findViewById(R.id.check);
         }
-    }
-
-    public ArrayList<Item> getItems(){
-        return items;
     }
 }

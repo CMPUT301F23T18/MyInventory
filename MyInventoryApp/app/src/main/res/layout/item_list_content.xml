@@ -1,24 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/bg_white">
+
+    <CheckBox
+        android:id="@+id/check"
+        android:layout_width="25dp"
+        android:layout_height="200dp"
+        android:buttonTint="@color/orange"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
         android:id="@+id/itemImageView"
         android:layout_width="150dp"
         android:layout_height="200dp"
-        android:layout_marginLeft="15dp"
-        android:src="@drawable/house_placeholder" />
+        android:padding="5dp"
+        android:src="@drawable/house_placeholder"
+        app:layout_constraintStart_toEndOf="@id/check"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/itemCostView"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:padding="20dp"
-        android:layout_marginTop="57dp"
-        android:text="$49,487.50"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:text="$0"
         android:textColor="@color/white"
-        android:textSize="30sp" />
+        android:textSize="25sp"
+        app:layout_constraintStart_toEndOf="@id/itemImageView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tagsView"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:padding="10dp"
+        android:text="Tags: None"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/itemImageView"
+        app:layout_constraintTop_toBottomOf="@id/itemCostView"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
