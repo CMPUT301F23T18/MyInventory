@@ -63,6 +63,8 @@
             android:id="@+id/tags_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:listSelector="@color/orange"
+            android:choiceMode="multipleChoice"
             android:dividerHeight="10.0sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

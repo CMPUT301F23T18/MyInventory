@@ -49,7 +49,11 @@ public class SelectTagItemsActivity  extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(itemAdapter.getCheckedCount()>0){
-                    startActivity(new Intent(SelectTagItemsActivity.this, TagsActivity.class));
+                    // Pass checked items
+                    ArrayList<Item> listToAdd = CheckedItems();
+                    Intent i = new Intent(SelectTagItemsActivity.this, SelectTagItemsActivity.class);
+                    i.putParcelableArrayListExtra("items", listToAdd);
+                    startActivity(i);
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Please select item(s) for adding tags.",Toast.LENGTH_SHORT).show();
@@ -80,24 +84,13 @@ public class SelectTagItemsActivity  extends AppCompatActivity {
 
     }
 
-    public List<Long> CheckedItems(){
-        List<Long> tag_items = new ArrayList<>();
+    public ArrayList<Item> CheckedItems(){
+        ArrayList<Item> tag_items = new ArrayList<>();
         for(int i = 0; i < items.size();i++){
             if (items.get(i).getChecked()){
-                tag_items.add(items.get(i).getID());
+                tag_items.add(items.get(i));
             }
         }
         return tag_items;
     }
-
-    private void DeleteItems(List<Long> delete_list) {
-        String str = "";
-        CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
-        for(int i = 0; i < delete_list.size();i++){
-            fb_items.document(Long.toString(delete_list.get(i))).delete();
-        }
-        finish();
-        Toast.makeText(getApplicationContext(), str ,Toast.LENGTH_SHORT).show();
-    }
-
 }
