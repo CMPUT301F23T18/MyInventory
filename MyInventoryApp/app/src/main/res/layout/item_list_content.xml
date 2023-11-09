@@ -4,24 +4,19 @@
     android:layout_height="match_parent"
     android:background="@color/bg_white">
 
-    <CheckBox
-        android:id="@+id/check"
-        android:layout_width="25dp"
-        android:layout_height="200dp"
-        android:buttonTint="@color/orange"
-        android:visibility="invisible"/>
     <ImageView
         android:id="@+id/itemImageView"
         android:layout_width="150dp"
         android:layout_height="200dp"
-        android:padding="5dp"
+        android:layout_marginLeft="15dp"
         android:src="@drawable/house_placeholder" />
 
     <TextView
         android:id="@+id/itemCostView"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="100dp"
         android:padding="20dp"
+        android:layout_marginTop="57dp"
         android:text="$49,487.50"
         android:textColor="@color/white"
         android:textSize="30sp" />

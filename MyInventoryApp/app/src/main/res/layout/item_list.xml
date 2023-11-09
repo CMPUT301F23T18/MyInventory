@@ -19,7 +19,8 @@
         app:iconSize="30dp"
         app:iconTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="Click to remove items"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -38,7 +39,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:choiceMode="multipleChoice"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -104,7 +106,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/add_button"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:contentDescription="Click to add item"/>
 
     <Button
         android:id="@+id/yes_delete"
@@ -145,7 +148,8 @@
         app:iconSize="30dp"
         app:iconTint="@color/white"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="Click to apply tags"/>
 
     <Button
         android:id="@+id/add_tag"

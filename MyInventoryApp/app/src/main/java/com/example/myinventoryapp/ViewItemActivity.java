@@ -1,6 +1,5 @@
 package com.example.myinventoryapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +14,7 @@ import com.google.firebase.firestore.DocumentReference;
 
 import java.util.Map;
 
-public class ViewItemActivity extends AppCompatActivity implements DeleteFragment.OnFragmentInteractionListener {
+public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.OnFragmentInteractionListener {
     EditText serialField;
     EditText dateField;
     EditText makeField;
@@ -79,13 +78,11 @@ public class ViewItemActivity extends AppCompatActivity implements DeleteFragmen
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                DeleteFragment del_fragment = new DeleteFragment();
+                DeletePopUp del_fragment = new DeletePopUp();
                 bundle.putString("confirm_text", "Delete item?");
                 del_fragment.setArguments(bundle);
                 del_fragment.show(getSupportFragmentManager(), "delete_item");
-                //TODO: delete below line once done
-                //new DeleteFragment().show(getSupportFragmentManager(), "Delete_item");
-                }
+            }
         });
 
     }
@@ -94,6 +91,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeleteFragmen
     public void onYESPressed() {
         CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
         fb_items.document(Long.toString(id)).delete();
+        finish();
         Toast.makeText(ViewItemActivity.this,"Item was deleted" ,Toast.LENGTH_SHORT).show();
     }
 
