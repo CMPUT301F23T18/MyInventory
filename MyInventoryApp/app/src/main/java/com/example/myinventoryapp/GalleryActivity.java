@@ -122,7 +122,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
      * when the activity is accessed from the view item class
      */
     private void populateFromItem() {
-        //TODO: Populate Gallery -> onClickListener for table?
+        //TODO: Populate Gallery
     }
 
 
@@ -164,8 +164,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
 
         } else if (vID == R.id.backButton) {
             // Go back to add activity
-            Intent i = new Intent(this,AddActivity.class);
-            startActivity(i);
+            finish();
         } else if (vID == R.id.saveButtonGallery) {
             // return to list activity
             Intent i = new Intent(this,ListActivity.class);
@@ -296,6 +295,8 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         image.setImageBitmap(image_bit);
         String name = "image" + img_idx;
         total += 1;
+        String text = total + "/6 Images";
+        image_total.setText(text);
 
         // send to firebase storage
         ((Global) getApplication()).setPhoto(id,image_bit,name, img_idx);

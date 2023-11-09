@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class ListActivity extends AppCompatActivity implements DeleteFragment.OnFragmentInteractionListener{
-    final long ONE_MEGABYTE = 1024 * 1024;
     ImageView addButton;
     ListView itemList;
     ArrayAdapter<Item> itemAdapter;
@@ -80,31 +79,7 @@ public class ListActivity extends AppCompatActivity implements DeleteFragment.On
 
                         // set photos
                         StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
-                        for (int i = 0; i < 6; ++i) {
-                            // set path for current image
-                            StorageReference photoRef = photosRef.child(id + "/image" + i + ".jpg");
-                            photoRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                                @Override
-                                public void onSuccess(byte[] bytes) {
-                                    // get the bitmap of the byte array and add it to the item's list
-                                    Bitmap img_bit = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-                                    item.addImage(img_bit);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception exception) {
-                                    // Handle any errors
-                                    // Note: there is an error when the image isn't
-                                    // found, so we leave this blank to avoid printing the message
-                                }
-                            }).addOnCompleteListener(new OnCompleteListener<byte[]>() {
-                                @Override
-                                public void onComplete(@NonNull Task<byte[]> task) {
-                                    // Update the list when finished to load all the pictures
-                                    itemAdapter.notifyDataSetChanged();
-                                }
-                            });
-                        }
+                        item.generatePhotoArray(photosRef,id,itemAdapter);
 
                         Log.d("Firestore", String.format("Item(%s, %s) fetched", item.getMake(), item.getModel()));
                         items.add(item);
