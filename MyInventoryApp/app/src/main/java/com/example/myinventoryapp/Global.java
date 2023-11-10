@@ -28,15 +28,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
-// set
-//      ((Global) getApplication()).setUSER_PATH(username);
-
-// get
-//      CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
-
-
-
+/**
+ * Class for managing connections to firebase
+ * Example of call for getting CollectionReference for items: CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
+ * Example of call for setting username: ((Global) getApplication()).setUSER_PATH(username);
+ */
 public class Global extends Application {
     private String USER_PATH;
     private CollectionReference fbItemsRef; // firebase Items reference

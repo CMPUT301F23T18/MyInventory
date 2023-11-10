@@ -18,6 +18,10 @@ import com.google.firebase.firestore.CollectionReference;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Activity displays a checked list of items and provides options to user including select and
+ * unselect all, for choosing items they want to add tags to. Additionally, the user can also exit the activity.
+ */
 public class SelectTagItemsActivity  extends AppCompatActivity {
     RecyclerView itemList;
     SelectListAdaptor itemAdapter;
@@ -25,6 +29,14 @@ public class SelectTagItemsActivity  extends AppCompatActivity {
     TextView add_tags_btn;
     Button selectAll_btn, unselectAll_btn;
     ImageView exit_btn;
+
+    /**
+     * This is called to initialize any UI components, and to also retrieve item data from the
+     * intent.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +99,10 @@ public class SelectTagItemsActivity  extends AppCompatActivity {
 
     }
 
+    /**
+     * Finds all the selected items and returns them
+     * @return selected items
+     */
     public ArrayList<Item> CheckedItems(){
         ArrayList<Item> tag_items = new ArrayList<>();
         for(int i = 0; i < items.size();i++){

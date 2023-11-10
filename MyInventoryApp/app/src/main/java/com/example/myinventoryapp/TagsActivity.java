@@ -42,6 +42,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Activity displays the current list of saved tags in firebase, allows user to
+ * create new tags and set tags to selected items passed from another activity.
+ */
 public class TagsActivity extends AppCompatActivity {
     Button back_button, add_button, save_button;
     EditText tagEditText;
@@ -49,19 +53,29 @@ public class TagsActivity extends AppCompatActivity {
     ArrayAdapter<String> tagAdaptor;
     ArrayList<Item> items;
     ArrayList<String> tags;
+
+    /**
+     * This is called to initialize any UI components, and to also retrieve item data from the
+     * intent.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_tag);
 
+        // Get transferred items.
         items = new ArrayList<>();
         items = getIntent().getParcelableArrayListExtra("items");
-        tags = new ArrayList<>();
 
+        // Set adapter
         tagList = findViewById(R.id.tags_list);
         tagAdaptor = new ArrayAdapter<>(this, R.layout.tags_content, this.tags);
         tagList.setAdapter(tagAdaptor);
 
         // Get tags from firebase
+        tags = new ArrayList<>();
         DocumentReference docRef = ((Global) getApplication()).getFBTagsRef().document("TAGS");
         docRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -128,7 +142,7 @@ public class TagsActivity extends AppCompatActivity {
                 tag_hash.put("all_tags", tags);
                 coll.document("TAGS").set(tag_hash);
 
-                // Store chosen tags to items in firebase.
+                // Store chosen tags to chosen items in firebase.
                 for (int i = 0; i < items.size(); i++){
                     Item item = items.get(i);
                     DocumentReference ref = ((Global)getApplication()).DocumentRef(item.getID());
@@ -158,6 +172,10 @@ public class TagsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Finds all the selected tags and returns them
+     * @return selected tags
+     */
     private ArrayList<String>getSelectedTags(){
         ArrayList<String> selectedTags = new ArrayList<>();
         for (int i = 0; i < tagList.getCount(); i++) {
