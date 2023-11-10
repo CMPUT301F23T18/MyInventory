@@ -37,6 +37,7 @@ public class ItemList extends ArrayAdapter<Item> {
         // Get a item using position
         ImageView photo = view.findViewById(R.id.itemImageView);
         TextView value = view.findViewById(R.id.itemCostView);
+        TextView tags = view.findViewById(R.id.tagsView);
 
         if (item.getImage(0) != null) {
             photo.setImageBitmap(item.getImage(0));
@@ -45,6 +46,11 @@ public class ItemList extends ArrayAdapter<Item> {
             photo.setImageResource(R.drawable.bg_colored_image);
         }
         value.setText("$ " + item.getEst_value());
+        if (item.getTags() != null){
+        tags.setText("Tags: " + String.join(", ", item.getTags()));
+        } else {
+            tags.setText("Tags: None");
+        }
 
         return view;
     }

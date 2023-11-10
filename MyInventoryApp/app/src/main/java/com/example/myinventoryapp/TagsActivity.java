@@ -1,24 +1,32 @@
 package com.example.myinventoryapp;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TagsActivity extends AppCompatActivity {
     Button back_button, add_button, save_button;
@@ -26,7 +34,7 @@ public class TagsActivity extends AppCompatActivity {
     ListView tagList;
     ArrayAdapter<String> tagAdaptor;
     ArrayList<Item> items;
-    ArrayList<String> dataList;
+    ArrayList<String> tagsList;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_tag);
@@ -39,16 +47,27 @@ public class TagsActivity extends AppCompatActivity {
         // TODO: Get tags from firebase
         String[] tags = {"Lorem", "Ipsum", "Dolor"};
 
-        dataList = new ArrayList<>();
-        dataList.addAll(Arrays.asList(tags));
+        tagsList = new ArrayList<>();
+        tagsList.addAll(Arrays.asList(tags));
 
-        tagAdaptor = new ArrayAdapter<>(this, R.layout.tags_content, dataList);
+        tagAdaptor = new ArrayAdapter<>(this, R.layout.tags_content, tagsList);
         tagList.setAdapter(tagAdaptor);
 
         add_button = findViewById(R.id.create_tag);
         back_button = findViewById(R.id.backButton2);
         tagEditText = findViewById(R.id.tagEditText);
         save_button = findViewById(R.id.save_tag);
+
+        tagList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Set the item as checked to be highlighted
+                tagList.setItemChecked(position, true);
+                view.setBackgroundColor(getResources().getColor(R.color.orange));
+                Toast.makeText(getApplicationContext(), "Tag already created", Toast.LENGTH_SHORT).show();
+                tagAdaptor.notifyDataSetChanged();
+                Log.i("Clicked", "Item clicked");
+            }
+        });
 
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +82,7 @@ public class TagsActivity extends AppCompatActivity {
                 // Standardize capitalization of tag.
                 String userInput = StringUtils.capitalize(tagEditText.getText().toString());
 
-                if (dataList.contains(userInput)){
+                if (tagsList.contains(userInput)){
                     Toast.makeText(getApplicationContext(), "Tag already created", Toast.LENGTH_SHORT).show();
                 }
                 else if (TextUtils.isEmpty(userInput)){
@@ -73,7 +92,7 @@ public class TagsActivity extends AppCompatActivity {
                     tagEditText.setText("");
                 } else {
                     tagEditText.setText("");
-                    dataList.add(userInput);
+                    tagsList.add(userInput);
 
                     // TODO: Add tag to Firebase
 
@@ -85,7 +104,51 @@ public class TagsActivity extends AppCompatActivity {
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Save tags for items in firebase
+                CollectionReference coll = ((Global)getApplication()).getFBTagsRef();
+                Map<String, Object> tags_hash = new HashMap<String, Object>();
+                tags_hash.put("all_tags", tagList);
+
+                coll.add(tags_hash)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                // The item was successfully added, you can get the document ID if needed
+                                String documentId = documentReference.getId();
+                                Log.d("Firestore", "Item added with ID: " + documentId);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Handle the failure
+                                Log.e("Firestore", "Error adding item", e);
+                            }
+                        });
+
+                for (int i = 0; i < items.size(); i++){
+                    Item item = items.get(i);
+                    DocumentReference ref = ((Global)getApplication()).DocumentRef(item.getID());
+                    Map<String, Object> item_hash = new HashMap<String, Object>();
+                    item_hash.put("ID", item.getID());
+                    item_hash.put("serial", item.getSerial_num());
+                    item_hash.put("date", item.getDate());
+                    item_hash.put("make", item.getMake());
+                    item_hash.put("model", item.getModel());
+                    item_hash.put("price", item.getEst_value());
+                    item_hash.put("desc", item.getDescription());
+                    // TODO: Add only selected tags
+                    item_hash.put("tags", tagsList);
+                    ref.set(item_hash).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d("Firestore","tag saved");
+                            } else {
+                                Log.w("Firestore","failed:",task.getException());
+                            }
+                        }
+                    });
+                }
                 finish();
             }
         });

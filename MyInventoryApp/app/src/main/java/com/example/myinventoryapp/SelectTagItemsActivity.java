@@ -45,6 +45,7 @@ public class SelectTagItemsActivity  extends AppCompatActivity {
 
         itemList.setAdapter(itemAdapter);
 
+
         add_tags_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

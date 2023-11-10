@@ -282,10 +282,8 @@ public class Item implements Parcelable {
         this.comment = comment;
     }
 
-    public void add_tag(String tag){
-        if (!tags.contains(tag)){
-            tags.add(tag);
-        }
+    public void setTags(List<String> tags){
+        this.tags = tags;
     }
 
     public List<String> getTags() {
