@@ -58,8 +58,9 @@ public class TagsActivity extends AppCompatActivity {
         tagAdaptor = new ArrayAdapter<>(this, R.layout.tags_content, this.tags);
         tagList.setAdapter(tagAdaptor);
 
-        // TODO: Get tags from firebase
+        // Get tags from firebase
         DocumentReference docRef = ((Global) getApplication()).getFBTagsRef().document("TAGS");
+        Toast.makeText(getApplicationContext(), ((Global) getApplication()).getUSER_PATH(),Toast.LENGTH_LONG).show();
         docRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
