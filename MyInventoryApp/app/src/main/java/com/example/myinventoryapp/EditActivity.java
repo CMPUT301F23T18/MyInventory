@@ -39,7 +39,7 @@ public class EditActivity extends AppCompatActivity {
         editPriceField = findViewById(R.id.estPriceEdit);
         editDescField = findViewById(R.id.descEdit);
         updateButton = findViewById(R.id.saveButton);
-        itemId = getIntent().getLongExtra("item_id",0);
+        this.itemId = getIntent().getLongExtra("item_id",0);
         populateUIFromFirestore(itemId); // Call the function to populate ui from Firestore
 
         updateButton.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +87,8 @@ public class EditActivity extends AppCompatActivity {
             }
 
         });
+
+        //TODO: add delete activity
     }
 
 

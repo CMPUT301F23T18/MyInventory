@@ -1,6 +1,5 @@
 package com.example.myinventoryapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,12 +19,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 
-import java.time.Month;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * This activity handles the creation of items and their upload to firebase
+ */
 public class AddActivity extends AppCompatActivity {
     ImageView nextButton;
     Button scanButton;
@@ -36,7 +35,6 @@ public class AddActivity extends AppCompatActivity {
     EditText descField;
     EditText modelField;
     DocumentReference fb_new_item;
-    Context context;
 
     /**
      * @param savedInstanceState If the activity is being re-initialized after
@@ -57,7 +55,7 @@ public class AddActivity extends AppCompatActivity {
         descField = findViewById(R.id.description);
         scanButton = findViewById(R.id.scanButtonAdd);
 
-        nextButton = findViewById(R.id.imageView3);
+        nextButton = findViewById(R.id.forwardButtonAdd);
         nextButton.setOnClickListener(nextListener);
 
         // set a listener for the dateField
@@ -162,8 +160,6 @@ public class AddActivity extends AppCompatActivity {
                 }
             });
 
-            //TODO: next activity -> compile data into a item then move on to photos
-            //      currently goes back to listActivity
 
             // go to gallery activity
             nextActivity(ID,v);
@@ -176,8 +172,8 @@ public class AddActivity extends AppCompatActivity {
      * @param v view of the activity
      */
     private void nextActivity(long ID, View v) {
-        Intent i = new Intent(v.getContext(), ListActivity.class);
-        //Intent i = new Intent(v.getContext(), GalleryActivity.class);
+        //Intent i = new Intent(v.getContext(), ListActivity.class);
+        Intent i = new Intent(v.getContext(), GalleryActivity.class);
         // put ID in the intent
         i.putExtra("ID",ID);
         startActivity(i);
