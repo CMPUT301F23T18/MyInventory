@@ -7,6 +7,18 @@
     android:layout_height="match_parent"
     android:background="@color/bg_white">
 
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="174dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descEdit"
+        app:srcCompat="@drawable/footer_bg" />
+
     <EditText
         android:id="@+id/serialNumEdit"
         android:layout_width="wrap_content"
@@ -29,7 +41,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Acquired Date"
-        android:inputType="text"
+        android:inputType="phone"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,23 +83,41 @@
         android:id="@+id/saveButton"
         android:layout_width="123dp"
         android:layout_height="54dp"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="@color/button"
+        android:layout_marginStart="212dp"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="@color/black"
         android:fontFamily="sans-serif"
         android:text="Save"
-        android:textSize="28sp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descEdit" />
+        app:layout_constraintHorizontal_bias="0.157"
+        app:layout_constraintStart_toEndOf="@+id/backArrow" />
 
     <EditText
         android:id="@+id/descEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="72dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="Description"
+        android:inputType="textMultiLine"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modelEdit" />
+
+    <EditText
+        android:id="@+id/comEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Comments"
         android:inputType="textMultiLine"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
@@ -111,14 +141,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/estPriceEdit" />
 
+
+
+
     <ImageView
         android:id="@+id/backArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saveButton"
         app:srcCompat="@drawable/back_arrow" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
