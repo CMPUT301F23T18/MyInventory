@@ -95,4 +95,12 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
         Toast.makeText(ViewItemActivity.this,"Item was deleted" ,Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onRestart()
+    {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
+    }
+
 }
