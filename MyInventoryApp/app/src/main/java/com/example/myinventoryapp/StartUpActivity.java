@@ -30,10 +30,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 
 public class StartUpActivity extends AppCompatActivity {
-    // In AndroidManifest.xml the name ".StartUpActivity" and ".ListActivity" must be switched
-    //  or else the app won't open to the startup screen.
-    //  wait until the end or else we will have to login in every time we test - Riley
-
     private FirebaseAuth mAuth;
     private GoogleSignInClient googleSignInClient;
     private final int RC_SIGN_IN = 40;
@@ -81,10 +77,20 @@ public class StartUpActivity extends AppCompatActivity {
             }
         });
     }
+    /**
+     * Initiates the Google Sign-In process.
+     */
     private void signIn() {
         Intent intent = googleSignInClient.getSignInIntent();
         startActivityForResult(intent, RC_SIGN_IN);
     }
+    /**
+     * Handles the result of the Google Sign-In process.
+     *
+     * @param requestCode The request code.
+     * @param resultCode The result code.
+     * @param data The data received from the activity.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -99,6 +105,11 @@ public class StartUpActivity extends AppCompatActivity {
             }
         }
     }
+    /**
+     * Authenticates the user with Firebase using the Google Sign-In credentials.
+     *
+     * @param idToken The Google Sign-In ID token.
+     */
     private void firebaseAuth(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken,null);
         mAuth.signInWithCredential(credential)
