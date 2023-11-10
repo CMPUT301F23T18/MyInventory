@@ -16,6 +16,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Activity allows the user to edit the selected item contents as it updates in the firestore
+ * database.
+ */
 public class EditActivity extends AppCompatActivity {
     EditText editSerialField;
     EditText editDateField;
@@ -27,6 +31,15 @@ public class EditActivity extends AppCompatActivity {
     EditText editcomment;
     long itemId;
 
+    /**
+     * Called to initialize UI components. It will also populate the unique user's item data from
+     * the firestore database. Once populated, the user is able to edit the text fields of the
+     * item and save it. Saved edits will be updated in the database.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +116,10 @@ public class EditActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Populate UI elements from Firestore data and set them into the appropriate text fields.
+     * @param itemId Item ID for the associated item to be retrieved
+     */
     // Function to populate ui elements from Firestore data
     private void populateUIFromFirestore(long itemId) {
         DocumentReference itemDocRef = ((Global) getApplication()).DocumentRef(itemId);

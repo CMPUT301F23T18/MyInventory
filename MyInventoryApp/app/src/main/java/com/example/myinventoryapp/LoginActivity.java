@@ -14,9 +14,25 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * LoginActivity class is responsible for handling user login functionality.This activity provides
+ * UI components for the user to enter their username and password, as well as a login method
+ * utilizing Firebase Authentication. The user is brought to the ListActivity after successfully
+ * logging in. In the event of an authentication failure, the user is redirected to the
+ * StartUpActivity.
+ */
 public class LoginActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     private FirebaseFirestore db;
+
+    /**
+     * When the activity is created, this method is called. Sets up click listeners for the back and
+     * login buttons, as well as initializes Firebase Authentication.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +63,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Starts the login process with Firebase Authentication.
+     * @param email    The email address of the user.
+     * @param password The password of the user.
+     */
     private void logIn(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {

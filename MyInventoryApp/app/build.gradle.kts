@@ -61,6 +61,7 @@ dependencies {
     implementation("androidx.camera:camera-extensions:1.3.0")
 
     //Espresso
+    androidTestImplementation ("androidx.test:rules:1.3.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
