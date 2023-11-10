@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_marginTop="256dp"
-        android:hint="Username"
+        android:hint="Email"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="24dp"
