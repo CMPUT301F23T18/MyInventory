@@ -55,6 +55,7 @@ public class SelectTagItemsActivity  extends AppCompatActivity {
                     Intent i = new Intent(SelectTagItemsActivity.this, TagsActivity.class);
                     i.putParcelableArrayListExtra("items", listToAdd);
                     startActivity(i);
+                    finish();
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Please select item(s) for adding tags.",Toast.LENGTH_SHORT).show();

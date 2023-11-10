@@ -132,8 +132,6 @@ public class AddActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"price is required to proceed",Toast.LENGTH_SHORT).show();
             }
 
-
-
             // map all inputs to a Hashmap
             Map<String, Object> item_hash = new HashMap<String, Object>();
             item_hash.put("serial",serial);
