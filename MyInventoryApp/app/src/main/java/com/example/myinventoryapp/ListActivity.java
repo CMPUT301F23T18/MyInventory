@@ -43,12 +43,7 @@ public class ListActivity extends AppCompatActivity{
     List<Integer> delete_items;
     double totalValue = 0;
     TextView totalCostView;
-<<<<<<< HEAD
     Button filterbutton, sortbutton, deleteButton, tagButton;
-=======
-    Button filterbutton, sortbutton, deleteButton, yes_button, no_button, tagButton, add_tags_button, cancel_tags_button;
-
->>>>>>> 59c29081f370010c452753916585b1ed19d59048
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
