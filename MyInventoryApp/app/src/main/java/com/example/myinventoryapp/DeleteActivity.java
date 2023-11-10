@@ -35,7 +35,7 @@ public class DeleteActivity extends AppCompatActivity implements DeletePopUp.OnF
     ImageView exit_btn;
 
     /**
-     * This is called to initialize any UI components, and to alsoretrieve item data from the
+     * This is called to initialize any UI components, and to also retrieve item data from the
      * intent.
      * @param savedInstanceState If the activity is being re-initialized after
      *     previously being shut down then this Bundle contains the data it most

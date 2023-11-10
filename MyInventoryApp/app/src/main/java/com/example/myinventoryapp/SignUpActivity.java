@@ -28,6 +28,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
+/**
+ * Class for handling Sign Up
+ */
 public class SignUpActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     private FirebaseFirestore db;
