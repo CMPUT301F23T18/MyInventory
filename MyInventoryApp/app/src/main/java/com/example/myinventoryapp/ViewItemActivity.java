@@ -17,6 +17,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -140,6 +141,19 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
                 // put ID in the intent
                 i.putExtra("ID",id);
                 i.putExtra("Edit", true);
+                startActivity(i);
+            }
+        });
+
+        // Tag button
+        Button tag_button = findViewById(R.id.add_tag_button);
+        tag_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Item> listToAdd = new ArrayList<>();
+                listToAdd.add(item);
+                Intent i = new Intent(ViewItemActivity.this, SelectTagItemsActivity.class);
+                i.putParcelableArrayListExtra("list", listToAdd);
                 startActivity(i);
             }
         });

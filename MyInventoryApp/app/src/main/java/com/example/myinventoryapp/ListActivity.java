@@ -145,9 +145,8 @@ public class ListActivity extends AppCompatActivity{
         tagButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Item> listToAdd = new ArrayList<>();
                 Intent i = new Intent(ListActivity.this, SelectTagItemsActivity.class);
-                i.putParcelableArrayListExtra("list",items);
+                i.putParcelableArrayListExtra("list", items);
                 startActivity(i);
             }
         });
