@@ -95,7 +95,6 @@ public class ListActivityTest {
         sleep(1000);
 
         //check if item displayed
-        //onView(withText("$ 101202.00")).check(matches(isDisplayed()));
         onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0).onChildView(withText("$ 101202.00")).check(matches(isDisplayed()));
     }
 
@@ -104,7 +103,6 @@ public class ListActivityTest {
     public void testViewItem() throws InterruptedException {
         sleep(1000);
         //Click on the first item in list
-        //onView(withId(R.id.item_list)).perform(click());
         onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0).onChildView(withText("$ 101202.00")).perform(click());
         sleep(1000);
         //Check if an element from ViewItemActivity is present
@@ -129,9 +127,10 @@ public class ListActivityTest {
 
         //Check if item removed from the screen
         int itemCountAfterDeletion = getCount(R.id.item_list); //find the number of items in list after deletion
-        //onView(withText("$ 101202.00")).check(doesNotExist());
         assertEquals(itemCountBeforeDeletion - 1, itemCountAfterDeletion);
     }
+
+    //Get the number of items in the list
     private int getCount(int adapterViewId) {
         final int[] items = {0};
 
@@ -165,7 +164,6 @@ public class ListActivityTest {
 
         //Check if all items from list deleted
         sleep(1000);
-        //onView(withId(R.id.item_list)).check(matches((not(hasDescendant(any(View.class))))));
         assertEquals(itemCountBeforeDeletion - 1, 0);
 
     }
