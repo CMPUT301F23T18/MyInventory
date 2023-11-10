@@ -30,7 +30,11 @@ import java.util.List;
 public class SignUpActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     private FirebaseFirestore db;
-
+    /**
+     * Initializes the activity, sets up UI elements, and initializes Firebase components.
+     *
+     * @param savedInstanceState The saved instance state of the activity.
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +68,12 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
     }
-
+    /**
+     * Handles the user registration process using the provided email and password.
+     *
+     * @param email The user's email for registration.
+     * @param password The user's password for registration.
+     */
     private void signUp(String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
@@ -90,7 +99,11 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 });
     }
-
+    /**
+     * Handles the scenario where a user with the provided email already has an existing account.
+     *
+     * @param email The email associated with the existing account.
+     */
     private void handleExistingAccount(String email) {
         mAuth.fetchSignInMethodsForEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
