@@ -133,6 +133,7 @@ public class TagsActivity extends AppCompatActivity {
                     Item item = items.get(i);
                     DocumentReference ref = ((Global)getApplication()).DocumentRef(item.getID());
                     Map<String, Object> item_hash = new HashMap<String, Object>();
+                    Log.d("Tags Id", String.valueOf(item.getID()));
                     item_hash.put("ID", item.getID());
                     item_hash.put("serial", item.getSerial_num());
                     item_hash.put("date", item.getDate());

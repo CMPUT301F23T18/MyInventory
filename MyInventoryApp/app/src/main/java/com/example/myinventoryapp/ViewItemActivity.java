@@ -3,6 +3,7 @@ package com.example.myinventoryapp;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -152,8 +153,10 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
             @Override
             public void onClick(View v) {
                 ArrayList<Item> listToAdd = new ArrayList<>();
+                item.setID(id);
+                Log.d("Tags Id", String.valueOf(item.getID()));
                 listToAdd.add(item);
-                Intent i = new Intent(ViewItemActivity.this, TagsActivity.class);
+                Intent i = new Intent(ViewItemActivity.this, SelectTagItemsActivity.class);
                 i.putParcelableArrayListExtra("list", listToAdd);
                 startActivity(i);
                 finish();
