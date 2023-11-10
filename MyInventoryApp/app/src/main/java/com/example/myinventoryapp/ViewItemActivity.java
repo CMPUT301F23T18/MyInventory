@@ -152,9 +152,10 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
             public void onClick(View v) {
                 ArrayList<Item> listToAdd = new ArrayList<>();
                 listToAdd.add(item);
-                Intent i = new Intent(ViewItemActivity.this, SelectTagItemsActivity.class);
+                Intent i = new Intent(ViewItemActivity.this, TagsActivity.class);
                 i.putParcelableArrayListExtra("list", listToAdd);
                 startActivity(i);
+                finish();
             }
         });
     }
