@@ -37,7 +37,6 @@ public class AddActivity extends AppCompatActivity {
     EditText modelField;
     DocumentReference fb_new_item;
     EditText commentField;
-    Context context;
 
 
     /**
@@ -145,8 +144,6 @@ public class AddActivity extends AppCompatActivity {
             if (!FieldValidator.checkFieldSize(price)) {
                 Toast.makeText(getApplicationContext(),"price is required to proceed",Toast.LENGTH_SHORT).show();
             }
-
-
 
             // map all inputs to a Hashmap
             Map<String, Object> item_hash = new HashMap<String, Object>();

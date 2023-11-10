@@ -45,6 +45,7 @@ public class SelectTagItemsActivity  extends AppCompatActivity {
 
         itemList.setAdapter(itemAdapter);
 
+
         add_tags_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,6 +55,7 @@ public class SelectTagItemsActivity  extends AppCompatActivity {
                     Intent i = new Intent(SelectTagItemsActivity.this, TagsActivity.class);
                     i.putParcelableArrayListExtra("items", listToAdd);
                     startActivity(i);
+                    finish();
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Please select item(s) for adding tags.",Toast.LENGTH_SHORT).show();

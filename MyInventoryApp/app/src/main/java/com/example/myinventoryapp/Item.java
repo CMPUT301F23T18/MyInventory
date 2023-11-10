@@ -357,13 +357,11 @@ public class Item implements Parcelable {
     }
 
     /**
-     * Method to add tag(s) if not in the current list of tags.
-     * @param tag String tag to be added to be associated with the Item
+     * Method to set tag(s) for the Item
+     * @param tags List of tags for the Item
      */
-    public void add_tag(String tag){
-        if (!tags.contains(tag)){
-            tags.add(tag);
-        }
+    public void setTags(List<String> tags){
+        this.tags = tags;
     }
 
     /**

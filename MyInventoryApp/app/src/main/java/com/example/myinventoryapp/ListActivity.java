@@ -48,7 +48,7 @@ public class ListActivity extends AppCompatActivity{
     double totalValue = 0;
     TextView totalCostView;
 
-    Button filterbutton, sortbutton, deleteButton, yes_button, no_button, tagButton, add_tags_button, cancel_tags_button;
+    Button filterbutton, sortbutton, deleteButton, tagButton;
 
     /**
      *
@@ -88,6 +88,10 @@ public class ListActivity extends AppCompatActivity{
                         item.setDescription(doc.getString("desc"));
                         item.setID(Long.parseLong(id));
 
+                        if (doc.contains("tags")){
+                            List<String> tags = (List<String>) doc.get("tags");
+                            item.setTags(tags);
+                        }
 
                         // set photos
                         StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
@@ -148,43 +152,6 @@ public class ListActivity extends AppCompatActivity{
             }
         });
     }
-
-    /**
-     * Resets the UI components to their original visibility states and unchecks any checked
-     * checkboxes.
-     * Used after tagging items to revert the UI to its initial state.
-     */
-    private void Reset(){
-            filterbutton.setVisibility(View.VISIBLE);
-            sortbutton.setVisibility(View.VISIBLE);
-            addButton.setVisibility(View.VISIBLE);
-            totalCostView.setVisibility(View.VISIBLE);
-            tagButton.setVisibility(View.VISIBLE);
-            add_tags_button.setVisibility(View.GONE);
-            cancel_tags_button.setVisibility(View.GONE);
-            for(int i = 0; i < items.size();i++){
-                CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
-                if (cBox.isChecked()){
-                    cBox.setChecked(false);
-                }
-                cBox.setVisibility(View.INVISIBLE);
-            }
-        }
-
-    /**
-     * Returns the list of checked item indices that are to be deleted
-     * @return delete_items
-     */
-        public List<Integer> CheckedItems(){
-            delete_items = new ArrayList<>();
-            for(int i = 0; i < items.size();i++){
-                CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
-                if (cBox.isChecked()){
-                    delete_items.add(i);
-                }
-            }
-            return delete_items;
-        }
 
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
         /**
