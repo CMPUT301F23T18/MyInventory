@@ -29,6 +29,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
+/**
+ * Class for handling Starting Activity
+ */
 public class StartUpActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private GoogleSignInClient googleSignInClient;

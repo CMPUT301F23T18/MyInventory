@@ -149,7 +149,7 @@ public class ListActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ListActivity.this, SelectTagItemsActivity.class);
-                i.putParcelableArrayListExtra("tags", items);
+                i.putParcelableArrayListExtra("list", items);
                 startActivity(i);
             }
         });

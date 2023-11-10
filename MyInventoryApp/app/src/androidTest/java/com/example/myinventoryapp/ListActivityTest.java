@@ -4,6 +4,7 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -14,6 +15,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.any;
+import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -219,7 +221,7 @@ public class ListActivityTest {
         onView(withText("1/6 Images")).check(matches(isDisplayed()));
     }
 
-    //TODO: editing an item
+    //Edits an item
     @Test
     public void testEditItem() throws InterruptedException {
         sleep(1000);
@@ -231,19 +233,39 @@ public class ListActivityTest {
         onView(withId(R.id.acquired_da)).perform(ViewActions.typeText("20231111"),closeSoftKeyboard());
         onView(withId(R.id.make)).perform(ViewActions.typeText("Make"),closeSoftKeyboard());
         onView(withId(R.id.model)).perform(ViewActions.typeText("Model"),closeSoftKeyboard());
-        onView(withId(R.id.estimated_p)).perform(ViewActions.typeText("101202"),closeSoftKeyboard());
+        onView(withId(R.id.estimated_p)).perform(ViewActions.typeText("112233"),closeSoftKeyboard());
 
         //press next button
         onView(withId(R.id.forwardButtonAdd)).perform(click());
 
         //press save button without photograph
         onView(withId(R.id.saveButtonGallery)).perform(click());
+        sleep(1000);
 
         //press item
+        onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0)
+                .onChildView(withText("$ 112233.00")).perform(click());
 
+        //press edit
+        onView(withId(R.id.editButton)).perform(click());
+        sleep(1000);
 
+        //edit serial num
+        onView(withId(R.id.serialNumEdit)).perform(replaceText("DIFFERENT"),closeSoftKeyboard());
 
+        //save
+        onView(withId(R.id.saveButton)).perform(click());
 
+        //return to list
+        onView(withId(R.id.backButton)).perform(click());
+        sleep(1000);
+
+        //press on item again
+        onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0)
+                .onChildView(withText("$ 112233.00")).perform(click());
+
+        //check if serial num changed
+        onView(anyOf(withText("DIFFERENT"))).check(matches(isDisplayed()));
     }
-
 }
+
