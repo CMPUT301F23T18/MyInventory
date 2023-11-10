@@ -92,9 +92,6 @@ public class TagsActivity extends AppCompatActivity {
                 } else {
                     tagEditText.setText("");
                     TagsActivity.this.tags.add(userInput);
-
-                    // TODO: Add tag to Firebase
-
                     tagAdaptor.notifyDataSetChanged();
                 }
             }
@@ -103,26 +100,9 @@ public class TagsActivity extends AppCompatActivity {
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                CollectionReference coll = ((Global)getApplication()).getFBTagsRef();
-//                Map<String, Object> tags_hash = new HashMap<String, Object>();
-//                tags_hash.put("all_tags", tagList);
-//
-//                coll.add(tags_hash)
-//                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                            @Override
-//                            public void onSuccess(DocumentReference documentReference) {
-//                                // The item was successfully added, you can get the document ID if needed
-//                                String documentId = documentReference.getId();
-//                                Log.d("Firestore", "Item added with ID: " + documentId);
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                // Handle the failure
-//                                Log.e("Firestore", "Error adding item", e);
-//                            }
-//                        });
+                // TODO: Add tags to Firebase
+                CollectionReference coll = ((Global)getApplication()).getFBTagsRef();
+                coll.document("all_tags").set(tags);
 
                 for (int i = 0; i < items.size(); i++){
                     Item item = items.get(i);
