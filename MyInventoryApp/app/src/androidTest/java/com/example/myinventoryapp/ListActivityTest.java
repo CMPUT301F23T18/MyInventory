@@ -97,11 +97,35 @@ public class ListActivityTest {
     @Test
     public void testViewItem() throws InterruptedException {
         sleep(1000);
-        onView(withId(R.id.item_list)).perform(click());
+        //to add an item
+        onView(withId(R.id.add_button)).perform(click());
 
         sleep(1000);
-        //Check if an element from ViewItemActivity is present
-        onView(withId(R.id.serialNumEdit)).check(matches(isDisplayed()));
+        //input information
+        onView(withId(R.id.serial_numb)).perform(ViewActions.typeText("Serial"),closeSoftKeyboard());
+        onView(withId(R.id.acquired_da)).perform(ViewActions.typeText("20231111"),closeSoftKeyboard());
+        onView(withId(R.id.make)).perform(ViewActions.typeText("Make"),closeSoftKeyboard());
+        onView(withId(R.id.model)).perform(ViewActions.typeText("Model"),closeSoftKeyboard());
+        onView(withId(R.id.estimated_p)).perform(ViewActions.typeText("101202"),closeSoftKeyboard());
+
+        sleep(1000);
+        // press next button
+        onView(withId(R.id.forwardButtonAdd)).perform(click());
+
+        sleep(1000);
+        // press save button without photograph
+        onView(withId(R.id.saveButtonGallery)).perform(click());
+
+        sleep(1000);
+        // Click item in item list view (given id of that adapter view) since there is data
+        // (which is an instance of Item) located at position zero.
+        onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0)
+                .onChildView(withText("$ 101202.00")).perform(click());
+
+        sleep(1000);
+        // Check if ViewItemActivity is displayed
+        onView(withId(R.id.acqDateEdit)).check(matches(isDisplayed()));
+
     }
 
     //Deletes an item when viewing it
