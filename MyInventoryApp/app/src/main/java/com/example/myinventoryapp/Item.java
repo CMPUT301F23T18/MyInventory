@@ -39,7 +39,7 @@ public class Item implements Parcelable {
     private List<String> tags;
     private boolean selected = false;
 
-    private ArrayList<Bitmap> images = new ArrayList<Bitmap>();
+    private ArrayList<Bitmap> images = new ArrayList<Bitmap>(6);
     final long ONE_MEGABYTE = 1024 * 1024;
 
     // photos
@@ -181,6 +181,7 @@ public class Item implements Parcelable {
                 public void onComplete(@NonNull Task<byte[]> task) {
                     // Calls the onCompleteListener on function call
                     // See ViewItemActivity for example
+                    Log.i("FATAL", "In item: " + String.valueOf(images.size()));
                     completeListener.onComplete(task);
                 }
             });

@@ -4,9 +4,12 @@ package com.example.myinventoryapp;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,13 +28,18 @@ import androidx.camera.view.PreviewView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import io.grpc.Context;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -51,6 +59,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
     private static final int GALLERY_PERMISSION_CODE = 2222;
     ImageView image1,image2,image3,image4,image5,image6;
     ArrayList<ImageView> images;
+    ArrayList<Bitmap> imageBits = new ArrayList<Bitmap>(6);;
     TextView image_total; int total = 0; int img_idx = 0;
     Button back_btn, save_btn, capture_cam_btn;
     PreviewView cam_preview;
@@ -88,12 +97,14 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         image_total = findViewById(R.id.imageTotal);
 
         images = new ArrayList<ImageView>();
-        images.add(image1);
-        images.add(image2);
-        images.add(image3);
-        images.add(image4);
-        images.add(image5);
-        images.add(image6);
+        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+        Bitmap bit = Bitmap.createBitmap(1,1,conf);
+        images.add(image1); imageBits.add(bit);
+        images.add(image2); imageBits.add(bit);
+        images.add(image3); imageBits.add(bit);
+        images.add(image4); imageBits.add(bit);
+        images.add(image5); imageBits.add(bit);
+        images.add(image6); imageBits.add(bit);
 
 
         cam_preview = findViewById(R.id.camPreview);
@@ -104,9 +115,11 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         save_btn = findViewById(R.id.saveButtonGallery); save_btn.setOnClickListener(this);
         capture_btn = findViewById(R.id.cameraButton); capture_btn.setOnClickListener(this);
         capture_cam_btn = findViewById(R.id.captureButtonCam); capture_cam_btn.setOnClickListener(this);
+        //TODO: add close button for camera
 
         if (edit_activity) {
             // This Activity was called as the edit version, populate the gallery right away
+            Log.i("PHOTOS","Popluating gallery from id");
             populateFromItem();
         }
     }
@@ -116,7 +129,27 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
      * when the activity is accessed from the view item class
      */
     private void populateFromItem() {
-        //TODO: Populate Gallery
+        Item item = new Item();
+        item.generatePhotoArray(((Global)getApplication()).getPhotoStorageRef(), String.valueOf(id), new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                Log.i("FATAL", String.valueOf(item.getImages().size()));
+                // set each image view
+                imageBits = item.getImages();
+                total = 0;
+                for (int i = 0; i < imageBits.size(); ++i) {
+                    Log.i("FATAL", "index " + i);
+                    if (imageBits.get(i) != null) {
+                        images.get(i).setImageBitmap(imageBits.get(i));
+                        images.get(i).setVisibility(View.VISIBLE);
+                        total += 1;
+                    }
+
+                }
+                String text = total + "/6 Images";
+                image_total.setText(text);
+            }
+        });
     }
 
 
@@ -133,7 +166,32 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
      */
     @Override
     public void onDeletePressed() {
-        //TODO: delete photos, change total
+        //TODO: delete photos
+        StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
+
+        // delete the image
+        //TODO: Rename photos
+
+        // update list on app and firebase
+        for (int i = img_idx; i < images.size()-1;++i) {
+            // loop for each photo past the deleted one
+            if (images.get(i+1).getVisibility() == View.INVISIBLE) {
+                images.get(i).setVisibility(View.INVISIBLE);
+                photosRef.child(id+"/image"+(i)+".jpg").delete();
+                break;
+            } else {
+                images.get(i).setImageBitmap(imageBits.get(i+1));
+                imageBits.set(i, imageBits.get(i+1));
+                photosRef.child(id + "/image"+i + ".jpg");
+                ((Global)getApplication()).setPhoto(id,imageBits.get(i),"image"+i);
+            }
+
+        }
+
+        // change total
+        total -= 1;
+        String text = total + "/6 Images";
+        image_total.setText(text);
     }
 
     /**
@@ -167,15 +225,39 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
             // The button that appears with the camera preview
             capturePhoto();
             capture_layout.setVisibility(View.GONE);
-        } else {
-            // triggered by all image clicks
-            //TODO: figure out how to set image index for each image
-            Bundle bundle = new Bundle();
-            bundle.putBoolean("onImage",true);
-            CapturePopUp popUp = new CapturePopUp();
-            popUp.setArguments(bundle);
-            popUp.show(getSupportFragmentManager(), "CAP_CHOOSE");
         }
+        if (v.getVisibility() != View.INVISIBLE) {
+            if (vID == R.id.image1Edit) {
+                img_idx = 0;
+                openPopup();
+            } else if (vID == R.id.image2Edit) {
+                img_idx = 1;
+                openPopup();
+            } else if (vID == R.id.image3Edit) {
+                img_idx = 2;
+                openPopup();
+            } else if (vID == R.id.image4Edit) {
+                img_idx = 3;
+                openPopup();
+            } else if (vID == R.id.image5Edit) {
+                img_idx = 4;
+                openPopup();
+            } else if (vID == R.id.image6Edit) {
+                img_idx = 5;
+                openPopup();
+            }
+        }
+    }
+
+    /**
+     * opens the dialog popup to ask if they want to capture or select a photo
+     */
+    private void openPopup() {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("onImage",true);
+        CapturePopUp popUp = new CapturePopUp();
+        popUp.setArguments(bundle);
+        popUp.show(getSupportFragmentManager(), "CAP_CHOOSE");
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -284,14 +366,19 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
     private void attachToItem(Bitmap image_bit) {
         // img_idx is set on view click, either equal to the total or the index of the clicked ImageView
         ImageView image = images.get(img_idx);
+        if (imageBits.size() < 6 && imageBits.size() == img_idx) {
+            imageBits.add(image_bit);
+        }
+        imageBits.set(img_idx,image_bit);
         image.setImageBitmap(image_bit);
+        image.setVisibility(View.VISIBLE);
         String name = "image" + img_idx;
         total += 1;
         String text = total + "/6 Images";
         image_total.setText(text);
 
         // send to firebase storage
-        ((Global) getApplication()).setPhoto(id,image_bit,name, img_idx);
+        ((Global) getApplication()).setPhoto(id,image_bit,name);
     }
 
 
