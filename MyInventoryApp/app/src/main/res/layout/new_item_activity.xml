@@ -123,6 +123,7 @@
 
     <ImageView
         android:id="@+id/imageView3"
+        android:clickable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/forward_arrow"

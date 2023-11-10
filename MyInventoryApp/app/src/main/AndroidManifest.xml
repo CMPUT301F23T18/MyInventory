@@ -19,7 +19,7 @@
             android:name=".AddActivity"
             android:exported="false" />
         <activity
-            android:name=".StartUpActivity"
+            android:name=".ListActivity"
             android:exported="true"
             />
         <activity android:name=".EditActivity"
@@ -30,7 +30,7 @@
             android:exported="true"/>
 
         <activity
-            android:name=".ListActivity"
+            android:name=".StartUpActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,6 +38,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SignUpActivity"
+            android:exported="true"/>
+        <activity android:name=".LoginActivity"
+            android:exported="true"/>
 
         <meta-data
             android:name="preloaded_fonts"

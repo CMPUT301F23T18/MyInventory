@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.myinventoryapp"
-        minSdk = 26
+        minSdk = 27
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -36,6 +36,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.gms:play-services-tasks:18.0.2")
     implementation("com.google.firebase:firebase-auth:22.2.0")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
     testImplementation("junit:junit:4.13.2")
 
     //Espresso
