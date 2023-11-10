@@ -1,6 +1,9 @@
 package com.example.myinventoryapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,14 +16,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +47,7 @@ public class ListActivity extends AppCompatActivity{
     List<Integer> delete_items;
     double totalValue = 0;
     TextView totalCostView;
+
     Button filterbutton, sortbutton, deleteButton, yes_button, no_button, tagButton, add_tags_button, cancel_tags_button;
 
     /**
@@ -69,15 +79,20 @@ public class ListActivity extends AppCompatActivity{
                     items.clear();
                     for (QueryDocumentSnapshot doc : querySnapshots) {
                         Item item = new Item();
+                        String id = doc.getId();
                         item.setSerial_num(doc.getString("serial"));
                         item.setDate(doc.getString("date"));
                         item.setMake(doc.getString("make"));
                         item.setModel(doc.getString("model"));
                         item.setEst_value(doc.getString("price"));
                         item.setDescription(doc.getString("desc"));
-                        item.setID(Long.parseLong(doc.getId()));
+                        item.setID(Long.parseLong(id));
 
-                        // TODO: Get photo
+
+                        // set photos
+                        StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
+                        item.generatePhotoArray(photosRef,id,itemAdapter);
+
                         Log.d("Firestore", String.format("Item(%s, %s) fetched", item.getMake(), item.getModel()));
                         items.add(item);
                     }
@@ -113,8 +128,7 @@ public class ListActivity extends AppCompatActivity{
         tagButton = findViewById(R.id.tag_btn);
         filterbutton = findViewById(R.id.filterButton);
         sortbutton = findViewById(R.id.sortButton);
-        add_tags_button = findViewById(R.id.add_tag);
-        cancel_tags_button = findViewById(R.id.no_tag);
+
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,38 +141,10 @@ public class ListActivity extends AppCompatActivity{
         tagButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Set the visibility of buttons and checkboxes
-                tagButton.setVisibility(View.INVISIBLE);
-                filterbutton.setVisibility(View.GONE);
-                sortbutton.setVisibility(View.GONE);
-                addButton.setVisibility(View.INVISIBLE);
-                totalCostView.setVisibility(View.INVISIBLE);
-                add_tags_button.setVisibility(View.VISIBLE);
-                cancel_tags_button.setVisibility(View.VISIBLE);
-                deleteButton.setVisibility(View.INVISIBLE);
-                for (int i = 0; i < items.size(); i++) {
-                    CheckBox cBox = (CheckBox) itemList.getChildAt(i).findViewById(R.id.check);
-                    cBox.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        cancel_tags_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Reset();
-            }
-        });
-
-        add_tags_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(CheckedItems().size()>0) {
-                    startActivity(new Intent(ListActivity.this, TagsActivity.class));
-                }
-                else{
-                    Toast.makeText(ListActivity.this, "Please select item(s) to add tags to.",Toast.LENGTH_SHORT).show();
-                }
+                ArrayList<Item> listToAdd = new ArrayList<>();
+                Intent i = new Intent(ListActivity.this, SelectTagItemsActivity.class);
+                i.putParcelableArrayListExtra("list",items);
+                startActivity(i);
             }
         });
     }

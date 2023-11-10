@@ -89,6 +89,21 @@
         app:layout_constraintTop_toBottomOf="@id/estimated_p" />
 
 
+    <EditText
+        android:id="@+id/comments"
+        android:layout_width="298dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="7dp"
+        android:gravity="center_vertical"
+        android:hint="Comments"
+        android:textAppearance="@style/new_item_activity_text"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"

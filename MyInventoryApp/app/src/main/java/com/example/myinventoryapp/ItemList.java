@@ -23,14 +23,15 @@ public class ItemList extends ArrayAdapter<Item> {
     private ArrayList<Item> items;
     private Context context;
 
+
     /**
      * This constructs an ItemList object
      * @param context   The context in which the adapter is created.
      * @param expenses  The list of items to be displayed.
      */
-    public ItemList(Context context, ArrayList<Item> expenses){
-        super(context, 0, expenses);
-        this.items = expenses;
+    public ItemList(Context context, ArrayList<Item> items){
+        super(context, 0, items);
+        this.items = items;
         this.context = context;
 
     }
@@ -63,9 +64,14 @@ public class ItemList extends ArrayAdapter<Item> {
         ImageView photo = view.findViewById(R.id.itemImageView);
         TextView value = view.findViewById(R.id.itemCostView);
 
-        //TODO: set the photo in the item_list_content to the photo from the item
-        photo.setImageResource(R.drawable.house_placeholder);
-        value.setText("$" + item.getEst_value());
+        if (item.getImage(0) != null) {
+            photo.setImageBitmap(item.getImage(0));
+
+        } else {
+            photo.setImageResource(R.drawable.bg_colored_image);
+        }
+        value.setText("$ " + item.getEst_value());
+
         return view;
     }
 }

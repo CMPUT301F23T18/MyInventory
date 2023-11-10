@@ -1,5 +1,21 @@
 package com.example.myinventoryapp;
 
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.CheckBox;
@@ -8,7 +24,7 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
-//TODO: add photos list
+import io.grpc.Context;
 
 /**
  * Item is the object content item that implements parcelable interface whose instances can be
@@ -26,6 +42,9 @@ public class Item implements Parcelable {
     private long ID;
     private List<String> tags;
     private boolean selected = false;
+
+    private ArrayList<Bitmap> images = new ArrayList<Bitmap>();
+    final long ONE_MEGABYTE = 1024 * 1024;
 
     // photos
 
@@ -99,13 +118,14 @@ public class Item implements Parcelable {
     }
 
     /**
-     * This constructs an Item object
-     * @param date String of the Item's date of purchased or acquisition
-     * @param description String of the appropriate description of an item
-     * @param make String of the Item's make
-     * @param model String of the Item's model
-     * @param serial_num String of the Item's serial number
-     * @param est_value String of the Item's estimated value
+     * class generator
+     * @param date date item was acquired
+     * @param description description of the item
+     * @param make make of the item -> brand
+     * @param model model of the item
+     * @param serial_num serial number for item, as a string
+     * @param est_value the estimated value of the item
+
      */
     public Item(String date, String description, String make, String model, String serial_num, String est_value) {
         // NOTE: comment, tags and photos are NOT added on item creation
@@ -116,7 +136,105 @@ public class Item implements Parcelable {
         this.serial_num = serial_num;
         this.est_value = est_value;
 
-        est_value_num = Double.parseDouble(est_value);
+        if (est_value != null){
+            est_value_num = Double.parseDouble(est_value);
+        }
+    }
+
+    /**
+     * Generates the photoArray from firebase for the purpose of populating the ListActivity
+     * @param photosRef the reference to the photos storage in firebase
+     * @param id the id of this item
+     * @param itemAdapter the arrayAdapter for the items in listActivity
+     */
+    public void generatePhotoArray(StorageReference photosRef, String id, ArrayAdapter<Item> itemAdapter) {
+        for (int i = 0; i < 6; ++i) {
+            // set path for current image
+            StorageReference photoRef = photosRef.child(id + "/image" + i + ".jpg");
+            Log.i("FETCHING PHOTOS", "fetching image"+i + "for item " + id);
+            photoRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    // get the bitmap of the byte array and add it to the item's list
+                    Bitmap img_bit = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                    addImage(img_bit);
+                    Log.i("FETCHING PHOTOS","photo fetched for " + id);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                    // Note: there is an error when the image isn't
+                    // found, so we leave this blank to avoid printing the message
+                }
+            }).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+                @Override
+                public void onComplete(@NonNull Task<byte[]> task) {
+                    // Update the list when finished to load all the pictures
+                    itemAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+    }
+
+    /**
+     * Populates the item's photo array from firebase WITHOUT updating the listActivity
+     * @param photosRef the reference to the photo storage on firebase
+     * @param id the id of this item
+     */
+    public void generatePhotoArray(StorageReference photosRef, String id, OnCompleteListener completeListener) {
+        for (int i = 0; i < 6; ++i) {
+            // set path for current image
+            StorageReference photoRef = photosRef.child(id + "/image" + i + ".jpg");
+            Log.i("FETCHING PHOTOS", "fetching image"+i + "for item " + id);
+            photoRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    // get the bitmap of the byte array and add it to the item's list
+                    Bitmap img_bit = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                    addImage(img_bit);
+                    Log.i("FETCHING PHOTOS","photo fetched for " + id);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                    // Note: there is an error when the image isn't
+                    // found, so we leave this blank to avoid printing the message
+                }
+            }).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+                @Override
+                public void onComplete(@NonNull Task<byte[]> task) {
+                    // Calls the onCompleteListener on function call
+                    // See ViewItemActivity for example
+                    completeListener.onComplete(task);
+                }
+            });
+        }
+    }
+
+    public ArrayList<Bitmap> getImages() {
+        return images;
+    }
+
+    public int getPhotosSize() {
+        return images.size();
+    }
+
+    public void setImages(ArrayList<Bitmap> images) {
+        this.images = images;
+    }
+    public Bitmap getImage(int index) {
+        try {
+            Log.i("GETTING PHOTOS", "Getting photo " + index);
+            return images.get(index);
+        } catch (Exception exception) {
+            return null;
+        }
+    }
+
+    public void addImage(Bitmap image) {
+        this.images.add(image);
     }
 
     /**
