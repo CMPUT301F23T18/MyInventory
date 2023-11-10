@@ -132,7 +132,17 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
             }
         });
 
-        //TODO: when user clicks photo button, open the gallery in edit mode
+        ImageView camera_btn = findViewById(R.id.cameraButton);
+        camera_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), GalleryActivity.class);
+                // put ID in the intent
+                i.putExtra("ID",id);
+                i.putExtra("Edit", true);
+                startActivity(i);
+            }
+        });
     }
 
     /**

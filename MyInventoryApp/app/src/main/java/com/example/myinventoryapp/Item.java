@@ -43,7 +43,7 @@ public class Item implements Parcelable {
     private List<String> tags;
     private boolean selected = false;
 
-    private ArrayList<Bitmap> images = new ArrayList<Bitmap>();
+    private ArrayList<Bitmap> images = new ArrayList<Bitmap>(6);
     final long ONE_MEGABYTE = 1024 * 1024;
 
     // photos
@@ -193,7 +193,6 @@ public class Item implements Parcelable {
                     // get the bitmap of the byte array and add it to the item's list
                     Bitmap img_bit = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
                     addImage(img_bit);
-                    Log.i("FETCHING PHOTOS","photo fetched for " + id);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
