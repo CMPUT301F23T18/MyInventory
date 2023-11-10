@@ -13,7 +13,7 @@
         android:id="@+id/serial_numb"
         android:layout_width="298dp"
         android:layout_height="48dp"
-        android:layout_marginTop="146dp"
+        android:layout_marginTop="96dp"
         android:digits="1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-"
         android:gravity="center_vertical"
         android:hint="@string/serial_numb"
@@ -22,6 +22,7 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -100,7 +101,6 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description" />
 
@@ -116,17 +116,16 @@
 
     <Button
         android:id="@+id/scanButtonAdd"
-        android:layout_width="119dp"
-        android:layout_height="48dp"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
         android:layout_marginTop="24dp"
         android:backgroundTint="@color/black"
         android:text="@string/scan_image"
         android:textAppearance="@style/scan_image"
-        android:textSize="22sp"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/comments" />
 
     <EditText
         android:id="@+id/model"
@@ -146,14 +145,24 @@
         android:id="@+id/forwardButtonAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="220dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="10dp"
         android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/scanButtonAdd"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:srcCompat="@drawable/forward_arrow"
-        />
+        app:srcCompat="@drawable/forward_arrow" />
+
+    <ImageView
+        android:id="@+id/backButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/forwardButtonAdd"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:srcCompat="@drawable/back_arrow" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

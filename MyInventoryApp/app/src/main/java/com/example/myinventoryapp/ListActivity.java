@@ -35,6 +35,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * This is a class that represents an activity that displays the list of items.
+ * The user can add, select, view, and delete items in the list
+ */
 public class ListActivity extends AppCompatActivity{
     ImageView addButton;
     ListView itemList;
@@ -44,6 +48,14 @@ public class ListActivity extends AppCompatActivity{
     double totalValue = 0;
     TextView totalCostView;
     Button filterbutton, sortbutton, deleteButton, tagButton;
+
+    /**
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +87,10 @@ public class ListActivity extends AppCompatActivity{
                         item.setDescription(doc.getString("desc"));
                         item.setID(Long.parseLong(id));
 
+                        if (doc.contains("tags")){
+                            List<String> tags = (List<String>) doc.get("tags");
+                            item.setTags(tags);
+                        }
 
                         // set photos
                         StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
@@ -128,15 +144,23 @@ public class ListActivity extends AppCompatActivity{
         tagButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Item> listToAdd = new ArrayList<>();
                 Intent i = new Intent(ListActivity.this, SelectTagItemsActivity.class);
-                i.putParcelableArrayListExtra("list",items);
+                i.putParcelableArrayListExtra("list", items);
                 startActivity(i);
             }
         });
     }
 
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
+        /**
+         * Handles item clicks in the list. The intent is to open the ViewItemActivity which allows
+         * the user to view a single item.
+         * @param parent The AdapterView where the click happened.
+         * @param view The view within the AdapterView that was clicked (this
+         *            will be a view provided by the adapter)
+         * @param position The position of the view in the adapter.
+         * @param id The row id of the item that was clicked.
+         */
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent i = new Intent(view.getContext(), ViewItemActivity.class);

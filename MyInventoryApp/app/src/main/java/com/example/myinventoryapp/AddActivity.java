@@ -27,6 +27,7 @@ import java.util.Map;
  */
 public class AddActivity extends AppCompatActivity {
     ImageView nextButton;
+    ImageView backButton;
     Button scanButton;
     EditText serialField;
     EditText dateField;
@@ -35,6 +36,8 @@ public class AddActivity extends AppCompatActivity {
     EditText descField;
     EditText modelField;
     DocumentReference fb_new_item;
+    EditText commentField;
+
 
     /**
      * @param savedInstanceState If the activity is being re-initialized after
@@ -54,12 +57,21 @@ public class AddActivity extends AppCompatActivity {
         priceField = findViewById(R.id.estimated_p);
         descField = findViewById(R.id.description);
         scanButton = findViewById(R.id.scanButtonAdd);
+        commentField = findViewById(R.id.comments);
 
         nextButton = findViewById(R.id.forwardButtonAdd);
         nextButton.setOnClickListener(nextListener);
 
         // set a listener for the dateField
         dateField.addTextChangedListener(dateListener);
+
+        backButton = findViewById(R.id.backButton1);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backActivity();
+            }
+        });
     }
 
     private final TextWatcher dateListener = new TextWatcher() {
@@ -111,6 +123,7 @@ public class AddActivity extends AppCompatActivity {
             String model = modelField.getText().toString();
             String price = priceField.getText().toString();
             String desc = descField.getText().toString();
+            String comment = commentField.getText().toString();
             //NOTE: Make is the brand, model is the product
 
             // check validity of fields
@@ -132,8 +145,6 @@ public class AddActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"price is required to proceed",Toast.LENGTH_SHORT).show();
             }
 
-
-
             // map all inputs to a Hashmap
             Map<String, Object> item_hash = new HashMap<String, Object>();
             item_hash.put("serial",serial);
@@ -142,6 +153,7 @@ public class AddActivity extends AppCompatActivity {
             item_hash.put("model",model);
             item_hash.put("price",price);
             item_hash.put("desc",desc);
+            item_hash.put("comment",comment);
 
             long ID = System.currentTimeMillis();
             item_hash.put("ID",ID);
@@ -178,6 +190,11 @@ public class AddActivity extends AppCompatActivity {
         i.putExtra("ID",ID);
         startActivity(i);
     }
-    //TODO: back to list -> needs a button first...
+    /**
+     * Send user to the ListActivity once they finish making an item
+     */
+    private void backActivity() {
+        finish();
+    }
     //TODO: scan function -> scan barcode or scan serial number
 }
