@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
@@ -63,7 +64,16 @@ public class SignUpActivity extends AppCompatActivity {
                 String userText = username.getText().toString();
                 String emailText = email.getText().toString();
                 String passwordText = password.getText().toString();
-                signUp(emailText,passwordText);
+                if (userText.isEmpty() || emailText.isEmpty() || passwordText.isEmpty()) {
+                    // Display a Toast if any of the fields is empty
+                    Toast.makeText(SignUpActivity.this, "All fields are required", Toast.LENGTH_SHORT).show();
+                } else if (passwordText.length() < 6) {
+                    // Display a Toast if the password is less than 6 characters
+                    Toast.makeText(SignUpActivity.this, "Password should be at least 6 characters long", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Proceed with sign up if all conditions are met
+                    signUp(emailText, passwordText);
+                }
             }
         });
 
@@ -88,12 +98,16 @@ public class SignUpActivity extends AppCompatActivity {
                         } else {
                             // Sign up failed
                             Log.e(TAG, "createUserWithEmail:failure", task.getException());
-                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException
+                                    && "The email address is badly formatted.".equals(task.getException().getMessage())) {
+                                // Display a Toast if the email is not in the proper format
+                                Toast.makeText(SignUpActivity.this, "Invalid email format. Please enter a valid email address.", Toast.LENGTH_SHORT).show();
+                            } else if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                 // User with the same email already exists
                                 handleExistingAccount(email);
                             } else {
-                                Toast.makeText(SignUpActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
+                                // Display a generic authentication failed Toast
+                                Toast.makeText(SignUpActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -114,11 +128,15 @@ public class SignUpActivity extends AppCompatActivity {
                             if (result != null) {
                                 List<String> signInMethods = result.getSignInMethods();
                                 Log.d(TAG, "Sign-in methods: " + signInMethods.toString());
-
+                                Toast.makeText(SignUpActivity.this, "You are already Signed up.Please use google SignIn or log in using your password.", Toast.LENGTH_LONG).show();
+                                // Redirect the user to the general sign-in activity or handle other scenarios
+                                Intent intent1 = new Intent(SignUpActivity.this, StartUpActivity.class);
+                                startActivity(intent1);
                                 if (signInMethods.contains(EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD)) {
                                     // Account is associated with email/password, prompt user to sign in or use a different email
                                     Toast.makeText(SignUpActivity.this, "An account with this email already exists. Please sign in or use a different email.",
                                             Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(SignUpActivity.this, "We failed2.", Toast.LENGTH_SHORT).show();
                                     // Redirect the user to the general sign-in activity or handle other scenarios
                                     Intent intent = new Intent(SignUpActivity.this, StartUpActivity.class);
                                     startActivity(intent);
