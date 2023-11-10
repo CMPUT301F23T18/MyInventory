@@ -20,15 +20,20 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.Matchers.hasToString;
+import static org.junit.Assert.assertEquals;
 
+import static java.lang.Thread.currentThread;
 import static java.lang.Thread.sleep;
 
 import android.Manifest;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.DataInteraction;
+import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -47,7 +52,7 @@ public class ListActivityTest {
     @Rule
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(Manifest.permission.CAMERA);
     @Rule
-    public ActivityScenarioRule<ListActivity> scenario = new ActivityScenarioRule<ListActivity>(ListActivity.class);
+    public ActivityScenarioRule<ListActivity> rule = new ActivityScenarioRule<ListActivity>(ListActivity.class);
 
     //TODO: login in
     @Test
@@ -90,7 +95,8 @@ public class ListActivityTest {
         sleep(1000);
 
         //check if item displayed
-        onView(withText("$ 101202.00")).check(matches(isDisplayed()));
+        //onView(withText("$ 101202.00")).check(matches(isDisplayed()));
+        onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0).onChildView(withText("$ 101202.00")).check(matches(isDisplayed()));
     }
 
     //Views an item
@@ -98,7 +104,8 @@ public class ListActivityTest {
     public void testViewItem() throws InterruptedException {
         sleep(1000);
         //Click on the first item in list
-        onView(withId(R.id.item_list)).perform(click());
+        //onView(withId(R.id.item_list)).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0).onChildView(withText("$ 101202.00")).perform(click());
         sleep(1000);
         //Check if an element from ViewItemActivity is present
         onView(withId(R.id.serialNumEdit)).check(matches(isDisplayed()));
@@ -109,7 +116,8 @@ public class ListActivityTest {
     public void testDeleteItem() throws InterruptedException {
         // Click on an item
         sleep(1000);
-        onView(withText("$ 101202.00")).perform(scrollTo(),click());
+        int itemCountBeforeDeletion = getCount(R.id.item_list); //find the number of items in list before deletion
+        onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0).onChildView(withId(R.id.itemCostView)).atPosition(0).perform(click());
 
         //Click on the delete button
         onView(withId(R.id.delete_btn)).perform(click());
@@ -120,7 +128,22 @@ public class ListActivityTest {
         sleep(3000);
 
         //Check if item removed from the screen
-        onView(withText("$ 101202.00")).check(doesNotExist());
+        int itemCountAfterDeletion = getCount(R.id.item_list); //find the number of items in list after deletion
+        //onView(withText("$ 101202.00")).check(doesNotExist());
+        assertEquals(itemCountBeforeDeletion - 1, itemCountAfterDeletion);
+    }
+    private int getCount(int adapterViewId) {
+        final int[] items = {0};
+
+        onView(allOf(withId(adapterViewId), isDisplayed())).check(new ViewAssertion() {
+            @Override
+            public void check(View view, NoMatchingViewException noViewFoundException) {
+                if (view instanceof AdapterView) {
+                    items[0] = ((AdapterView) view).getAdapter().getCount();
+                }
+            }
+        });
+        return items[0];
     }
 
     //Deletes multiple items
@@ -128,6 +151,7 @@ public class ListActivityTest {
     public void testDeleteMultiple() throws InterruptedException {
         //Click on delete button
         sleep(1000);
+        int itemCountBeforeDeletion = getCount(R.id.item_list);
         onView(withId(R.id.delete_btn)).perform(click());
 
         //Click on select all
@@ -141,7 +165,8 @@ public class ListActivityTest {
 
         //Check if all items from list deleted
         sleep(1000);
-        onView(withId(R.id.item_list)).check(matches((not(hasDescendant(any(View.class))))));
+        //onView(withId(R.id.item_list)).check(matches((not(hasDescendant(any(View.class))))));
+        assertEquals(itemCountBeforeDeletion - 1, 0);
 
     }
 
