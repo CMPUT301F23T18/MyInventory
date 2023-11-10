@@ -30,7 +30,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
     EditText priceField;
     EditText descField;
     EditText modelField;
-
+    EditText commentField;
     ImageView left_btn, right_btn, imageView;
     DocumentReference fb_view_item;
     long id;
@@ -58,6 +58,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
         priceField = findViewById(R.id.estPriceEdit);
         descField = findViewById(R.id.descEdit);
         modelField = findViewById(R.id.modelEdit);
+        commentField = findViewById(R.id.comEdit);
 
         // set photos
         imageView = findViewById(R.id.imagePreview);
@@ -70,6 +71,15 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
         // get keys and set values to appropriate text fields
         fb_view_item.get().addOnSuccessListener(documentSnapshot -> {
             Map<String, Object> data = documentSnapshot.getData();
+
+            serialField.setText((String) data.get("serial"));
+            dateField.setText((String) data.get("date"));
+            makeField.setText((String) data.get("make"));
+            priceField.setText((String) data.get("price"));
+            descField.setText((String) data.get("desc"));
+            modelField.setText((String) data.get("model"));
+            commentField.setText((String) data.get("comment"));
+
             String date = (String) data.get("date");
             String desc = (String) data.get("desc");
             String make = (String) data.get("make");
@@ -87,6 +97,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
             item = new Item(date,desc,make,model,serial,value);
             StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
             item.generatePhotoArray(photosRef, String.valueOf(id), task -> DisplayImage());
+
         });
 
         // Back Button

@@ -1,5 +1,6 @@
 package com.example.myinventoryapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -11,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore; // Import Firestore
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +24,7 @@ public class EditActivity extends AppCompatActivity {
     EditText editPriceField;
     EditText editDescField;
     Button updateButton;
+    EditText editcomment;
     long itemId;
 
     @Override
@@ -39,6 +40,7 @@ public class EditActivity extends AppCompatActivity {
         editPriceField = findViewById(R.id.estPriceEdit);
         editDescField = findViewById(R.id.descEdit);
         updateButton = findViewById(R.id.saveButton);
+        editcomment = findViewById(R.id.comEdit);
         this.itemId = getIntent().getLongExtra("item_id",0);
         populateUIFromFirestore(itemId); // Call the function to populate ui from Firestore
 
@@ -52,15 +54,16 @@ public class EditActivity extends AppCompatActivity {
                 String editedModel = editModelField.getText().toString();
                 String editedPrice = editPriceField.getText().toString();
                 String editedDesc = editDescField.getText().toString();
+                String editcom = editcomment.getText().toString();
 
                 // Update the Firestore document with the new data
-                updateItemInFirestore(itemId, editedSerial, editedDate, editedMake, editedModel, editedPrice, editedDesc);
+                updateItemInFirestore(itemId, editedSerial, editedDate, editedMake, editedModel, editedPrice, editedDesc,editcom);
 
                 // Optionally, navigate back to the previous activity or perform other actions
                 finish(); // Close the EditActivity after saving
             }
 
-            private void updateItemInFirestore(long itemId, String editedSerial, String editedDate, String editedMake, String editedModel, String editedPrice, String editedDesc) {
+            private void updateItemInFirestore(long itemId, String editedSerial, String editedDate, String editedMake, String editedModel, String editedPrice, String editedDesc, String editcom) {
                 DocumentReference itemDocRef = ((Global) getApplication()).DocumentRef(itemId);
 
                 // Create a map to hold the updated item data
@@ -71,6 +74,7 @@ public class EditActivity extends AppCompatActivity {
                 updatedData.put("model", editedModel);
                 updatedData.put("price", editedPrice);
                 updatedData.put("desc", editedDesc);
+                updatedData.put("comment", editcom);
 
                 // Update the Firestore document with the edited data
                 itemDocRef.update(updatedData)
@@ -79,6 +83,9 @@ public class EditActivity extends AppCompatActivity {
                                 // Data updated successfully
                                 // You can add code here to handle the success case (e.g., show a confirmation message)
                                 Log.d("EditActivity", "Item updated in Firestore");
+
+                                // Navigate back to the view activity
+                                navigateBackToViewActivity();
                             } else {
                                 // Handle the error
                                 Log.e("EditActivity", "Error updating item in Firestore: " + task.getException());
@@ -86,9 +93,13 @@ public class EditActivity extends AppCompatActivity {
                         });
             }
 
+            private void navigateBackToViewActivity() {
+                finish(); // Close the EditActivity after navigating back
+            }
+
+
         });
 
-        //TODO: add delete activity
     }
 
 
@@ -107,6 +118,7 @@ public class EditActivity extends AppCompatActivity {
                     String model = document.getString("model");
                     String price = document.getString("price");
                     String desc = document.getString("desc");
+                    String comment = document.getString("comment");
 
                     // Populate the ui elements with the retrieved data
                     editSerialField.setText(serial);
@@ -115,6 +127,7 @@ public class EditActivity extends AppCompatActivity {
                     editModelField.setText(model);
                     editPriceField.setText(price);
                     editDescField.setText(desc);
+                    editcomment.setText(comment);
                 }
             } else {
                 Log.d("EditActivity", "Error getting document: " + task.getException());
