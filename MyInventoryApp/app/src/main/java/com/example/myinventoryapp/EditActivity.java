@@ -1,5 +1,6 @@
 package com.example.myinventoryapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -82,6 +83,9 @@ public class EditActivity extends AppCompatActivity {
                                 // Data updated successfully
                                 // You can add code here to handle the success case (e.g., show a confirmation message)
                                 Log.d("EditActivity", "Item updated in Firestore");
+
+                                // Navigate back to the view activity
+                                navigateBackToViewActivity();
                             } else {
                                 // Handle the error
                                 Log.e("EditActivity", "Error updating item in Firestore: " + task.getException());
@@ -89,9 +93,13 @@ public class EditActivity extends AppCompatActivity {
                         });
             }
 
+            private void navigateBackToViewActivity() {
+                finish(); // Close the EditActivity after navigating back
+            }
+
+
         });
 
-        //TODO: add delete activity
     }
 
 
