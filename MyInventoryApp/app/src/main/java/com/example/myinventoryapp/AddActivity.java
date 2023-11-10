@@ -28,6 +28,7 @@ import java.util.Map;
 
 public class AddActivity extends AppCompatActivity {
     ImageView nextButton;
+    ImageView backButton;
     Button scanButton;
     EditText serialField;
     EditText dateField;
@@ -64,6 +65,14 @@ public class AddActivity extends AppCompatActivity {
 
         // set a listener for the dateField
         dateField.addTextChangedListener(dateListener);
+
+        backButton = findViewById(R.id.backButton1);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backActivity();
+            }
+        });
     }
 
     private final TextWatcher dateListener = new TextWatcher() {
@@ -186,6 +195,11 @@ public class AddActivity extends AppCompatActivity {
         i.putExtra("ID",ID);
         startActivity(i);
     }
-    //TODO: back to list -> needs a button first...
+    /**
+     * Send user to the ListActivity once they finish making an item
+     */
+    private void backActivity() {
+        finish();
+    }
     //TODO: scan function -> scan barcode or scan serial number
 }
