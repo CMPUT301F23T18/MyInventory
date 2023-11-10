@@ -117,19 +117,19 @@ public class Global extends Application {
 
     /**
      * gets the storage reference for photos
-     * @return
+     * @return StorageReference
      */
     public StorageReference getPhotoStorageRef() {
         return photoStorageRef;
     }
 
     /**
-     * Uploads a photo for a specific item, using the id, photo_id and the file
+     * Uploads a photo for a specific item to firebase, using the id, photo_id and the file
      * @param id id of the item to assign the photo to
      * @param photo the actual photo to be assigned
      * @param name the name for the photo, generated when it was captured/selected
      */
-    public void setPhoto(long id, Bitmap photo, String name, int index) {
+    public void setPhoto(long id, Bitmap photo, String name) {
         String str_id = String.valueOf(id);
         StorageReference photoRef = photoStorageRef.child(str_id + "/" + name + ".jpg");
 
