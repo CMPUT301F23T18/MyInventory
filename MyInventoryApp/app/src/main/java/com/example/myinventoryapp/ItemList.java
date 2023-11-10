@@ -26,8 +26,8 @@ public class ItemList extends ArrayAdapter<Item> {
 
     /**
      * This constructs an ItemList object
-     * @param context   The context in which the adapter is created.
-     * @param expenses  The list of items to be displayed.
+     * @param context The context in which the adapter is created.
+     * @param items The list of items to be displayed.
      */
     public ItemList(Context context, ArrayList<Item> items){
         super(context, 0, items);

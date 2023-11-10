@@ -2,6 +2,7 @@ package com.example.myinventoryapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -91,6 +92,7 @@ public class SelectTagItemsActivity  extends AppCompatActivity {
         for(int i = 0; i < items.size();i++){
             if (items.get(i).getChecked()){
                 tag_items.add(items.get(i));
+                Log.d("Tags Id", String.valueOf(items.get(i).getID()));
             }
         }
         return tag_items;

@@ -21,6 +21,11 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Activity displays a checked list of items and provides options to user including select and
+ * unselect all, and delete selected items. Additionally, the user can also cancel and or exit the
+ * activity without deleting an item(s) from the list.
+ */
 public class DeleteActivity extends AppCompatActivity implements DeletePopUp.OnFragmentInteractionListener{
     RecyclerView itemList;
     SelectListAdaptor itemAdapter;
@@ -28,6 +33,14 @@ public class DeleteActivity extends AppCompatActivity implements DeletePopUp.OnF
     TextView delete_btn;
     Button selectAll_btn, unselectAll_btn;
     ImageView exit_btn;
+
+    /**
+     * This is called to initialize any UI components, and to also retrieve item data from the
+     * intent.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +116,10 @@ public class DeleteActivity extends AppCompatActivity implements DeletePopUp.OnF
 
     }
 
+    /**
+     * Returns a list of selected items that are going to be deleted.
+     * @return delete_items the list of item IDs
+     */
     public List<Long> CheckedItems(){
         List<Long> delete_items = new ArrayList<>();
         for(int i = 0; i < items.size();i++){
@@ -113,6 +130,10 @@ public class DeleteActivity extends AppCompatActivity implements DeletePopUp.OnF
         return delete_items;
     }
 
+    /**
+     * Deletes the selected Items associated with their appropriate ID that are on the delete_list.
+     * @param delete_list list of IDs that were selected
+     */
     private void DeleteItems(List<Long> delete_list) {
         String str = "";
         if(delete_list.size() == 1) {
@@ -128,6 +149,9 @@ public class DeleteActivity extends AppCompatActivity implements DeletePopUp.OnF
         Toast.makeText(DeleteActivity.this, str ,Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Invoked when the "YES" button is pressed in the delete alert dialog popup.
+     */
     @Override
     public void onYESPressed() {
         List<Long> list = CheckedItems();
