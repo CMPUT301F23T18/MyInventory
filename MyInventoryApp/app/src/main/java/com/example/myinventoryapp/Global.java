@@ -36,7 +36,7 @@ import java.util.Map;
 //      CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
 
 /**
- * Application class representing the global state of the application
+ * This class sets the connection to firebase and handles the collection associated with each user
  */
 public class Global extends Application {
     private String USER_PATH;

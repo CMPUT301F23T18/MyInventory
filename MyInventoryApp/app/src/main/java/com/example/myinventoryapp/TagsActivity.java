@@ -54,7 +54,7 @@ public class TagsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_tag);
 
         items = new ArrayList<>();
-        items = getIntent().getParcelableArrayListExtra("items");
+        items = getIntent().getParcelableArrayListExtra("tags",Item.class);
         tags = new ArrayList<>();
 
         tagList = findViewById(R.id.tags_list);
