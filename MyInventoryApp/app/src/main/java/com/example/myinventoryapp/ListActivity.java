@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -62,6 +63,10 @@ public class ListActivity extends AppCompatActivity{
         setContentView(R.layout.item_list);
         totalCostView = findViewById(R.id.totalCostView);
         itemList = findViewById(R.id.item_list);
+
+        // Reset user id in case it's necessary.
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        ((Global) getApplication()).setUSER_PATH(mAuth.getCurrentUser().getUid());
 
         items = new ArrayList<>();
         itemAdapter = new ItemList(this, items);

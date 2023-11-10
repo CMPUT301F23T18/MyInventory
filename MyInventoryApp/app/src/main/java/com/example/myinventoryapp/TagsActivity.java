@@ -1,5 +1,6 @@
 package com.example.myinventoryapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,6 +22,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -60,7 +63,6 @@ public class TagsActivity extends AppCompatActivity {
 
         // Get tags from firebase
         DocumentReference docRef = ((Global) getApplication()).getFBTagsRef().document("TAGS");
-        Toast.makeText(getApplicationContext(), ((Global) getApplication()).getUSER_PATH(),Toast.LENGTH_LONG).show();
         docRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
@@ -131,6 +133,7 @@ public class TagsActivity extends AppCompatActivity {
                     Item item = items.get(i);
                     DocumentReference ref = ((Global)getApplication()).DocumentRef(item.getID());
                     Map<String, Object> item_hash = new HashMap<String, Object>();
+                    Log.d("Tags Id", String.valueOf(item.getID()));
                     item_hash.put("ID", item.getID());
                     item_hash.put("serial", item.getSerial_num());
                     item_hash.put("date", item.getDate());
