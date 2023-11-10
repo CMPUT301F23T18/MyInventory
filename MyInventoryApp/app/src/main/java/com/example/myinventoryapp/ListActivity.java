@@ -43,8 +43,12 @@ public class ListActivity extends AppCompatActivity{
     List<Integer> delete_items;
     double totalValue = 0;
     TextView totalCostView;
+<<<<<<< HEAD
+    Button filterbutton, sortbutton, deleteButton, tagButton;
+=======
     Button filterbutton, sortbutton, deleteButton, yes_button, no_button, tagButton, add_tags_button, cancel_tags_button;
 
+>>>>>>> 59c29081f370010c452753916585b1ed19d59048
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,8 +120,7 @@ public class ListActivity extends AppCompatActivity{
         tagButton = findViewById(R.id.tag_btn);
         filterbutton = findViewById(R.id.filterButton);
         sortbutton = findViewById(R.id.sortButton);
-        add_tags_button = findViewById(R.id.add_tag);
-        cancel_tags_button = findViewById(R.id.no_tag);
+
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,68 +133,13 @@ public class ListActivity extends AppCompatActivity{
         tagButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Set the visibility of buttons and checkboxes
-                tagButton.setVisibility(View.INVISIBLE);
-                filterbutton.setVisibility(View.GONE);
-                sortbutton.setVisibility(View.GONE);
-                addButton.setVisibility(View.INVISIBLE);
-                totalCostView.setVisibility(View.INVISIBLE);
-                add_tags_button.setVisibility(View.VISIBLE);
-                cancel_tags_button.setVisibility(View.VISIBLE);
-                deleteButton.setVisibility(View.INVISIBLE);
-                for (int i = 0; i < items.size(); i++) {
-                    CheckBox cBox = (CheckBox) itemList.getChildAt(i).findViewById(R.id.check);
-                    cBox.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        cancel_tags_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Reset();
-            }
-        });
-
-        add_tags_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(CheckedItems().size()>0) {
-                    startActivity(new Intent(ListActivity.this, TagsActivity.class));
-                }
-                else{
-                    Toast.makeText(ListActivity.this, "Please select item(s) to add tags to.",Toast.LENGTH_SHORT).show();
-                }
+                ArrayList<Item> listToAdd = new ArrayList<>();
+                Intent i = new Intent(ListActivity.this, SelectTagItemsActivity.class);
+                i.putParcelableArrayListExtra("list",items);
+                startActivity(i);
             }
         });
     }
-        private void Reset(){
-            filterbutton.setVisibility(View.VISIBLE);
-            sortbutton.setVisibility(View.VISIBLE);
-            addButton.setVisibility(View.VISIBLE);
-            totalCostView.setVisibility(View.VISIBLE);
-            tagButton.setVisibility(View.VISIBLE);
-            add_tags_button.setVisibility(View.GONE);
-            cancel_tags_button.setVisibility(View.GONE);
-            for(int i = 0; i < items.size();i++){
-                CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
-                if (cBox.isChecked()){
-                    cBox.setChecked(false);
-                }
-                cBox.setVisibility(View.INVISIBLE);
-            }
-        }
-
-        public List<Integer> CheckedItems(){
-            delete_items = new ArrayList<>();
-            for(int i = 0; i < items.size();i++){
-                CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
-                if (cBox.isChecked()){
-                    delete_items.add(i);
-                }
-            }
-            return delete_items;
-        }
 
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
         @Override

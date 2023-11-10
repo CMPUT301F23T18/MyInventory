@@ -21,14 +21,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TagsActivity extends AppCompatActivity {
-    Button back_button, add_button;
+    Button back_button, add_button, save_button;
     EditText tagEditText;
     ListView tagList;
     ArrayAdapter<String> tagAdaptor;
+    ArrayList<Item> items;
     ArrayList<String> dataList;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_tag);
+
+        items = new ArrayList<>();
+        items = getIntent().getParcelableArrayListExtra("items");
 
         tagList = findViewById(R.id.tags_list);
 
@@ -44,6 +48,8 @@ public class TagsActivity extends AppCompatActivity {
         add_button = findViewById(R.id.create_tag);
         back_button = findViewById(R.id.backButton2);
         tagEditText = findViewById(R.id.tagEditText);
+        save_button = findViewById(R.id.save_tag);
+
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +79,14 @@ public class TagsActivity extends AppCompatActivity {
 
                     tagAdaptor.notifyDataSetChanged();
                 }
+            }
+        });
+
+        save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Save tags for items in firebase
+                finish();
             }
         });
     }

@@ -40,6 +40,8 @@
             android:exported="false"/>
         <activity android:name=".DeleteActivity"
             android:exported="false"/>
+        <activity android:name=".SelectTagItemsActivity"
+            android:exported="false"/>
 
         <activity
             android:name=".ListActivity"
