@@ -78,7 +78,7 @@ public class ListActivity extends AppCompatActivity{
 
                         if (doc.contains("tags")){
                             List<String> tags = (List<String>) doc.get("tags");
-                                item.setTags(tags);
+                            item.setTags(tags);
                         }
 
                         // set photos

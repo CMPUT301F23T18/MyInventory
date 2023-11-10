@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -22,12 +23,20 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.StorageReference;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class TagsActivity extends AppCompatActivity {
@@ -43,17 +52,27 @@ public class TagsActivity extends AppCompatActivity {
 
         items = new ArrayList<>();
         items = getIntent().getParcelableArrayListExtra("items");
+        tags = new ArrayList<>();
 
         tagList = findViewById(R.id.tags_list);
-
-        // TODO: Get tags from firebase
-        String[] tags_lst = {"Lorem", "Ipsum", "Dolor"};
-
-        this.tags = new ArrayList<>();
-        this.tags.addAll(Arrays.asList(tags_lst));
-
         tagAdaptor = new ArrayAdapter<>(this, R.layout.tags_content, this.tags);
         tagList.setAdapter(tagAdaptor);
+
+        // TODO: Get tags from firebase
+        DocumentReference docRef = ((Global) getApplication()).getFBTagsRef().document("TAGS");
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    // Document found retrieve data
+                    List<String> tags_list = (List<String>) document.get("all_tags");
+                    if (tags_list != null){tags.addAll(tags_list);}
+                    tagAdaptor.notifyDataSetChanged();
+                }
+            } else {
+                Log.d("TagsActivity", "Error getting document: " + task.getException());
+            }
+        });
 
         add_button = findViewById(R.id.create_tag);
         back_button = findViewById(R.id.backButton2);
@@ -100,10 +119,13 @@ public class TagsActivity extends AppCompatActivity {
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Add tags to Firebase
+                // Store all current tags to firebase.
                 CollectionReference coll = ((Global)getApplication()).getFBTagsRef();
-                coll.document("all_tags").set(tags);
+                Map<String, Object> tag_hash = new HashMap<String, Object>();
+                tag_hash.put("all_tags", tags);
+                coll.document("TAGS").set(tag_hash);
 
+                // Store chosen tags to items in firebase.
                 for (int i = 0; i < items.size(); i++){
                     Item item = items.get(i);
                     DocumentReference ref = ((Global)getApplication()).DocumentRef(item.getID());
