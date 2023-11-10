@@ -94,21 +94,5 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="773dp" />
 
-    <Button
-        android:id="@+id/forwardButton"
-        android:layout_width="81dp"
-        android:layout_height="82dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="2dp"
-        android:backgroundTint="@color/clear"
-        android:pointerIcon="arrow"
-        app:icon="@drawable/forward_arrow"
-        app:iconPadding="0dp"
-        app:iconSize="50dp"
-        app:iconTint="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        tools:layout_editor_absoluteY="773dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
