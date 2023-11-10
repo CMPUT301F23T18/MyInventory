@@ -35,6 +35,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * This is a class that represents an activity that displays the list of items.
+ * The user can add, select, view, and delete items in the list
+ */
 public class ListActivity extends AppCompatActivity{
     ImageView addButton;
     ListView itemList;
@@ -43,8 +47,16 @@ public class ListActivity extends AppCompatActivity{
     List<Integer> delete_items;
     double totalValue = 0;
     TextView totalCostView;
+
     Button filterbutton, sortbutton, deleteButton, yes_button, no_button, tagButton, add_tags_button, cancel_tags_button;
 
+    /**
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,8 +128,7 @@ public class ListActivity extends AppCompatActivity{
         tagButton = findViewById(R.id.tag_btn);
         filterbutton = findViewById(R.id.filterButton);
         sortbutton = findViewById(R.id.sortButton);
-        add_tags_button = findViewById(R.id.add_tag);
-        cancel_tags_button = findViewById(R.id.no_tag);
+
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,42 +141,20 @@ public class ListActivity extends AppCompatActivity{
         tagButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Set the visibility of buttons and checkboxes
-                tagButton.setVisibility(View.INVISIBLE);
-                filterbutton.setVisibility(View.GONE);
-                sortbutton.setVisibility(View.GONE);
-                addButton.setVisibility(View.INVISIBLE);
-                totalCostView.setVisibility(View.INVISIBLE);
-                add_tags_button.setVisibility(View.VISIBLE);
-                cancel_tags_button.setVisibility(View.VISIBLE);
-                deleteButton.setVisibility(View.INVISIBLE);
-                for (int i = 0; i < items.size(); i++) {
-                    CheckBox cBox = (CheckBox) itemList.getChildAt(i).findViewById(R.id.check);
-                    cBox.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        cancel_tags_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Reset();
-            }
-        });
-
-        add_tags_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(CheckedItems().size()>0) {
-                    startActivity(new Intent(ListActivity.this, TagsActivity.class));
-                }
-                else{
-                    Toast.makeText(ListActivity.this, "Please select item(s) to add tags to.",Toast.LENGTH_SHORT).show();
-                }
+                ArrayList<Item> listToAdd = new ArrayList<>();
+                Intent i = new Intent(ListActivity.this, SelectTagItemsActivity.class);
+                i.putParcelableArrayListExtra("list",items);
+                startActivity(i);
             }
         });
     }
-        private void Reset(){
+
+    /**
+     * Resets the UI components to their original visibility states and unchecks any checked
+     * checkboxes.
+     * Used after tagging items to revert the UI to its initial state.
+     */
+    private void Reset(){
             filterbutton.setVisibility(View.VISIBLE);
             sortbutton.setVisibility(View.VISIBLE);
             addButton.setVisibility(View.VISIBLE);
@@ -182,6 +171,10 @@ public class ListActivity extends AppCompatActivity{
             }
         }
 
+    /**
+     * Returns the list of checked item indices that are to be deleted
+     * @return delete_items
+     */
         public List<Integer> CheckedItems(){
             delete_items = new ArrayList<>();
             for(int i = 0; i < items.size();i++){
@@ -194,6 +187,15 @@ public class ListActivity extends AppCompatActivity{
         }
 
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
+        /**
+         * Handles item clicks in the list. The intent is to open the ViewItemActivity which allows
+         * the user to view a single item.
+         * @param parent The AdapterView where the click happened.
+         * @param view The view within the AdapterView that was clicked (this
+         *            will be a view provided by the adapter)
+         * @param position The position of the view in the adapter.
+         * @param id The row id of the item that was clicked.
+         */
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent i = new Intent(view.getContext(), ViewItemActivity.class);

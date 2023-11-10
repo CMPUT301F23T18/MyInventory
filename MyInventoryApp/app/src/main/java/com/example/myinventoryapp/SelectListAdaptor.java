@@ -5,25 +5,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class DeleteListAdapter extends RecyclerView.Adapter<DeleteListAdapter.ViewHolder> {
+public class SelectListAdaptor extends RecyclerView.Adapter<SelectListAdaptor.ViewHolder> {
 
     private ArrayList<Item> items;
     private Context context;
     private boolean select = false, unselect = false;
 
-    public DeleteListAdapter(Context context, ArrayList<Item> expenses){
+    public SelectListAdaptor(Context context, ArrayList<Item> expenses){
         this.items = expenses;
         this.context = context;
 
@@ -31,15 +28,15 @@ public class DeleteListAdapter extends RecyclerView.Adapter<DeleteListAdapter.Vi
 
     @NonNull
     @Override
-    public DeleteListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.delete_content, parent,false);
+    public SelectListAdaptor.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.select_list_content, parent,false);
         ViewHolder viewHolder = new ViewHolder(view);
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DeleteListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SelectListAdaptor.ViewHolder holder, int position) {
         final int i = position;
         Item item = items.get(i);
         if (item.getImage(0) != null) {

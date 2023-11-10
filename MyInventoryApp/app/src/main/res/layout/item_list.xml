@@ -74,7 +74,7 @@
         android:layout_height="48dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="#F37135"
+        android:backgroundTint="@color/black"
         android:text="@string/sort_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,7 +88,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="#F37135"
+        android:backgroundTint="@color/black"
         android:text="@string/filter_button_text"
         app:iconSize="50dp"
         app:iconTint="#000000"
@@ -111,36 +111,6 @@
         android:contentDescription="Click to add item"/>
 
     <Button
-        android:id="@+id/yes_delete"
-        android:layout_width="124dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="15dp"
-        android:backgroundTint="@color/clear"
-        android:visibility="gone"
-        app:icon="@drawable/check"
-        app:iconSize="50dp"
-        app:iconTint="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/no_delete"
-        android:layout_width="124dp"
-        android:layout_height="48dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="25dp"
-        android:layout_marginBottom="15dp"
-        android:backgroundTint="@color/clear"
-        android:visibility="gone"
-        app:icon="@drawable/cross"
-        app:iconSize="45dp"
-        app:iconTint="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
         android:id="@+id/tag_btn"
         android:layout_width="60dp"
         android:layout_height="45dp"
@@ -151,34 +121,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="Click to apply tags"/>
-
-    <Button
-        android:id="@+id/add_tag"
-        android:layout_width="124dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="20dp"
-        app:iconTint="@color/black"
-        android:visibility="gone"
-        android:backgroundTint="#F37135"
-        android:text="@string/add_tags_button_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/no_tag"
-        android:layout_width="124dp"
-        android:layout_height="48dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="20dp"
-        app:iconTint="@color/black"
-        android:backgroundTint="@color/clear"
-        android:visibility="gone"
-        app:icon="@android:drawable/ic_delete"
-        app:iconSize="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

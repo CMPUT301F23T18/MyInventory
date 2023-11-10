@@ -23,7 +23,7 @@ import java.util.List;
 
 public class DeleteActivity extends AppCompatActivity implements DeletePopUp.OnFragmentInteractionListener{
     RecyclerView itemList;
-    DeleteListAdapter itemAdapter;
+    SelectListAdaptor itemAdapter;
     ArrayList<Item> items;
     TextView delete_btn;
     Button selectAll_btn, unselectAll_btn;
@@ -55,7 +55,7 @@ public class DeleteActivity extends AppCompatActivity implements DeletePopUp.OnF
         itemList.setHasFixedSize(true);
         itemList.setLayoutManager(new LinearLayoutManager(this));
 
-        itemAdapter = new DeleteListAdapter(this, items);
+        itemAdapter = new SelectListAdaptor(this, items);
 
         itemList.setAdapter(itemAdapter);
         delete_btn.setOnClickListener(new View.OnClickListener() {

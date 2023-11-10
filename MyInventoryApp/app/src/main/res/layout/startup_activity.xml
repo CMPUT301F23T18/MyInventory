@@ -18,7 +18,7 @@
         android:backgroundTint="@color/button"
         android:contextClickable="false"
         android:text="Log In"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -33,12 +33,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="88dp"
-        android:layout_marginBottom="104dp"
         android:backgroundTint="@color/button"
         android:text="Sign Up"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="28dp"
-        app:layout_constraintBottom_toTopOf="@+id/line_1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,12 +48,12 @@
         android:layout_height="4dp"
         android:layout_alignParentLeft="false"
         android:layout_alignParentTop="false"
-        android:layout_marginBottom="120dp"
+        android:layout_marginTop="132dp"
         android:background="@drawable/line_1"
-        app:layout_constraintBottom_toTopOf="@+id/google_1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SignupButton" />
 
     <View
         android:id="@+id/google_1"
@@ -70,7 +68,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line_1"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

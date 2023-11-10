@@ -14,12 +14,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="30dp"
         android:gravity="center"
         android:textStyle="bold"
-        android:text="Please Select Items to Delete"/>
+        android:text="Please Select Items to add Tags to"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/delete_list"
         android:layout_width="match_parent"
@@ -40,17 +41,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
-                android:id="@+id/deleteButton"
+                android:id="@+id/add_tag_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/grey_dark"
                 android:gravity="center"
-                android:text="DELETE"
+                android:text="@string/add_tags_button_text"
                 android:textColor="@color/white"
                 android:textSize="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/footer"/>
+
             <ImageView
                 android:id="@+id/footer"
                 android:layout_width="wrap_content"
@@ -66,7 +68,7 @@
                 android:layout_height="48dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="20dp"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="#F37135"
                 android:text="Unselect All"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -79,7 +81,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="20dp"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="#F37135"
                 android:text="Select All"
                 app:iconSize="50dp"
                 app:layout_constraintBottom_toBottomOf="parent"

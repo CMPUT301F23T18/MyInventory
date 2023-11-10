@@ -48,6 +48,8 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.6")
     implementation("com.google.firebase:firebase-storage:20.3.0")
 
+    implementation("com.google.firebase:firebase-auth:22.2.0")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
     testImplementation("junit:junit:4.13.2")
 
     //Camera & Gallery
