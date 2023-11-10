@@ -21,6 +21,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
     EditText priceField;
     EditText descField;
     EditText modelField;
+    EditText commentField;
     DocumentReference fb_view_item;
     long id;
 
@@ -39,6 +40,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
         priceField = findViewById(R.id.estPriceEdit);
         descField = findViewById(R.id.descEdit);
         modelField = findViewById(R.id.modelEdit);
+        commentField = findViewById(R.id.comEdit);
 
         // access the database of default user make and model
         fb_view_item = ((Global) getApplication()).DocumentRef(id);
@@ -52,6 +54,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
             priceField.setText((String) data.get("price"));
             descField.setText((String) data.get("desc"));
             modelField.setText((String) data.get("model"));
+            commentField.setText((String) data.get("comment"));
         });
 
         // Back Button

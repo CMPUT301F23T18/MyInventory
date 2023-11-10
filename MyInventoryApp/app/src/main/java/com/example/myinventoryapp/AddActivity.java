@@ -36,6 +36,7 @@ public class AddActivity extends AppCompatActivity {
     EditText descField;
     EditText modelField;
     DocumentReference fb_new_item;
+    EditText commentField;
     Context context;
 
     /**
@@ -56,6 +57,7 @@ public class AddActivity extends AppCompatActivity {
         priceField = findViewById(R.id.estimated_p);
         descField = findViewById(R.id.description);
         scanButton = findViewById(R.id.scanButtonAdd);
+        commentField = findViewById(R.id.comments);
 
         nextButton = findViewById(R.id.forwardButtonAdd);
         nextButton.setOnClickListener(nextListener);
@@ -113,6 +115,7 @@ public class AddActivity extends AppCompatActivity {
             String model = modelField.getText().toString();
             String price = priceField.getText().toString();
             String desc = descField.getText().toString();
+            String comment = commentField.getText().toString();
             //NOTE: Make is the brand, model is the product
 
             // check validity of fields
@@ -144,6 +147,7 @@ public class AddActivity extends AppCompatActivity {
             item_hash.put("model",model);
             item_hash.put("price",price);
             item_hash.put("desc",desc);
+            item_hash.put("comment",comment);
 
             long ID = System.currentTimeMillis();
             item_hash.put("ID",ID);
