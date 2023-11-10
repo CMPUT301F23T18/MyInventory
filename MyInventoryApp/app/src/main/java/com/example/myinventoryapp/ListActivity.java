@@ -35,6 +35,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * This is a class that represents an activity that displays the list of items.
+ * The user can add, select, view, and delete items in the list
+ */
 public class ListActivity extends AppCompatActivity{
     ImageView addButton;
     ListView itemList;
@@ -44,8 +48,15 @@ public class ListActivity extends AppCompatActivity{
     double totalValue = 0;
     TextView totalCostView;
 
-    Button filterbutton, sortbutton, deleteButton, tagButton;
+    Button filterbutton, sortbutton, deleteButton, yes_button, no_button, tagButton, add_tags_button, cancel_tags_button;
 
+    /**
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,7 +149,53 @@ public class ListActivity extends AppCompatActivity{
         });
     }
 
+    /**
+     * Resets the UI components to their original visibility states and unchecks any checked
+     * checkboxes.
+     * Used after tagging items to revert the UI to its initial state.
+     */
+    private void Reset(){
+            filterbutton.setVisibility(View.VISIBLE);
+            sortbutton.setVisibility(View.VISIBLE);
+            addButton.setVisibility(View.VISIBLE);
+            totalCostView.setVisibility(View.VISIBLE);
+            tagButton.setVisibility(View.VISIBLE);
+            add_tags_button.setVisibility(View.GONE);
+            cancel_tags_button.setVisibility(View.GONE);
+            for(int i = 0; i < items.size();i++){
+                CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
+                if (cBox.isChecked()){
+                    cBox.setChecked(false);
+                }
+                cBox.setVisibility(View.INVISIBLE);
+            }
+        }
+
+    /**
+     * Returns the list of checked item indices that are to be deleted
+     * @return delete_items
+     */
+        public List<Integer> CheckedItems(){
+            delete_items = new ArrayList<>();
+            for(int i = 0; i < items.size();i++){
+                CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
+                if (cBox.isChecked()){
+                    delete_items.add(i);
+                }
+            }
+            return delete_items;
+        }
+
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
+        /**
+         * Handles item clicks in the list. The intent is to open the ViewItemActivity which allows
+         * the user to view a single item.
+         * @param parent The AdapterView where the click happened.
+         * @param view The view within the AdapterView that was clicked (this
+         *            will be a view provided by the adapter)
+         * @param position The position of the view in the adapter.
+         * @param id The row id of the item that was clicked.
+         */
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent i = new Intent(view.getContext(), ViewItemActivity.class);

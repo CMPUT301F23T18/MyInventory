@@ -13,11 +13,22 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+/**
+ * ItemList is a custom ArrayAdapter used for displaying a list of items in the UI.
+ * It extends ArrayAdapter and provides a custom implementation for the getView method
+ * to show item details including an image and estimated value in the list.
+ */
 public class ItemList extends ArrayAdapter<Item> {
 
     private ArrayList<Item> items;
     private Context context;
 
+
+    /**
+     * This constructs an ItemList object
+     * @param context   The context in which the adapter is created.
+     * @param expenses  The list of items to be displayed.
+     */
     public ItemList(Context context, ArrayList<Item> items){
         super(context, 0, items);
         this.items = items;
@@ -25,6 +36,21 @@ public class ItemList extends ArrayAdapter<Item> {
 
     }
 
+    /**
+     * This is to inflate item_list_content layout which is to show the list of items with its
+     * associated price and photograph.
+     *
+     * @param position The position of the item within the adapter's data set of the item whose view
+     *        we want.
+     * @param convertView The old view to reuse, if possible. Note: You should check that this view
+     *        is non-null and of an appropriate type before using. If it is not possible to convert
+     *        this view to display the correct data, this method can create a new view.
+     *        Heterogeneous lists can specify their number of view types, so that this View is
+     *        always of the right type (see {@link #getViewTypeCount()} and
+     *        {@link #getItemViewType(int)}).
+     * @param parent The parent that this view will eventually be attached to
+     * @return
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
