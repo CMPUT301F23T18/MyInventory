@@ -51,7 +51,7 @@ public class SelectTagItemsActivity  extends AppCompatActivity {
                 if(itemAdapter.getCheckedCount()>0){
                     // Pass checked items
                     ArrayList<Item> listToAdd = CheckedItems();
-                    Intent i = new Intent(SelectTagItemsActivity.this, SelectTagItemsActivity.class);
+                    Intent i = new Intent(SelectTagItemsActivity.this, TagsActivity.class);
                     i.putParcelableArrayListExtra("items", listToAdd);
                     startActivity(i);
                 }
