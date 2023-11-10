@@ -1,18 +1,27 @@
 package com.example.myinventoryapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.CollectionReference;
+
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Map;
+
+/**
+ * This is a class that allows you to view an item when the item is clicked from the list
+ */
 
 public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.OnFragmentInteractionListener {
     EditText serialField;
@@ -22,9 +31,18 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
     EditText descField;
     EditText modelField;
     EditText commentField;
+    ImageView left_btn, right_btn, imageView;
     DocumentReference fb_view_item;
     long id;
+    Item item;
+    int img_index = 0;
 
+    /**
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,12 +60,18 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
         modelField = findViewById(R.id.modelEdit);
         commentField = findViewById(R.id.comEdit);
 
+        // set photos
+        imageView = findViewById(R.id.imagePreview);
+        left_btn = findViewById(R.id.imageLeft); left_btn.setOnClickListener(left_right_listener);
+        right_btn = findViewById(R.id.imageRight); right_btn.setOnClickListener(left_right_listener);
+
         // access the database of default user make and model
         fb_view_item = ((Global) getApplication()).DocumentRef(id);
 
         // get keys and set values to appropriate text fields
         fb_view_item.get().addOnSuccessListener(documentSnapshot -> {
             Map<String, Object> data = documentSnapshot.getData();
+
             serialField.setText((String) data.get("serial"));
             dateField.setText((String) data.get("date"));
             makeField.setText((String) data.get("make"));
@@ -55,6 +79,25 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
             descField.setText((String) data.get("desc"));
             modelField.setText((String) data.get("model"));
             commentField.setText((String) data.get("comment"));
+
+            String date = (String) data.get("date");
+            String desc = (String) data.get("desc");
+            String make = (String) data.get("make");
+            String model = (String) data.get("model");
+            String serial = (String) data.get("serial");
+            String value = (String) data.get("price");
+
+            serialField.setText(serial);
+            dateField.setText(date);
+            makeField.setText(make);
+            priceField.setText(value);
+            descField.setText(desc);
+            modelField.setText(model);
+
+            item = new Item(date,desc,make,model,serial,value);
+            StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
+            item.generatePhotoArray(photosRef, String.valueOf(id), task -> DisplayImage());
+
         });
 
         // Back Button
@@ -76,6 +119,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
             }
         });
 
+        // Delete Button
         final Button deleteButton = findViewById(R.id.delete_btn);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,14 +132,67 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
             }
         });
 
+        //TODO: when user clicks photo button, open the gallery in edit mode
     }
 
+    /**
+     * This deletes the item from the firestore cloud database.
+     */
     @Override
     public void onYESPressed() {
         CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
         fb_items.document(Long.toString(id)).delete();
         finish();
         Toast.makeText(ViewItemActivity.this,"Item was deleted" ,Toast.LENGTH_SHORT).show();
+
     }
+
+    /**
+     * Displays the image based on given index
+     */
+    private void DisplayImage() {
+        Bitmap photo = item.getImage(img_index);
+        if (photo != null) {
+            imageView.setImageBitmap(photo);
+        } else {
+            imageView.setImageResource(R.drawable.bg_colored_image);
+        }
+    }
+
+
+    /**
+     * Refreshes the activity to show the current data populated from the firestore database
+     * everytime this activity is shown.
+     */
+    @Override
+    public void onRestart()
+    {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
+    }
+
+    View.OnClickListener left_right_listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.imageLeft) {
+                img_index -= 1;
+                // handle looping
+                if (img_index == -1) {
+                    img_index = item.getPhotosSize() -1;
+                }
+
+                DisplayImage();
+            } else if (v.getId() == R.id.imageRight) {
+                img_index += 1;
+                // handle looping
+                if (img_index == item.getPhotosSize()) {
+                    img_index = 0;
+                }
+
+                DisplayImage();
+            }
+        }
+    };
 
 }

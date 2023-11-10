@@ -18,4 +18,12 @@
         <item name="android:backgroundTint">#F37135</item>
         <item name="android:textSize">20sp</item>
     </style>
+
+    <style name="capturePop">
+        <item name="android:backgroundTint">@color/grey_dark</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:minWidth">210dp</item>
+    </style>
 </resources>
