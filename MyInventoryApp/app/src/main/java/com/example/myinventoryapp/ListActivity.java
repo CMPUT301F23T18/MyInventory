@@ -1,6 +1,9 @@
 package com.example.myinventoryapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,14 +16,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +44,7 @@ public class ListActivity extends AppCompatActivity{
     double totalValue = 0;
     TextView totalCostView;
     Button filterbutton, sortbutton, deleteButton, yes_button, no_button, tagButton, add_tags_button, cancel_tags_button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,15 +67,20 @@ public class ListActivity extends AppCompatActivity{
                     items.clear();
                     for (QueryDocumentSnapshot doc : querySnapshots) {
                         Item item = new Item();
+                        String id = doc.getId();
                         item.setSerial_num(doc.getString("serial"));
                         item.setDate(doc.getString("date"));
                         item.setMake(doc.getString("make"));
                         item.setModel(doc.getString("model"));
                         item.setEst_value(doc.getString("price"));
                         item.setDescription(doc.getString("desc"));
-                        item.setID(Long.parseLong(doc.getId()));
+                        item.setID(Long.parseLong(id));
 
-                        // TODO: Get photo
+
+                        // set photos
+                        StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
+                        item.generatePhotoArray(photosRef,id,itemAdapter);
+
                         Log.d("Firestore", String.format("Item(%s, %s) fetched", item.getMake(), item.getModel()));
                         items.add(item);
                     }

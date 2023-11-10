@@ -6,15 +6,99 @@
     android:layout_height="match_parent"
     android:background="@color/bg_white">
 
-    <TextView
-        android:id="@+id/imageTotal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0/6 Images"
-        android:textSize="24sp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/footer_constraint"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/imageTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0/6 Images"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Space
+            android:id="@+id/space2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image1Edit"
+            android:layout_width="153dp"
+            android:layout_height="124dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toTopOf="@+id/image3Edit"
+            app:layout_constraintEnd_toStartOf="@+id/space2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image2Edit"
+            android:layout_width="153dp"
+            android:layout_height="124dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toTopOf="@+id/image4Edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/space2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image3Edit"
+            android:layout_width="153dp"
+            android:layout_height="124dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/space2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image4Edit"
+            android:layout_width="153dp"
+            android:layout_height="124dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/space2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/image5Edit"
+            android:layout_width="153dp"
+            android:layout_height="124dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/space2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image3Edit" />
+
+        <ImageView
+            android:id="@+id/image6Edit"
+            android:layout_width="153dp"
+            android:layout_height="124dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/space2"
+            app:layout_constraintTop_toBottomOf="@+id/image4Edit" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/footer_constraint"
@@ -69,86 +153,50 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/camera_button" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <TableLayout
-        android:id="@+id/gallery"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/captureConstraints"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageTotal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/footer_constraint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TableRow android:layout_margin="30dp">
-
-            <View
-                android:id="@+id/image1Edit"
-                android:layout_width="153dp"
-                android:layout_height="124dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginBottom="20dp" />
-
-            <View
-                android:id="@+id/image2Edit"
-                android:layout_width="153dp"
-                android:layout_height="124dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp" />
-        </TableRow>
-
-        <TableRow android:layout_margin="30dp">
-
-            <View
-                android:id="@+id/image3Edit"
-                android:layout_width="153dp"
-                android:layout_height="124dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginBottom="20dp" />
-
-            <View
-                android:id="@+id/image4Edit"
-                android:layout_width="153dp"
-                android:layout_height="124dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp" />
-        </TableRow>
-
-        <TableRow android:layout_margin="30dp">
-
-            <View
-                android:id="@+id/image5Edit"
-                android:layout_width="153dp"
-                android:layout_height="124dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginBottom="20dp" />
-
-            <View
-                android:id="@+id/image6Edit"
-                android:layout_width="153dp"
-                android:layout_height="124dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp" />
-        </TableRow>
-
-    </TableLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/footer_constraint"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment_container_view"
-            android:name="com.example.myinventoryapp.CameraFragment"
+        <androidx.camera.view.PreviewView
+            android:id="@+id/camPreview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="100"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_white"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <Button
+                android:id="@+id/captureButtonCam"
+                android:layout_width="148dp"
+                android:layout_height="58dp"
+                android:backgroundTint="@color/button"
+                android:text="@string/capture"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
