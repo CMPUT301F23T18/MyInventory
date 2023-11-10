@@ -48,7 +48,6 @@ public class ListActivity extends AppCompatActivity{
     List<Integer> delete_items;
     double totalValue = 0;
     TextView totalCostView;
-
     Button filterbutton, sortbutton, deleteButton, tagButton;
 
     /**
