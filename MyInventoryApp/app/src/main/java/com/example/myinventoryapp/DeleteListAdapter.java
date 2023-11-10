@@ -1,6 +1,7 @@
 package com.example.myinventoryapp;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,14 @@ public class DeleteListAdapter extends RecyclerView.Adapter<DeleteListAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull DeleteListAdapter.ViewHolder holder, int position) {
         final int i = position;
-        holder.photo.setImageResource(R.drawable.house_placeholder);
+        Item item = items.get(i);
+        if (item.getImage(0) != null) {
+            holder.photo.setImageBitmap(item.getImage(0));
+
+        } else {
+            holder.photo.setImageResource(R.drawable.bg_colored_image);
+        }
+
         holder.value.setText("$ " + items.get(i).getEst_value());
         if(select){
             holder.cBox.setChecked(true);

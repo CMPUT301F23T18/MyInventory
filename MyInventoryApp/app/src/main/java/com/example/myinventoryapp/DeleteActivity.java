@@ -1,17 +1,22 @@
 package com.example.myinventoryapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +40,17 @@ public class DeleteActivity extends AppCompatActivity implements DeletePopUp.OnF
         itemList = findViewById(R.id.delete_list);
 
         items = new ArrayList<>();
-        items = getIntent().getParcelableArrayListExtra("list");
+        // Get photos from firebase
+        items = getIntent().getParcelableArrayListExtra("list", Item.class);
+        StorageReference photoRef = ((Global) getApplication()).getPhotoStorageRef();
+        for (Item item:items) {
+            item.generatePhotoArray(photoRef, String.valueOf(item.getID()), new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    itemAdapter.notifyDataSetChanged();
+                }
+            });
+        }
 
         itemList.setHasFixedSize(true);
         itemList.setLayoutManager(new LinearLayoutManager(this));
@@ -43,7 +58,6 @@ public class DeleteActivity extends AppCompatActivity implements DeletePopUp.OnF
         itemAdapter = new DeleteListAdapter(this, items);
 
         itemList.setAdapter(itemAdapter);
-
         delete_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -167,7 +167,6 @@ public class Item implements Parcelable {
                     // get the bitmap of the byte array and add it to the item's list
                     Bitmap img_bit = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
                     addImage(img_bit);
-                    Log.i("FETCHING PHOTOS","photo fetched for " + id);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -181,7 +180,6 @@ public class Item implements Parcelable {
                 public void onComplete(@NonNull Task<byte[]> task) {
                     // Calls the onCompleteListener on function call
                     // See ViewItemActivity for example
-                    Log.i("FATAL", "In item: " + String.valueOf(images.size()));
                     completeListener.onComplete(task);
                 }
             });
