@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * ItemList is a custom ArrayAdapter used for displaying a list of items in the UI.
  * It extends ArrayAdapter and provides a custom implementation for the getView method
- * to show item details including an image and estimated value in the list.
+ * to show item details including an image, estimated value and tags in the list.
  */
 public class ItemList extends ArrayAdapter<Item> {
 
