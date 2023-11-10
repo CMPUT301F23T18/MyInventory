@@ -97,8 +97,8 @@ public class ListActivityTest {
     @Test
     public void testViewItem() throws InterruptedException {
         sleep(1000);
-        //Click on the first item in list
         onView(withId(R.id.item_list)).perform(click());
+
         sleep(1000);
         //Check if an element from ViewItemActivity is present
         onView(withId(R.id.serialNumEdit)).check(matches(isDisplayed()));
@@ -179,7 +179,29 @@ public class ListActivityTest {
 
     //TODO: editing an item
     @Test
-    public void testEditItem(){
+    public void testEditItem() throws InterruptedException {
+        sleep(1000);
+        //to add an item
+        onView(withId(R.id.add_button)).perform(click());
+
+        //input information
+        onView(withId(R.id.serial_numb)).perform(ViewActions.typeText("Serial"),closeSoftKeyboard());
+        onView(withId(R.id.acquired_da)).perform(ViewActions.typeText("20231111"),closeSoftKeyboard());
+        onView(withId(R.id.make)).perform(ViewActions.typeText("Make"),closeSoftKeyboard());
+        onView(withId(R.id.model)).perform(ViewActions.typeText("Model"),closeSoftKeyboard());
+        onView(withId(R.id.estimated_p)).perform(ViewActions.typeText("101202"),closeSoftKeyboard());
+
+        //press next button
+        onView(withId(R.id.forwardButtonAdd)).perform(click());
+
+        //press save button without photograph
+        onView(withId(R.id.saveButtonGallery)).perform(click());
+
+        //press item
+
+
+
+
     }
 
 }
