@@ -61,25 +61,18 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.getException() != null) {
                             // Check the exception to determine the specific reason for failure
                             String errorMessage = task.getException().getMessage();
-                            Toast.makeText(LoginActivity.this, "Authentication failed: " + errorMessage,
+                            Toast.makeText(LoginActivity.this, " Authentication Failed, Try Google SignIn/Signing Up",
                                     Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this, StartUpActivity.class);
+                            startActivity(intent);
                         } else {
                             // If sign in fails
                             if (task.getException() != null) {
                                 // Check the exception to determine the specific reason for failure
                                 String errorMessage = task.getException().getMessage();
+                                Toast.makeText(LoginActivity.this, " Authentication Failed, Try Google SignIn/Signing Up",
+                                        Toast.LENGTH_SHORT).show();
 
-                                if (errorMessage != null && errorMessage.contains("no user record")) {
-                                    // User does not exist, redirect to sign up
-                                    Toast.makeText(LoginActivity.this, "User not registered. Redirecting to Sign Up.",
-                                            Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(LoginActivity.this, StartUpActivity.class);
-                                    startActivity(intent);
-                                } else {
-                                    // Other authentication failures
-                                    Toast.makeText(LoginActivity.this, "Authentication failed: " + errorMessage,
-                                            Toast.LENGTH_SHORT).show();
-                                }
                             } else {
                                 Toast.makeText(LoginActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
