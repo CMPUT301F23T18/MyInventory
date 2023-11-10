@@ -14,6 +14,10 @@ import com.google.firebase.firestore.DocumentReference;
 
 import java.util.Map;
 
+/**
+ * This is a class that allows you to view an item when the item is clicked from the list
+ */
+
 public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.OnFragmentInteractionListener {
     EditText serialField;
     EditText dateField;
@@ -24,6 +28,12 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
     DocumentReference fb_view_item;
     long id;
 
+    /**
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +83,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
             }
         });
 
+        // Delete Button
         final Button deleteButton = findViewById(R.id.delete_btn);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +98,9 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
 
     }
 
+    /**
+     * This deletes the item from the firestore cloud database.
+     */
     @Override
     public void onYESPressed() {
         CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
@@ -95,6 +109,10 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
         Toast.makeText(ViewItemActivity.this,"Item was deleted" ,Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Refreshes the activity to show the current data populated from the firestore database
+     * everytime this activity is shown.
+     */
     @Override
     public void onRestart()
     {
