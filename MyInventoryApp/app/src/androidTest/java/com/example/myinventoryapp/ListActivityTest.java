@@ -4,6 +4,7 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -14,21 +15,27 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.any;
+import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.Matchers.hasToString;
+import static org.junit.Assert.assertEquals;
 
+import static java.lang.Thread.currentThread;
 import static java.lang.Thread.sleep;
 
 import android.Manifest;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.DataInteraction;
+import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -47,7 +54,7 @@ public class ListActivityTest {
     @Rule
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(Manifest.permission.CAMERA);
     @Rule
-    public ActivityScenarioRule<ListActivity> scenario = new ActivityScenarioRule<ListActivity>(ListActivity.class);
+    public ActivityScenarioRule<ListActivity> rule = new ActivityScenarioRule<ListActivity>(ListActivity.class);
 
     //TODO: login in
     @Test
@@ -57,11 +64,6 @@ public class ListActivityTest {
     //TODO: signup
     @Test
     public void testSignUp(){
-    }
-
-    //TODO: google sign in
-    @Test
-    public void testGoogle(){
     }
 
     //Adds items, along with pictures
@@ -90,7 +92,7 @@ public class ListActivityTest {
         sleep(1000);
 
         //check if item displayed
-        onView(withText("$ 101202.00")).check(matches(isDisplayed()));
+        onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0).onChildView(withText("$ 101202.00")).check(matches(isDisplayed()));
     }
 
     //Views an item
@@ -133,7 +135,8 @@ public class ListActivityTest {
     public void testDeleteItem() throws InterruptedException {
         // Click on an item
         sleep(1000);
-        onView(withText("$ 101202.00")).perform(scrollTo(),click());
+        int itemCountBeforeDeletion = getCount(R.id.item_list); //find the number of items in list before deletion
+        onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0).onChildView(withId(R.id.itemCostView)).atPosition(0).perform(click());
 
         //Click on the delete button
         onView(withId(R.id.delete_btn)).perform(click());
@@ -144,7 +147,23 @@ public class ListActivityTest {
         sleep(3000);
 
         //Check if item removed from the screen
-        onView(withText("$ 101202.00")).check(doesNotExist());
+        int itemCountAfterDeletion = getCount(R.id.item_list); //find the number of items in list after deletion
+        assertEquals(itemCountBeforeDeletion - 1, itemCountAfterDeletion);
+    }
+
+    //Get the number of items in the list
+    private int getCount(int adapterViewId) {
+        final int[] items = {0};
+
+        onView(allOf(withId(adapterViewId), isDisplayed())).check(new ViewAssertion() {
+            @Override
+            public void check(View view, NoMatchingViewException noViewFoundException) {
+                if (view instanceof AdapterView) {
+                    items[0] = ((AdapterView) view).getAdapter().getCount();
+                }
+            }
+        });
+        return items[0];
     }
 
     //Deletes multiple items
@@ -152,6 +171,7 @@ public class ListActivityTest {
     public void testDeleteMultiple() throws InterruptedException {
         //Click on delete button
         sleep(1000);
+        int itemCountBeforeDeletion = getCount(R.id.item_list);
         onView(withId(R.id.delete_btn)).perform(click());
 
         //Click on select all
@@ -165,7 +185,7 @@ public class ListActivityTest {
 
         //Check if all items from list deleted
         sleep(1000);
-        onView(withId(R.id.item_list)).check(matches((not(hasDescendant(any(View.class))))));
+        assertEquals(itemCountBeforeDeletion - 1, 0);
 
     }
 
@@ -201,7 +221,7 @@ public class ListActivityTest {
         onView(withText("1/6 Images")).check(matches(isDisplayed()));
     }
 
-    //TODO: editing an item
+    //Edits an item
     @Test
     public void testEditItem() throws InterruptedException {
         sleep(1000);
@@ -213,19 +233,39 @@ public class ListActivityTest {
         onView(withId(R.id.acquired_da)).perform(ViewActions.typeText("20231111"),closeSoftKeyboard());
         onView(withId(R.id.make)).perform(ViewActions.typeText("Make"),closeSoftKeyboard());
         onView(withId(R.id.model)).perform(ViewActions.typeText("Model"),closeSoftKeyboard());
-        onView(withId(R.id.estimated_p)).perform(ViewActions.typeText("101202"),closeSoftKeyboard());
+        onView(withId(R.id.estimated_p)).perform(ViewActions.typeText("112233"),closeSoftKeyboard());
 
         //press next button
         onView(withId(R.id.forwardButtonAdd)).perform(click());
 
         //press save button without photograph
         onView(withId(R.id.saveButtonGallery)).perform(click());
+        sleep(1000);
 
         //press item
+        onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0)
+                .onChildView(withText("$ 112233.00")).perform(click());
 
+        //press edit
+        onView(withId(R.id.editButton)).perform(click());
+        sleep(1000);
 
+        //edit serial num
+        onView(withId(R.id.serialNumEdit)).perform(replaceText("DIFFERENT"),closeSoftKeyboard());
 
+        //save
+        onView(withId(R.id.saveButton)).perform(click());
 
+        //return to list
+        onView(withId(R.id.backButton)).perform(click());
+        sleep(1000);
+
+        //press on item again
+        onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0)
+                .onChildView(withText("$ 112233.00")).perform(click());
+
+        //check if serial num changed
+        onView(anyOf(withText("DIFFERENT"))).check(matches(isDisplayed()));
     }
-
 }
+
