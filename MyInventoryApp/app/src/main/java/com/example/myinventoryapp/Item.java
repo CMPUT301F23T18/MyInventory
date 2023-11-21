@@ -212,17 +212,35 @@ public class Item implements Parcelable {
         }
     }
 
+    /**
+     * Returns the images arraylist associated with the item.
+     * @return arrayList of type Bitmap containing the images
+     */
     public ArrayList<Bitmap> getImages() {
         return images;
     }
 
+    /**
+     * Returns the size of the images arraylist.
+     * @return the number of images stored for the item
+     * */
     public int getPhotosSize() {
         return images.size();
     }
 
+    /**
+     * Sets the images arraylist to the input list of images
+     * @param images arraylist of type Bitmap that holds the images
+     * */
     public void setImages(ArrayList<Bitmap> images) {
         this.images = images;
     }
+
+    /**
+     * Returns the image at the specified index from the images arraylist.
+     * @param index the index of the image to retrieve
+     * @return the image at the specified index
+     */
     public Bitmap getImage(int index) {
         try {
             Log.i("GETTING PHOTOS", "Getting photo " + index);
@@ -232,6 +250,10 @@ public class Item implements Parcelable {
         }
     }
 
+    /**
+     * Adds a new image to the item's image arraylist.
+     * @param image the image to be added
+     */
     public void addImage(Bitmap image) {
         this.images.add(image);
     }
@@ -357,13 +379,11 @@ public class Item implements Parcelable {
     }
 
     /**
-     * Method to add tag(s) if not in the current list of tags.
-     * @param tag String tag to be added to be associated with the Item
+     * Method to set tag(s) for the Item
+     * @param tags List of tags for the Item
      */
-    public void add_tag(String tag){
-        if (!tags.contains(tag)){
-            tags.add(tag);
-        }
+    public void setTags(List<String> tags){
+        this.tags = tags;
     }
 
     /**

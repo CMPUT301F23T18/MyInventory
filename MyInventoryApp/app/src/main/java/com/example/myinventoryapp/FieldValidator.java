@@ -10,6 +10,9 @@ import java.util.Calendar;
 // and I didn't want to retype everything. In other words, efficiency is key
 // - Riley
 
+/**
+ * Class for checking fields of input data.
+ */
 public class FieldValidator {
     /**
      * This function checks the validity of date, whether its too large or too small

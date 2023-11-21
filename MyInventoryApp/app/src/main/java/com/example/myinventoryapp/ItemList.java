@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * ItemList is a custom ArrayAdapter used for displaying a list of items in the UI.
  * It extends ArrayAdapter and provides a custom implementation for the getView method
- * to show item details including an image and estimated value in the list.
+ * to show item details including an image, estimated value and tags in the list.
  */
 public class ItemList extends ArrayAdapter<Item> {
 
@@ -26,8 +26,8 @@ public class ItemList extends ArrayAdapter<Item> {
 
     /**
      * This constructs an ItemList object
-     * @param context   The context in which the adapter is created.
-     * @param expenses  The list of items to be displayed.
+     * @param context The context in which the adapter is created.
+     * @param items The list of items to be displayed.
      */
     public ItemList(Context context, ArrayList<Item> items){
         super(context, 0, items);
@@ -63,6 +63,7 @@ public class ItemList extends ArrayAdapter<Item> {
         // Get a item using position
         ImageView photo = view.findViewById(R.id.itemImageView);
         TextView value = view.findViewById(R.id.itemCostView);
+        TextView tags = view.findViewById(R.id.tagsView);
 
         if (item.getImage(0) != null) {
             photo.setImageBitmap(item.getImage(0));
@@ -71,6 +72,11 @@ public class ItemList extends ArrayAdapter<Item> {
             photo.setImageResource(R.drawable.bg_colored_image);
         }
         value.setText("$ " + item.getEst_value());
+        if (item.getTags() != null){
+        tags.setText("Tags: " + String.join(", ", item.getTags()));
+        } else {
+            tags.setText("Tags: None");
+        }
 
         return view;
     }

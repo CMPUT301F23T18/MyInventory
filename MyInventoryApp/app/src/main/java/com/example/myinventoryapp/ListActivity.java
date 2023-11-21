@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -47,8 +48,7 @@ public class ListActivity extends AppCompatActivity{
     List<Integer> delete_items;
     double totalValue = 0;
     TextView totalCostView;
-
-    Button filterbutton, sortbutton, deleteButton, yes_button, no_button, tagButton, add_tags_button, cancel_tags_button;
+    Button filterbutton, sortbutton, deleteButton, tagButton;
 
     /**
      *
@@ -63,6 +63,10 @@ public class ListActivity extends AppCompatActivity{
         setContentView(R.layout.item_list);
         totalCostView = findViewById(R.id.totalCostView);
         itemList = findViewById(R.id.item_list);
+
+        // Reset user id in case it's necessary.
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        ((Global) getApplication()).setUSER_PATH(mAuth.getCurrentUser().getUid());
 
         items = new ArrayList<>();
         itemAdapter = new ItemList(this, items);
@@ -88,6 +92,10 @@ public class ListActivity extends AppCompatActivity{
                         item.setDescription(doc.getString("desc"));
                         item.setID(Long.parseLong(id));
 
+                        if (doc.contains("tags")){
+                            List<String> tags = (List<String>) doc.get("tags");
+                            item.setTags(tags);
+                        }
 
                         // set photos
                         StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
@@ -132,7 +140,6 @@ public class ListActivity extends AppCompatActivity{
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Item> listToAdd = new ArrayList<>();
                 Intent i = new Intent(ListActivity.this, DeleteActivity.class);
                 i.putParcelableArrayListExtra("list",items);
                 startActivity(i);
@@ -141,50 +148,12 @@ public class ListActivity extends AppCompatActivity{
         tagButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Item> listToAdd = new ArrayList<>();
                 Intent i = new Intent(ListActivity.this, SelectTagItemsActivity.class);
-                i.putParcelableArrayListExtra("list",items);
+                i.putParcelableArrayListExtra("list", items);
                 startActivity(i);
             }
         });
     }
-
-    /**
-     * Resets the UI components to their original visibility states and unchecks any checked
-     * checkboxes.
-     * Used after tagging items to revert the UI to its initial state.
-     */
-    private void Reset(){
-            filterbutton.setVisibility(View.VISIBLE);
-            sortbutton.setVisibility(View.VISIBLE);
-            addButton.setVisibility(View.VISIBLE);
-            totalCostView.setVisibility(View.VISIBLE);
-            tagButton.setVisibility(View.VISIBLE);
-            add_tags_button.setVisibility(View.GONE);
-            cancel_tags_button.setVisibility(View.GONE);
-            for(int i = 0; i < items.size();i++){
-                CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
-                if (cBox.isChecked()){
-                    cBox.setChecked(false);
-                }
-                cBox.setVisibility(View.INVISIBLE);
-            }
-        }
-
-    /**
-     * Returns the list of checked item indices that are to be deleted
-     * @return delete_items
-     */
-        public List<Integer> CheckedItems(){
-            delete_items = new ArrayList<>();
-            for(int i = 0; i < items.size();i++){
-                CheckBox cBox=(CheckBox)itemList.getChildAt(i).findViewById(R.id.check);
-                if (cBox.isChecked()){
-                    delete_items.add(i);
-                }
-            }
-            return delete_items;
-        }
 
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
         /**

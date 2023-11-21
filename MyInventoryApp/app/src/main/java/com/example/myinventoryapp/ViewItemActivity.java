@@ -3,6 +3,7 @@ package com.example.myinventoryapp;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,11 +13,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -38,6 +41,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
     int img_index = 0;
 
     /**
+     * This is called to initialize UI components
      * @param savedInstanceState If the activity is being re-initialized after
      *     previously being shut down then this Bundle contains the data it most
      *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
@@ -141,6 +145,22 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
                 i.putExtra("ID",id);
                 i.putExtra("Edit", true);
                 startActivity(i);
+            }
+        });
+
+        // Tag button
+        Button tag_button = findViewById(R.id.add_tag_button);
+        tag_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Item> listToAdd = new ArrayList<>();
+                item.setID(id);
+                Log.d("Tags Id", String.valueOf(item.getID()));
+                listToAdd.add(item);
+                Intent i = new Intent(ViewItemActivity.this, SelectTagItemsActivity.class);
+                i.putParcelableArrayListExtra("list", listToAdd);
+                startActivity(i);
+                finish();
             }
         });
     }

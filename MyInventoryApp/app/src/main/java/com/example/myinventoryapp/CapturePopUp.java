@@ -13,7 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-
+/**
+ * This is a DialogFragment that shows an alert dialog with having the options of capturing an
+ * image, selecting from the gallery, or deleting an existing image.
+ */
 public class CapturePopUp extends DialogFragment {
     View view;
     View root;
@@ -35,6 +38,7 @@ public class CapturePopUp extends DialogFragment {
     }
 
     /**
+     * Called to generate the dialog shown by this fragment.
      * @param savedInstanceState If the fragment is being re-created from
      *                           a previous saved state, this is the state.
      */
