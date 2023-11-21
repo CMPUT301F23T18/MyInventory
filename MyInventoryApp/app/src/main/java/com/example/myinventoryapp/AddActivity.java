@@ -37,7 +37,6 @@ public class AddActivity extends AppCompatActivity {
     EditText modelField;
     DocumentReference fb_new_item;
     EditText commentField;
-    Context context;
 
 
     /**

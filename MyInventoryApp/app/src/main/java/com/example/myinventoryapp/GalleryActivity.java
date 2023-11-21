@@ -31,6 +31,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -187,7 +188,6 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
             }
 
         }
-
         // change total
         total -= 1;
         String text = total + "/6 Images";
