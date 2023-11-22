@@ -192,6 +192,16 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
+                android:id="@+id/closeCaptureButton"
+                android:layout_width="148dp"
+                android:layout_height="58dp"
+                android:backgroundTint="@color/button"
+                android:text="Close"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
                 android:id="@+id/captureButtonCam"
                 android:layout_width="148dp"
                 android:layout_height="58dp"
@@ -199,8 +209,7 @@
                 android:text="@string/capture"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
