@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -15,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +28,7 @@ import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
+import androidx.camera.core.processing.SurfaceProcessorNode;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -36,6 +42,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -61,8 +68,9 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
     ImageView image1,image2,image3,image4,image5,image6;
     ArrayList<ImageView> images;
     ArrayList<Bitmap> imageBits = new ArrayList<Bitmap>(6);;
+    ActivityResultLauncher<String> galleryGrab;
     TextView image_total; int total = 0; int img_idx = 0;
-    Button back_btn, save_btn, capture_cam_btn;
+    Button back_btn, save_btn, capture_cam_btn, close_capture;
     PreviewView cam_preview;
     ImageView capture_btn;
     long id;
@@ -116,7 +124,25 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         save_btn = findViewById(R.id.saveButtonGallery); save_btn.setOnClickListener(this);
         capture_btn = findViewById(R.id.cameraButton); capture_btn.setOnClickListener(this);
         capture_cam_btn = findViewById(R.id.captureButtonCam); capture_cam_btn.setOnClickListener(this);
-        //TODO: add close button for camera
+        close_capture = findViewById(R.id.closeCaptureButton); close_capture.setOnClickListener(this);
+
+        galleryGrab = registerForActivityResult(
+                new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+                    @Override
+                    public void onActivityResult(Uri o) {
+                        try {
+                            Bitmap image_bit = BitmapFactory.decodeStream(getApplicationContext()
+                                    .getContentResolver().openInputStream(o));
+                            Matrix matrix = new Matrix();
+                            matrix.postRotate(90);
+                            Bitmap scaledBitmap = Bitmap.createScaledBitmap(image_bit, image_bit.getWidth(), image_bit.getHeight(), true);
+                            Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+                            attachToItem(rotatedBitmap);
+                        } catch (FileNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
 
         if (edit_activity) {
             // This Activity was called as the edit version, populate the gallery right away
@@ -160,6 +186,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
     @Override
     public void onGalleryPressed() {
         //TODO: Get photo from phone gallery -> need permission
+        galleryGrab.launch("image/*");
     }
 
     /**
@@ -167,12 +194,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
      */
     @Override
     public void onDeletePressed() {
-        //TODO: delete photos
         StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
-
-        // delete the image
-        //TODO: Rename photos
-
         // update list on app and firebase
         for (int i = img_idx; i < images.size()-1;++i) {
             // loop for each photo past the deleted one
@@ -225,6 +247,11 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
             // The button that appears with the camera preview
             capturePhoto();
             capture_layout.setVisibility(View.GONE);
+            cameraProvider.unbindAll();
+        } else if (vID == R.id.closeCaptureButton) {
+            // The close button that appears with the camera preview
+            capture_layout.setVisibility(View.GONE);
+            cameraProvider.unbindAll();
         }
         if (v.getVisibility() != View.INVISIBLE) {
             if (vID == R.id.image1Edit) {
@@ -307,7 +334,6 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         preview.setSurfaceProvider(cam_preview.getSurfaceProvider());
 
         imageCapture = new ImageCapture.Builder().build();
-
         try {
             cameraProvider.unbindAll();
 
