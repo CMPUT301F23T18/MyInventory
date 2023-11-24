@@ -16,7 +16,7 @@
 
     <ImageView
         android:id="@+id/itemImageView"
-        android:layout_width="150dp"
+        android:layout_width="100dp"
         android:layout_height="200dp"
         android:padding="5dp"
         android:src="@drawable/house_placeholder"
@@ -26,25 +26,49 @@
     <TextView
         android:id="@+id/itemCostView"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:padding="10dp"
-        android:text="$0"
+        android:layout_height="25dp"
+        android:text="Cost: $0"
         android:textColor="@color/white"
-        android:textSize="25sp"
+        android:textSize="20dp"
         app:layout_constraintStart_toEndOf="@id/itemImageView"
+        app:layout_constraintBottom_toTopOf="@id/makeView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
+        android:id="@+id/makeView"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:text="Make: None"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintStart_toEndOf="@id/itemImageView"
+        app:layout_constraintBottom_toTopOf="@id/modelView"
+        app:layout_constraintTop_toTopOf="@id/itemCostView"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/modelView"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:text="Model: None"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@id/tagsView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/itemImageView"
+        app:layout_constraintTop_toBottomOf="@id/makeView" />
+
+    <TextView
         android:id="@+id/tagsView"
         android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:padding="10dp"
+        android:layout_height="125dp"
         android:text="Tags: None"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@id/itemImageView"
-        app:layout_constraintTop_toBottomOf="@id/itemCostView"
+        app:layout_constraintTop_toBottomOf="@id/modelView"
         app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
