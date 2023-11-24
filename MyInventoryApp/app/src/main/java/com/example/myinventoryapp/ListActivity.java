@@ -122,7 +122,6 @@ public class ListActivity extends AppCompatActivity{
         itemList.setAdapter(itemAdapter);
 
         addButton = findViewById(R.id.add_button);
-        //TODO: activity_edit needs to have inputType changed for applicable entries
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
