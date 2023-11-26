@@ -122,7 +122,6 @@ public class ListActivity extends AppCompatActivity{
         itemList.setAdapter(itemAdapter);
 
         addButton = findViewById(R.id.add_button);
-        //TODO: activity_edit needs to have inputType changed for applicable entries
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +139,6 @@ public class ListActivity extends AppCompatActivity{
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Item> listToAdd = new ArrayList<>();
                 Intent i = new Intent(ListActivity.this, DeleteActivity.class);
                 i.putParcelableArrayListExtra("list",items);
                 startActivity(i);
