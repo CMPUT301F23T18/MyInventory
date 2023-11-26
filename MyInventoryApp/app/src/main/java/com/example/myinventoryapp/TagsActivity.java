@@ -183,7 +183,6 @@ public class TagsActivity extends AppCompatActivity {
                 selectedTags.add(tags.get(i));
             }
         }
-
         return selectedTags;
     }
 }
