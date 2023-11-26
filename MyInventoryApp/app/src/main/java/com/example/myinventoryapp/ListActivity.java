@@ -1,11 +1,13 @@
 package com.example.myinventoryapp;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -136,6 +139,13 @@ public class ListActivity extends AppCompatActivity{
         filterbutton = findViewById(R.id.filterButton);
         sortbutton = findViewById(R.id.sortButton);
 
+        filterbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               showAlertDialog();
+            }
+        });
+
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,6 +164,33 @@ public class ListActivity extends AppCompatActivity{
         });
     }
 
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.fragment_filter, null);
+
+        builder.setView(view)
+                .setTitle("Apply Filters");
+        Button positiveButton = view.findViewById(R.id.positive);
+        Button negativeButton = view.findViewById(R.id.negative);
+        AlertDialog alertDialog = builder.create();
+
+        positiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        negativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
+    }
+
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
         /**
          * Handles item clicks in the list. The intent is to open the ViewItemActivity which allows
@@ -169,6 +206,7 @@ public class ListActivity extends AppCompatActivity{
             Intent i = new Intent(view.getContext(), ViewItemActivity.class);
             long ID = items.get(position).getID();
             i.putExtra("ID",ID);
+            i.putExtra("NumofImages",items.get(position).getPhotosSize());
             startActivity(i);
         }
     };

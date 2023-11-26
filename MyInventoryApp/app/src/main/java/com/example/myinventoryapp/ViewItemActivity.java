@@ -19,6 +19,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,7 +38,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
     DocumentReference fb_view_item;
     long id;
     Item item;
-    int img_index = 0;
+    int img_index = 0, num_of_imgs;
 
     /**
      * This is called to initialize UI components
@@ -53,6 +54,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
 
         // get id of the item that was clicked:
         this.id = getIntent().getLongExtra("ID",0);
+        this.num_of_imgs = getIntent().getIntExtra("NumofImages",0);
 
         // find the IDs of all the list of information when viewing an item, but get it from firebase
         serialField = findViewById(R.id.serialNumEdit);
@@ -90,6 +92,11 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
             String serial = (String) data.get("serial");
             String value = (String) data.get("price");
 
+            List<String> tags = new ArrayList<>();
+            if (data.containsKey("tags")){
+                tags = (List<String>)data.get("tags");
+            }
+
             serialField.setText(serial);
             dateField.setText(date);
             makeField.setText(make);
@@ -98,6 +105,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
             modelField.setText(model);
 
             item = new Item(date,desc,make,model,serial,value);
+            item.setTags(tags);
             StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
             item.generatePhotoArray(photosRef, String.valueOf(id), task -> DisplayImage());
 
@@ -156,8 +164,8 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
                 item.setID(id);
                 Log.d("Tags Id", String.valueOf(item.getID()));
                 listToAdd.add(item);
-                Intent i = new Intent(ViewItemActivity.this, SelectTagItemsActivity.class);
-                i.putParcelableArrayListExtra("list", listToAdd);
+                Intent i = new Intent(ViewItemActivity.this, TagsActivity.class);
+                i.putParcelableArrayListExtra("items", listToAdd);
                 startActivity(i);
                 finish();
             }
@@ -170,10 +178,15 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
     @Override
     public void onYESPressed() {
         CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
+        StorageReference photoRef = ((Global) getApplication()).getPhotoStorageRef();
+        if (num_of_imgs>0){
+            for(int i = 0; i < num_of_imgs;i++){
+                photoRef.child(id+"/image"+(i)+".jpg").delete();
+            }
+        }
         fb_items.document(Long.toString(id)).delete();
         finish();
         Toast.makeText(ViewItemActivity.this,"Item was deleted" ,Toast.LENGTH_SHORT).show();
-
     }
 
     /**

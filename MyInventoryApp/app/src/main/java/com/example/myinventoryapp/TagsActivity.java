@@ -34,9 +34,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.StorageReference;
 
 import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -53,6 +56,7 @@ public class TagsActivity extends AppCompatActivity {
     ArrayAdapter<String> tagAdaptor;
     ArrayList<Item> items;
     ArrayList<String> tags;
+    ArrayList<Boolean> selectedTags;
 
     /**
      * This is called to initialize any UI components, and to also retrieve item data from the
@@ -74,6 +78,7 @@ public class TagsActivity extends AppCompatActivity {
         tags = new ArrayList<>();
         tagAdaptor = new ArrayAdapter<>(this, R.layout.tags_content, this.tags);
         tagList.setAdapter(tagAdaptor);
+        selectedTags = new ArrayList<>();
 
         // Get tags from firebase
         DocumentReference docRef = ((Global) getApplication()).getFBTagsRef().document("TAGS");
@@ -85,6 +90,11 @@ public class TagsActivity extends AppCompatActivity {
                     List<String> tags_list = (List<String>) document.get("all_tags");
                     if (tags_list != null){tags.addAll(tags_list);}
                     tagAdaptor.notifyDataSetChanged();
+                    if (tags.size() > selectedTags.size()){
+                        for (int i = 0; i < tags.size() - selectedTags.size(); i++){
+                            selectedTags.add(false);
+                        }
+                    }
                 }
             } else {
                 Log.d("TagsActivity", "Error getting document: " + task.getException());
@@ -98,10 +108,17 @@ public class TagsActivity extends AppCompatActivity {
 
         tagList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                tagList.setItemChecked(position, true);
-                view.setBackgroundColor(getResources().getColor(R.color.orange));
+//                if (tagList.isItemChecked(position)){
+//                    tagList.setItemChecked(position, false);
+//                    view.setBackgroundColor(getResources().getColor(R.color.bg_white));
+//                    Log.i("Clicked", "Unselect");
+//                } else {
+                    tagList.setItemChecked(position, true);
+                    view.setBackgroundColor(getResources().getColor(R.color.orange));
+//                    Log.i("Clicked", "Select");
+//                }
+
                 tagAdaptor.notifyDataSetChanged();
-                Log.i("Clicked", "Item clicked");
             }
         });
         back_button.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +146,21 @@ public class TagsActivity extends AppCompatActivity {
                     tagEditText.setText("");
                     TagsActivity.this.tags.add(userInput);
                     tagAdaptor.notifyDataSetChanged();
+
+                    // Store all current tags to firebase.
+                    CollectionReference coll = ((Global)getApplication()).getFBTagsRef();
+                    Map<String, Object> tag_hash = new HashMap<String, Object>();
+                    tag_hash.put("all_tags", tags);
+                    coll.document("TAGS").set(tag_hash).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d("Firestore","tag saved");
+                            } else {
+                                Log.w("Firestore","failed:",task.getException());
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -155,7 +187,14 @@ public class TagsActivity extends AppCompatActivity {
                     item_hash.put("model", item.getModel());
                     item_hash.put("price", item.getEst_value());
                     item_hash.put("desc", item.getDescription());
-                    item_hash.put("tags", getSelectedTags());
+
+                    // Don't change tags for items if the user didn't select any tags.
+                    if (getSelectedTags().size() > 0){
+                        item_hash.put("tags", getSelectedTags());
+                    } else {
+                        item_hash.put("tags", item.getTags());
+                    }
+
                     ref.set(item_hash).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -183,7 +222,6 @@ public class TagsActivity extends AppCompatActivity {
                 selectedTags.add(tags.get(i));
             }
         }
-
         return selectedTags;
     }
 }
