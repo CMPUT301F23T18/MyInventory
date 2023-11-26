@@ -206,6 +206,7 @@ public class ListActivity extends AppCompatActivity{
             Intent i = new Intent(view.getContext(), ViewItemActivity.class);
             long ID = items.get(position).getID();
             i.putExtra("ID",ID);
+            i.putExtra("NumofImages",items.get(position).getPhotosSize());
             startActivity(i);
         }
     };

@@ -46,7 +46,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import io.grpc.Context;
@@ -79,6 +81,8 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
     Boolean edit_activity;
     ProcessCameraProvider cameraProvider;
     ImageCapture imageCapture;
+    DocumentReference fb_new_item;
+    String serial, date, make, model, price, desc, comment;
     /**
      * @param savedInstanceState If the activity is being re-initialized after
      *                           previously being shut down then this Bundle contains the data it most
@@ -89,6 +93,13 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
         this.id = getIntent().getLongExtra("ID",0);
+        this.serial = getIntent().getStringExtra("serial");
+        this.date = getIntent().getStringExtra("date");
+        this.make = getIntent().getStringExtra("make");
+        this.model = getIntent().getStringExtra("model");
+        this.price = getIntent().getStringExtra("price");
+        this.desc = getIntent().getStringExtra("desc");
+        this.comment = getIntent().getStringExtra("comment");
         this.edit_activity = getIntent().getBooleanExtra("Edit",false);
 
         if (id == 0) {
@@ -247,8 +258,34 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         } else if (vID == R.id.backButton) {
             // Go back to add activity
             finish();
+        } else if (vID == R.id.saveButtonGallery && edit_activity) {
+            finish();
         } else if (vID == R.id.saveButtonGallery) {
             // return to list activity
+            Map<String, Object> item_hash = new HashMap<String, Object>();
+            item_hash.put("serial",this.serial);
+            item_hash.put("date",this.date);
+            item_hash.put("make",this.make);
+            item_hash.put("model",this.model);
+            item_hash.put("price",this.price);
+            item_hash.put("desc",this.desc);
+            item_hash.put("comment",this.comment);
+            //long ID = System.currentTimeMillis();
+            item_hash.put("ID",this.id);
+
+            // create a document for firebase using the make and model as the name
+            fb_new_item = ((Global) getApplication()).DocumentRef(this.id);
+            // add the item to firebase
+            fb_new_item.set(item_hash).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.d("Firestore","document saved");
+                    } else {
+                        Log.w("Firestore","failed:",task.getException());
+                    }
+                }
+            });
             Intent i = new Intent(this,ListActivity.class);
             startActivity(i);
         } else if (vID == R.id.captureButtonCam) {
@@ -362,20 +399,20 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
              * from here we can take the picture from memory and upload it to firebase
              * @param image The captured image
              */
-                    @Override
-                    public void onCaptureSuccess(@NonNull ImageProxy image) {
-                        super.onCaptureSuccess(image);
-                        Toast.makeText(getApplicationContext(),"Capture successful",Toast.LENGTH_SHORT).show();
-                        Bitmap image_bit = image.toBitmap();
+            @Override
+            public void onCaptureSuccess(@NonNull ImageProxy image) {
+                super.onCaptureSuccess(image);
+                Toast.makeText(getApplicationContext(),"Capture successful",Toast.LENGTH_SHORT).show();
+                Bitmap image_bit = image.toBitmap();
 
-                        // must rotate bitmap 90 degrees to get correct orientation
-                        Matrix matrix = new Matrix();
-                        matrix.postRotate(90);
-                        Bitmap scaledBitmap = Bitmap.createScaledBitmap(image_bit, image.getWidth(), image.getHeight(), true);
-                        Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
-                        attachToItem(rotatedBitmap);
-                        animateCamera(false);
-                    }
+                // must rotate bitmap 90 degrees to get correct orientation
+                Matrix matrix = new Matrix();
+                matrix.postRotate(90);
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(image_bit, image.getWidth(), image.getHeight(), true);
+                Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+                attachToItem(rotatedBitmap);
+                animateCamera(false);
+            }
 
             /**
              * Called on failure
@@ -383,14 +420,14 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
              * @param exception An {@link ImageCaptureException} that contains the type of error, the
              *                  error message and the throwable that caused it.
              */
-                    @Override
-                    public void onError(@NonNull ImageCaptureException exception) {
-                        super.onError(exception);
-                        exception.printStackTrace();
-                        Toast.makeText(getApplicationContext(),"Failed to capture image",Toast.LENGTH_SHORT).show();
-                        animateCamera(false);
-                    }
-                });
+            @Override
+            public void onError(@NonNull ImageCaptureException exception) {
+                super.onError(exception);
+                exception.printStackTrace();
+                Toast.makeText(getApplicationContext(),"Failed to capture image",Toast.LENGTH_SHORT).show();
+                animateCamera(false);
+            }
+        });
 
     }
 
@@ -502,4 +539,3 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         }
     }
 }
-

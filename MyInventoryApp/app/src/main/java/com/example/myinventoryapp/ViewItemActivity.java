@@ -37,7 +37,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
     DocumentReference fb_view_item;
     long id;
     Item item;
-    int img_index = 0;
+    int img_index = 0, num_of_imgs;
 
     /**
      * This is called to initialize UI components
@@ -53,6 +53,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
 
         // get id of the item that was clicked:
         this.id = getIntent().getLongExtra("ID",0);
+        this.num_of_imgs = getIntent().getIntExtra("NumofImages",0);
 
         // find the IDs of all the list of information when viewing an item, but get it from firebase
         serialField = findViewById(R.id.serialNumEdit);
@@ -170,10 +171,15 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
     @Override
     public void onYESPressed() {
         CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
+        StorageReference photoRef = ((Global) getApplication()).getPhotoStorageRef();
+        if (num_of_imgs>0){
+            for(int i = 0; i < num_of_imgs;i++){
+                photoRef.child(id+"/image"+(i)+".jpg").delete();
+            }
+        }
         fb_items.document(Long.toString(id)).delete();
         finish();
         Toast.makeText(ViewItemActivity.this,"Item was deleted" ,Toast.LENGTH_SHORT).show();
-
     }
 
     /**

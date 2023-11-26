@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ public class AddActivity extends AppCompatActivity {
     EditText modelField;
     DocumentReference fb_new_item;
     EditText commentField;
+    ArrayList<String> new_item;
 
 
     /**
@@ -144,36 +146,10 @@ public class AddActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"price is required to proceed",Toast.LENGTH_SHORT).show();
             }
 
-            // map all inputs to a Hashmap
-            Map<String, Object> item_hash = new HashMap<String, Object>();
-            item_hash.put("serial",serial);
-            item_hash.put("date",date);
-            item_hash.put("make",make);
-            item_hash.put("model",model);
-            item_hash.put("price",price);
-            item_hash.put("desc",desc);
-            item_hash.put("comment",comment);
-
             long ID = System.currentTimeMillis();
-            item_hash.put("ID",ID);
-
-            // create a document for firebase using the make and model as the name
-            fb_new_item = ((Global) getApplication()).DocumentRef(ID);
-            // add the item to firebase
-            fb_new_item.set(item_hash).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Log.d("Firestore","document saved");
-                    } else {
-                        Log.w("Firestore","failed:",task.getException());
-                    }
-                }
-            });
-
 
             // go to gallery activity
-            nextActivity(ID,v);
+            nextActivity(ID,v, serial, date, make, model, price, desc, comment);
         }
     };
 
@@ -182,11 +158,18 @@ public class AddActivity extends AppCompatActivity {
      * @param ID ID of the item that was made, needed to get item in Gallery
      * @param v view of the activity
      */
-    private void nextActivity(long ID, View v) {
+    private void nextActivity(long ID, View v, String serial, String date, String make, String model, String price, String desc, String comment) {
         //Intent i = new Intent(v.getContext(), ListActivity.class);
         Intent i = new Intent(v.getContext(), GalleryActivity.class);
         // put ID in the intent
         i.putExtra("ID",ID);
+        i.putExtra("serial", serial);
+        i.putExtra("date",date);
+        i.putExtra("make",make);
+        i.putExtra("model",model);
+        i.putExtra("price",price);
+        i.putExtra("desc",desc);
+        i.putExtra("comment",comment);
         startActivity(i);
     }
     /**
