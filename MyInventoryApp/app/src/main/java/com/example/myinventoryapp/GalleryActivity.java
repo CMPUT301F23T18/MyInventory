@@ -106,6 +106,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         image6 = findViewById(R.id.image6Edit); image6.setOnClickListener(this);
         image_total = findViewById(R.id.imageTotal);
 
+        // populate 2 arrays, first an array of imageviews, secondly an array of 1x1 bitmaps (to be replaced)
         images = new ArrayList<ImageView>();
         Bitmap.Config conf = Bitmap.Config.ARGB_8888;
         Bitmap bit = Bitmap.createBitmap(1,1,conf);
@@ -301,7 +302,6 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         String permission = Manifest.permission.CAMERA;
 
         if (EasyPermissions.hasPermissions(this,permission)) {
-            //capture_layout.setVisibility(View.VISIBLE);
             animateCamera(true);
             // Activate the camera
             // Camera set up
@@ -447,6 +447,15 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
                         close.setVisibility(View.GONE);
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (cameraProvider != null) {
+            cameraProvider.unbindAll();
+            cameraProvider = null;
+        }
     }
 
 

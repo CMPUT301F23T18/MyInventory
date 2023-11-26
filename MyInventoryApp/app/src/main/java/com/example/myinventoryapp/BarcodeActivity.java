@@ -63,8 +63,8 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
         // get views
         icon = findViewById(R.id.barcodeIcon);
         camView = findViewById(R.id.barcodeView);
-        back_btn = findViewById(R.id.backButton); back_btn.setOnClickListener(onBackCLicked());
-        scan_btn = findViewById(R.id.scanButton); scan_btn.setOnClickListener(onScanClicked());
+        back_btn = findViewById(R.id.backButton); back_btn.setOnClickListener(onBackClicked);
+        scan_btn = findViewById(R.id.scanButton); scan_btn.setOnClickListener(onScanClicked);
 
         // set up barcode scanner
         options = new BarcodeScannerOptions.Builder()
@@ -108,21 +108,25 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
      * @param cameraProvider a provider used to bind the lifecycle of cameras
      */
     private void startCamera(ProcessCameraProvider cameraProvider) {
+        if (isDestroyed()) {
+            Log.i("BARCODE","the activity was destroyed");
+            return;
+        }
         CameraSelector cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA;
 
         Preview preview = new Preview.Builder().build();
         preview.setSurfaceProvider(camView.getSurfaceProvider());
 
-        ImageAnalysis imageAnalysis =
-                new ImageAnalysis.Builder()
-                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                        .build();
+        ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                .build();
         imageAnalysis.setAnalyzer(getMainExecutor(),this);
 
         try {
             cameraProvider.unbindAll();
-
-            cameraProvider.bindToLifecycle(this,cameraSelector,preview,imageAnalysis);
+            if (!isDestroyed()) {
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -132,13 +136,15 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
      * Begin the image processing on click
      * @return null
      */
-    private View.OnClickListener onScanClicked() {
-        // make the button disappear and start the camera, with overlay
-        icon.setVisibility(View.VISIBLE);
-        scan_btn.setVisibility(View.GONE);
-        initializeCamera();
-        return null;
-    }
+    View.OnClickListener onScanClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // make the button disappear and start the camera, with overlay
+            icon.setVisibility(View.VISIBLE);
+            scan_btn.setVisibility(View.GONE);
+            initializeCamera();
+        }
+    };
 
     /**
      * analyzes the image provided by the camera, new image every frame. Therefore only called
@@ -192,9 +198,20 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
         }
     }
 
-    private View.OnClickListener onBackCLicked() {
-        finish();
-        return null;
+    View.OnClickListener onBackClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            finish();
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (cameraProvider != null) {
+            cameraProvider.unbindAll();
+            cameraProvider = null;
+        }
     }
 
 

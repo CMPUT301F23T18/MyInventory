@@ -201,7 +201,7 @@ public class AddActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Log.i("BARCODE","CLICKED");
-            Intent i = new Intent(v.getContext(), BarcodeActivity.class);
+            Intent i = new Intent(AddActivity.this, BarcodeActivity.class);
             startActivity(i);
         }
     };
