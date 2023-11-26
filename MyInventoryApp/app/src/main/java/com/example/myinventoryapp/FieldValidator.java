@@ -28,6 +28,9 @@ public class FieldValidator {
         if (date.length() == 0) {
             Toast.makeText(context,"date is required to proceed",Toast.LENGTH_SHORT).show();
             return false;
+        } else if (date.length() != 10) {
+            Toast.makeText(context,"date is incomplete",Toast.LENGTH_SHORT).show();
+            return false;
         }
         int current_year = Calendar.getInstance().get(Calendar.YEAR);
         String[] split;
