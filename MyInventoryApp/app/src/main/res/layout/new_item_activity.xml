@@ -8,99 +8,149 @@
     android:background="@color/bg_white"
     android:clipToOutline="true">
 
-
-    <EditText
-        android:id="@+id/serial_numb"
-        android:layout_width="181dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="96dp"
-        android:digits="1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-"
-        android:gravity="center_vertical"
-        android:hint="@string/serial_numb"
-        android:inputType="textCapCharacters"
-        android:textAppearance="@style/new_item_activity_text"
-        android:textColor="@color/white"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout13"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:textColorHint="@color/white"
-        app:layout_constraintStart_toStartOf="@+id/acquired_da"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout9"
+        app:layout_constraintEnd_toStartOf="@+id/serialScanButton"
+        app:layout_constraintStart_toStartOf="@+id/space6"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/acquired_da"
-        android:layout_width="298dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="7dp"
-        android:gravity="center_vertical"
-        android:hint="@string/acquired_da"
+        <EditText
+            android:id="@+id/serial_numb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-"
+            android:gravity="center_vertical"
+            android:hint="@string/serial_numb"
+            android:inputType="textCapCharacters"
+            android:textAppearance="@style/new_item_activity_text"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            tools:layout_editor_absoluteX="47dp"
+            tools:layout_editor_absoluteY="96dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout9"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:textColorHint="@color/white"
-        android:textColor="@color/white"
-        android:digits="1234567890-"
-        android:maxLength="10"
-        android:inputType="phone"
-        android:textAppearance="@style/new_item_activity_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/serial_numb" />
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout8"
+        app:layout_constraintEnd_toEndOf="@+id/space6"
+        app:layout_constraintStart_toStartOf="@+id/space6"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/make"
-        android:layout_width="298dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="7dp"
-        android:gravity="center_vertical"
-        android:hint="@string/make"
+        <EditText
+            android:id="@+id/acquired_da"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="1234567890-"
+            android:gravity="center_vertical"
+            android:hint="@string/acquired_da"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:textAppearance="@style/new_item_activity_text"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            tools:layout_editor_absoluteX="47dp"
+            tools:layout_editor_absoluteY="151dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:textColorHint="@color/white"
-        android:textColor="@color/white"
-        android:textAppearance="@style/new_item_activity_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/acquired_da" />
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout8"
+        app:layout_constraintEnd_toEndOf="@+id/space6"
+        app:layout_constraintStart_toStartOf="@+id/space6"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout9">
 
+        <EditText
+            android:id="@+id/make"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:hint="@string/make"
+            android:textAppearance="@style/new_item_activity_text"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            tools:layout_editor_absoluteX="47dp"
+            tools:layout_editor_absoluteY="206dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/estimated_p"
-        android:layout_width="298dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="7dp"
-        android:gravity="center_vertical"
-        android:hint="@string/estimated_p"
-        android:inputType="numberDecimal"
-        android:textAppearance="@style/new_item_activity_text"
-        android:textColor="@color/white"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout12"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:textColorHint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/model" />
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout11"
+        app:layout_constraintEnd_toEndOf="@+id/space6"
+        app:layout_constraintStart_toStartOf="@+id/space6"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout8">
 
-    <EditText
-        android:id="@+id/description"
-        android:layout_width="298dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="7dp"
-        android:gravity="center_vertical"
-        android:hint="@string/description"
-        android:textAppearance="@style/new_item_activity_text"
-        android:textColor="@color/white"
+        <EditText
+            android:id="@+id/estimated_p"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:hint="@string/estimated_p"
+            android:inputType="numberDecimal"
+            android:textAppearance="@style/new_item_activity_text"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            tools:layout_editor_absoluteX="48dp"
+            tools:layout_editor_absoluteY="386dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout11"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:textColorHint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/estimated_p" />
+        app:layout_constraintBottom_toTopOf="@+id/scanBarcodeAdd"
+        app:layout_constraintEnd_toEndOf="@+id/space6"
+        app:layout_constraintStart_toStartOf="@+id/space6"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout8">
 
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:hint="@string/description"
+            android:textAppearance="@style/new_item_activity_text"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            tools:layout_editor_absoluteX="48dp"
+            tools:layout_editor_absoluteY="442dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/scanBarcodeAdd"
+        app:layout_constraintEnd_toEndOf="@+id/space6"
+        app:layout_constraintStart_toStartOf="@+id/space6"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout11">
+        <EditText
         android:id="@+id/comments"
-        android:layout_width="298dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="7dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:hint="Comments"
         android:textAppearance="@style/new_item_activity_text"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description" />
+        tools:layout_editor_absoluteX="47dp"
+        tools:layout_editor_absoluteY="541dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/imageView"
@@ -108,7 +158,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/footer_bg" />
 
@@ -116,34 +165,43 @@
         android:id="@+id/scanBarcodeAdd"
         android:layout_width="175dp"
         android:layout_height="50dp"
-        android:layout_marginTop="24dp"
         android:backgroundTint="@color/black"
         android:text="@string/scan_image"
         android:textAppearance="@style/scan_image"
         android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comments" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/model"
-        android:layout_width="298dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="7dp"
-        android:ems="10"
-        android:hint="Model"
-        android:inputType="text"
-        android:textColor="@color/white"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:textColorHint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/make" />
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/space6"
+        app:layout_constraintStart_toStartOf="@+id/space6"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/model"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Model"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            tools:layout_editor_absoluteX="47dp"
+            tools:layout_editor_absoluteY="261dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <ImageView
         android:id="@+id/forwardButtonAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -154,12 +212,11 @@
         android:id="@+id/backButton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/forwardButtonAdd"
-        app:layout_constraintHorizontal_bias="0.05"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/back_arrow" />
 
     <Button
@@ -168,8 +225,17 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/black"
         android:text="Scan Serial"
-        app:layout_constraintStart_toEndOf="@+id/serial_numb"
-        app:layout_constraintTop_toTopOf="@+id/serial_numb" />
+        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout13"
+        app:layout_constraintEnd_toEndOf="@+id/space6"
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout13" />
+
+    <Space
+        android:id="@+id/space6"
+        android:layout_width="296dp"
+        android:layout_height="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
