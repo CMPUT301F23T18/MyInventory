@@ -11,7 +11,7 @@
 
     <EditText
         android:id="@+id/serial_numb"
-        android:layout_width="298dp"
+        android:layout_width="181dp"
         android:layout_height="48dp"
         android:layout_marginTop="96dp"
         android:digits="1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-"
@@ -21,9 +21,7 @@
         android:textAppearance="@style/new_item_activity_text"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/acquired_da"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -115,7 +113,7 @@
         app:srcCompat="@drawable/footer_bg" />
 
     <Button
-        android:id="@+id/scanButtonAdd"
+        android:id="@+id/scanBarcodeAdd"
         android:layout_width="175dp"
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
@@ -163,6 +161,15 @@
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:srcCompat="@drawable/back_arrow" />
+
+    <Button
+        android:id="@+id/serialScanButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/black"
+        android:text="Scan Serial"
+        app:layout_constraintStart_toEndOf="@+id/serial_numb"
+        app:layout_constraintTop_toTopOf="@+id/serial_numb" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

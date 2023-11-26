@@ -8,26 +8,13 @@
     android:background="@color/bg_white">
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/footerBarcode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:srcCompat="@drawable/footer_bg" />
-
-    <Button
-        android:id="@+id/scanButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/black"
-        android:text="Scan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView5"
-        app:layout_constraintVertical_bias="0.828" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/footer_bg" />
 
     <Button
         android:id="@+id/backButton"
@@ -42,33 +29,44 @@
         app:iconSize="50dp"
         app:iconTint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/scanButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/imageView5" />
+        app:layout_constraintStart_toStartOf="@+id/footerBarcode" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="319dp"
-        android:layout_height="493dp"
-        android:background="#D9D9D9"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.camera.view.PreviewView
+        android:id="@+id/barcodeView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="100"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/footerBarcode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.camera.view.PreviewView>
+
+    <ImageView
+        android:id="@+id/barcodeIcon"
+        android:layout_width="318dp"
+        android:layout_height="353dp"
+        android:alpha="0.5"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/footerBarcode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.378">
+        app:srcCompat="@drawable/barcode_icon" />
 
-        <View
-            android:id="@+id/barcodeicon"
-            android:layout_width="292dp"
-            android:layout_height="128dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/barcode_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/scanButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/button"
+        android:text="Begin Scanning"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/footerBarcode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
