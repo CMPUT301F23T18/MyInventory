@@ -129,6 +129,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         capture_cam_btn = findViewById(R.id.captureButtonCam); capture_cam_btn.setOnClickListener(this);
         close_capture = findViewById(R.id.closeCaptureButton); close_capture.setOnClickListener(this);
 
+        // register process of grabbing an image from the phone's gallery
         galleryGrab = registerForActivityResult(
                 new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
                     @Override
@@ -240,11 +241,9 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
 
         } else if (vID == R.id.backButton) {
             // Go back to add activity
-            cameraProvider.unbindAll();
             finish();
         } else if (vID == R.id.saveButtonGallery) {
             // return to list activity
-            cameraProvider.unbindAll();
             Intent i = new Intent(this,ListActivity.class);
             startActivity(i);
         } else if (vID == R.id.captureButtonCam) {
@@ -452,7 +451,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// Dealing with permissions for camera/Gallery
+    /// Dealing with permissions for camera
 
     /**
      * Prompts the user to giver permission to access the camera, and photo picker

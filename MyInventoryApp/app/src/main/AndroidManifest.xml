@@ -23,13 +23,12 @@
         tools:targetApi="31"
         android:enableOnBackInvokedCallback="true">
 
-        <activity
-            android:name=".AddActivity"
+        <activity android:name=".AddActivity"
             android:exported="false" />
-        <activity
-            android:name=".ListActivity"
-            android:exported="true"
-            />
+        <activity android:name=".ListActivity"
+            android:exported="true" />
+        <activity android:name=".BarcodeActivity"
+            android:exported="false"/>
         <activity android:name=".EditActivity"
             android:exported="false"/>
         <activity android:name=".GalleryActivity"

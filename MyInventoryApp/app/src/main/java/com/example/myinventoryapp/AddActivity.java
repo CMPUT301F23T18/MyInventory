@@ -26,9 +26,8 @@ import java.util.Map;
  * This activity handles the creation of items and their upload to firebase
  */
 public class AddActivity extends AppCompatActivity {
-    ImageView nextButton;
-    ImageView backButton;
-    Button scanButton;
+    ImageView nextButton, backButton;
+    Button barcodeButton;
     EditText serialField;
     EditText dateField;
     EditText makeField;
@@ -56,11 +55,11 @@ public class AddActivity extends AppCompatActivity {
         modelField = findViewById(R.id.model);
         priceField = findViewById(R.id.estimated_p);
         descField = findViewById(R.id.description);
-        scanButton = findViewById(R.id.scanButtonAdd);
+
         commentField = findViewById(R.id.comments);
 
-        nextButton = findViewById(R.id.forwardButtonAdd);
-        nextButton.setOnClickListener(nextListener);
+        nextButton = findViewById(R.id.forwardButtonAdd); nextButton.setOnClickListener(nextListener);
+        barcodeButton = findViewById(R.id.scanBarcodeAdd); barcodeButton.setOnClickListener(barcodeListener);
 
         // set a listener for the dateField
         dateField.addTextChangedListener(dateListener);
@@ -197,4 +196,14 @@ public class AddActivity extends AppCompatActivity {
         finish();
     }
     //TODO: scan function -> scan barcode or scan serial number
+
+    View.OnClickListener barcodeListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.i("BARCODE","CLICKED");
+            Intent i = new Intent(v.getContext(), BarcodeActivity.class);
+            startActivity(i);
+        }
+    };
+
 }
