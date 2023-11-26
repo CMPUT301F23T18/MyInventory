@@ -135,6 +135,10 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
                 new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
                     @Override
                     public void onActivityResult(Uri o) {
+                        if (o == null) {
+                            Toast.makeText(GalleryActivity.this,"No photo was selected",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         try {
                             Bitmap image_bit = BitmapFactory.decodeStream(getApplicationContext()
                                     .getContentResolver().openInputStream(o));
