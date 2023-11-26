@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 
 import com.google.firebase.firestore.DocumentReference;
@@ -158,8 +157,8 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
                 item.setID(id);
                 Log.d("Tags Id", String.valueOf(item.getID()));
                 listToAdd.add(item);
-                Intent i = new Intent(ViewItemActivity.this, SelectTagItemsActivity.class);
-                i.putParcelableArrayListExtra("list", listToAdd);
+                Intent i = new Intent(ViewItemActivity.this, TagsActivity.class);
+                i.putParcelableArrayListExtra("items", listToAdd);
                 startActivity(i);
                 finish();
             }
@@ -191,7 +190,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
         if (photo != null) {
             imageView.setImageBitmap(photo);
         } else {
-            imageView.setImageResource(R.drawable.bg_colored_image);
+            imageView.setImageResource(R.drawable.no_image);
         }
     }
 

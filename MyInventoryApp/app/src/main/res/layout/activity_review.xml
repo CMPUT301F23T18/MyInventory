@@ -8,6 +8,16 @@
     android:layout_height="match_parent">
 
     <Button
+        android:id="@+id/serialScanButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/button"
+        android:text="Scan Serial"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@+id/serialNumEdit"
+        app:layout_constraintTop_toTopOf="@+id/serialNumEdit" />
+
+    <Button
         android:id="@+id/delete_btn"
         android:layout_width="60dp"
         android:layout_height="45dp"
@@ -23,18 +33,16 @@
 
     <EditText
         android:id="@+id/serialNumEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="176dp"
+        android:layout_height="46dp"
         android:layout_marginTop="52dp"
         android:ems="10"
+        android:enabled="false"
         android:hint="Serial Number"
         android:inputType="none"
-        android:enabled="false"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/acqDateEdit"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -207,7 +215,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_tag_button"
         app:layout_constraintVertical_bias="0.445"
-        app:srcCompat="@drawable/bg_colored_image"
+        app:srcCompat="@drawable/no_image"
         tools:ignore="MissingConstraints" />
 
     <ImageView

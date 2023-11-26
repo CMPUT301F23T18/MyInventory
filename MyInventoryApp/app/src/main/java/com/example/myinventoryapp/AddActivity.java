@@ -27,9 +27,8 @@ import java.util.Map;
  * This activity handles the creation of items and their upload to firebase
  */
 public class AddActivity extends AppCompatActivity {
-    ImageView nextButton;
-    ImageView backButton;
-    Button scanButton;
+    ImageView nextButton, backButton;
+    Button barcodeButton;
     EditText serialField;
     EditText dateField;
     EditText makeField;
@@ -58,11 +57,11 @@ public class AddActivity extends AppCompatActivity {
         modelField = findViewById(R.id.model);
         priceField = findViewById(R.id.estimated_p);
         descField = findViewById(R.id.description);
-        scanButton = findViewById(R.id.scanButtonAdd);
+
         commentField = findViewById(R.id.comments);
 
-        nextButton = findViewById(R.id.forwardButtonAdd);
-        nextButton.setOnClickListener(nextListener);
+        nextButton = findViewById(R.id.forwardButtonAdd); nextButton.setOnClickListener(nextListener);
+        barcodeButton = findViewById(R.id.scanBarcodeAdd); barcodeButton.setOnClickListener(barcodeListener);
 
         // set a listener for the dateField
         dateField.addTextChangedListener(dateListener);
@@ -147,37 +146,10 @@ public class AddActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"price is required to proceed",Toast.LENGTH_SHORT).show();
             }
 
-//            // map all inputs to a Hashmap
-//            Map<String, Object> item_hash = new HashMap<String, Object>();
-//            item_hash.put("serial",serial);
-//            item_hash.put("date",date);
-//            item_hash.put("make",make);
-//            item_hash.put("model",model);
-//            item_hash.put("price",price);
-//            item_hash.put("desc",desc);
-//            item_hash.put("comment",comment);
-////
-             long ID = System.currentTimeMillis();
-//            item_hash.put("ID",ID);
-//
-//            // create a document for firebase using the make and model as the name
-//            fb_new_item = ((Global) getApplication()).DocumentRef(ID);
-//            // add the item to firebase
-//            fb_new_item.set(item_hash).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                @Override
-//                public void onComplete(@NonNull Task<Void> task) {
-//                    if (task.isSuccessful()) {
-//                        Log.d("Firestore","document saved");
-//                    } else {
-//                        Log.w("Firestore","failed:",task.getException());
-//                    }
-//                }
-//            });
-
+            long ID = System.currentTimeMillis();
 
             // go to gallery activity
             nextActivity(ID,v, serial, date, make, model, price, desc, comment);
-            //nextActivity(ID,v);
         }
     };
 
@@ -207,4 +179,14 @@ public class AddActivity extends AppCompatActivity {
         finish();
     }
     //TODO: scan function -> scan barcode or scan serial number
+
+    View.OnClickListener barcodeListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.i("BARCODE","CLICKED");
+            Intent i = new Intent(AddActivity.this, BarcodeActivity.class);
+            startActivity(i);
+        }
+    };
+
 }

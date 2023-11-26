@@ -63,15 +63,20 @@ public class ItemList extends ArrayAdapter<Item> {
         // Get a item using position
         ImageView photo = view.findViewById(R.id.itemImageView);
         TextView value = view.findViewById(R.id.itemCostView);
+        TextView make = view.findViewById(R.id.makeView);
+        TextView model = view.findViewById(R.id.modelView);
         TextView tags = view.findViewById(R.id.tagsView);
 
+        // Set values for item properties in textviews.
         if (item.getImage(0) != null) {
             photo.setImageBitmap(item.getImage(0));
 
         } else {
-            photo.setImageResource(R.drawable.bg_colored_image);
+            photo.setImageResource(R.drawable.no_image);
         }
-        value.setText("$ " + item.getEst_value());
+        value.setText("$" + item.getEst_value());
+        make.setText(item.getMake());
+        model.setText(item.getModel());
         if (item.getTags() != null){
         tags.setText("Tags: " + String.join(", ", item.getTags()));
         } else {
