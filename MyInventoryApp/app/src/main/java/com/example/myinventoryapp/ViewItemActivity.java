@@ -20,6 +20,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -157,8 +158,8 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
                 item.setID(id);
                 Log.d("Tags Id", String.valueOf(item.getID()));
                 listToAdd.add(item);
-                Intent i = new Intent(ViewItemActivity.this, SelectTagItemsActivity.class);
-                i.putParcelableArrayListExtra("list", listToAdd);
+                Intent i = new Intent(ViewItemActivity.this, TagsActivity.class);
+                i.putParcelableArrayListExtra("items", listToAdd);
                 startActivity(i);
                 finish();
             }

@@ -72,11 +72,11 @@ public class ItemList extends ArrayAdapter<Item> {
             photo.setImageBitmap(item.getImage(0));
 
         } else {
-            photo.setImageResource(R.drawable.bg_colored_image);
+            photo.setImageResource(R.drawable.no_image);
         }
-        value.setText("Cost: $" + item.getEst_value());
-        make.setText("Make: " + item.getMake());
-        model.setText("Model: "+ item.getModel());
+        value.setText("$" + item.getEst_value());
+        make.setText(item.getMake());
+        model.setText(item.getModel());
         if (item.getTags() != null){
         tags.setText("Tags: " + String.join(", ", item.getTags()));
         } else {
