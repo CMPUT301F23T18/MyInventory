@@ -13,14 +13,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -186,7 +184,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
         if (photo != null) {
             imageView.setImageBitmap(photo);
         } else {
-            imageView.setImageResource(R.drawable.bg_colored_image);
+            imageView.setImageResource(R.drawable.no_image);
         }
     }
 

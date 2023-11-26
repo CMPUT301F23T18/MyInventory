@@ -215,7 +215,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_tag_button"
         app:layout_constraintVertical_bias="0.445"
-        app:srcCompat="@drawable/bg_colored_image"
+        app:srcCompat="@drawable/no_image"
         tools:ignore="MissingConstraints" />
 
     <ImageView
