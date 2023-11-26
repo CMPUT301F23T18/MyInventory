@@ -19,6 +19,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -90,6 +91,11 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
             String serial = (String) data.get("serial");
             String value = (String) data.get("price");
 
+            List<String> tags = new ArrayList<>();
+            if (data.containsKey("tags")){
+                tags = (List<String>)data.get("tags");
+            }
+
             serialField.setText(serial);
             dateField.setText(date);
             makeField.setText(make);
@@ -98,6 +104,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
             modelField.setText(model);
 
             item = new Item(date,desc,make,model,serial,value);
+            item.setTags(tags);
             StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
             item.generatePhotoArray(photosRef, String.valueOf(id), task -> DisplayImage());
 
