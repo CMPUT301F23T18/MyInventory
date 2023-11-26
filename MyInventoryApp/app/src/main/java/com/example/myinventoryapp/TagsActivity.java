@@ -65,17 +65,17 @@ public class TagsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_tag);
 
-        // Get transferred items.
+//        // Get transferred items.
         items = new ArrayList<>();
         items = getIntent().getParcelableArrayListExtra("items");
 
         // Set adapter
         tagList = findViewById(R.id.tags_list);
+        tags = new ArrayList<>();
         tagAdaptor = new ArrayAdapter<>(this, R.layout.tags_content, this.tags);
         tagList.setAdapter(tagAdaptor);
 
         // Get tags from firebase
-        tags = new ArrayList<>();
         DocumentReference docRef = ((Global) getApplication()).getFBTagsRef().document("TAGS");
         docRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
