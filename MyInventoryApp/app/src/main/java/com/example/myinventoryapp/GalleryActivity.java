@@ -2,6 +2,8 @@ package com.example.myinventoryapp;
 
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -66,22 +68,21 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class GalleryActivity extends AppCompatActivity implements CapturePopUp.OnFragmentInteractionListener, EasyPermissions.PermissionCallbacks, View.OnClickListener {
 
     private static final int CAMERA_PERMISSION_CODE = 1111;
-    private static final int GALLERY_PERMISSION_CODE = 2222;
-    ImageView image1,image2,image3,image4,image5,image6;
+    int animationDuration;
+    ImageView image1,image2,image3,image4,image5,image6, capture_btn;
+    TextView image_total; int total = 0; int img_idx = 0;
+    Button back_btn, save_btn, capture_cam_btn, close_capture;
+    ConstraintLayout capture_layout, gallery_layout;
     ArrayList<ImageView> images;
     ArrayList<Bitmap> imageBits = new ArrayList<Bitmap>(6);;
     ActivityResultLauncher<String> galleryGrab;
-    TextView image_total; int total = 0; int img_idx = 0;
-    Button back_btn, save_btn, capture_cam_btn, close_capture;
     PreviewView cam_preview;
-    ImageView capture_btn;
     long id;
     Boolean edit_activity;
-    ConstraintLayout capture_layout;
     ProcessCameraProvider cameraProvider;
     ImageCapture imageCapture;
-    String serial, date, make, model, price, desc, comment;
     DocumentReference fb_new_item;
+    String serial, date, make, model, price, desc, comment;
     /**
      * @param savedInstanceState If the activity is being re-initialized after
      *                           previously being shut down then this Bundle contains the data it most
@@ -92,7 +93,6 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
         this.id = getIntent().getLongExtra("ID",0);
-        this.edit_activity = getIntent().getBooleanExtra("Edit",false);
         this.serial = getIntent().getStringExtra("serial");
         this.date = getIntent().getStringExtra("date");
         this.make = getIntent().getStringExtra("make");
@@ -100,6 +100,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         this.price = getIntent().getStringExtra("price");
         this.desc = getIntent().getStringExtra("desc");
         this.comment = getIntent().getStringExtra("comment");
+        this.edit_activity = getIntent().getBooleanExtra("Edit",false);
 
         if (id == 0) {
             //Just go back to the add activity because clearly something is wrong
@@ -130,6 +131,8 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         cam_preview = findViewById(R.id.camPreview);
         capture_layout = findViewById(R.id.captureConstraints);
         capture_layout.setVisibility(View.GONE);
+        gallery_layout = findViewById(R.id.images_constraint);
+        animationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
         back_btn = findViewById(R.id.backButton); back_btn.setOnClickListener(this);
         save_btn = findViewById(R.id.saveButtonGallery); save_btn.setOnClickListener(this);
@@ -196,7 +199,6 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
      */
     @Override
     public void onGalleryPressed() {
-        //TODO: Get photo from phone gallery -> need permission
         galleryGrab.launch("image/*");
     }
 
@@ -249,18 +251,20 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
 
         } else if (vID == R.id.backButton) {
             // Go back to add activity
+            //cameraProvider.unbindAll();
+            finish();
+        } else if (vID == R.id.saveButtonGallery && edit_activity) {
             finish();
         } else if (vID == R.id.saveButtonGallery) {
             // return to list activity
             Map<String, Object> item_hash = new HashMap<String, Object>();
-            item_hash.put("serial",serial);
-            item_hash.put("date",date);
-            item_hash.put("make",make);
-            item_hash.put("model",model);
-            item_hash.put("price",price);
-            item_hash.put("desc",desc);
-            item_hash.put("comment",comment);
-
+            item_hash.put("serial",this.serial);
+            item_hash.put("date",this.date);
+            item_hash.put("make",this.make);
+            item_hash.put("model",this.model);
+            item_hash.put("price",this.price);
+            item_hash.put("desc",this.desc);
+            item_hash.put("comment",this.comment);
             //long ID = System.currentTimeMillis();
             item_hash.put("ID",this.id);
 
@@ -277,17 +281,17 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
                     }
                 }
             });
+            //cameraProvider.unbindAll();
             Intent i = new Intent(this,ListActivity.class);
             startActivity(i);
         } else if (vID == R.id.captureButtonCam) {
             // The button that appears with the camera preview
             capturePhoto();
             capture_layout.setVisibility(View.GONE);
-            cameraProvider.unbindAll();
         } else if (vID == R.id.closeCaptureButton) {
             // The close button that appears with the camera preview
-            capture_layout.setVisibility(View.GONE);
-            cameraProvider.unbindAll();
+            //capture_layout.setVisibility(View.GONE);
+            animateCamera(false);
         }
         if (v.getVisibility() != View.INVISIBLE) {
             if (vID == R.id.image1Edit) {
@@ -335,7 +339,8 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         String permission = Manifest.permission.CAMERA;
 
         if (EasyPermissions.hasPermissions(this,permission)) {
-            capture_layout.setVisibility(View.VISIBLE);
+            //capture_layout.setVisibility(View.VISIBLE);
+            animateCamera(true);
             // Activate the camera
             // Camera set up
 
@@ -403,6 +408,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
                 Bitmap scaledBitmap = Bitmap.createScaledBitmap(image_bit, image.getWidth(), image.getHeight(), true);
                 Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
                 attachToItem(rotatedBitmap);
+                animateCamera(false);
             }
 
             /**
@@ -416,6 +422,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
                 super.onError(exception);
                 exception.printStackTrace();
                 Toast.makeText(getApplicationContext(),"Failed to capture image",Toast.LENGTH_SHORT).show();
+                animateCamera(false);
             }
         });
 
@@ -441,6 +448,43 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
 
         // send to firebase storage
         ((Global) getApplication()).setPhoto(id,image_bit,name);
+    }
+
+    /**
+     * fades the one view in and the other view out
+     */
+    private void animateCamera(boolean opening) {
+        View open;
+        View close;
+        if (opening){
+            open = capture_layout;
+            close = gallery_layout;
+        } else {
+            open = gallery_layout;
+            close = capture_layout;
+        }
+
+        open.setAlpha(0f);
+        open.setVisibility(View.VISIBLE);
+
+        open.animate()
+                .alpha(1f)
+                .setDuration(animationDuration)
+                .setListener(null);
+
+        close.animate()
+                .alpha(0f)
+                .setDuration(animationDuration)
+                .setListener(new AnimatorListenerAdapter() {
+                    /**
+                     * @param animation The animation which reached its end.
+                     */
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        close.setVisibility(View.GONE);
+                    }
+                });
     }
 
 

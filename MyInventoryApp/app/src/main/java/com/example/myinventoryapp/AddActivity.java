@@ -156,7 +156,7 @@ public class AddActivity extends AppCompatActivity {
 //            item_hash.put("price",price);
 //            item_hash.put("desc",desc);
 //            item_hash.put("comment",comment);
-//
+////
              long ID = System.currentTimeMillis();
 //            item_hash.put("ID",ID);
 //
@@ -177,6 +177,7 @@ public class AddActivity extends AppCompatActivity {
 
             // go to gallery activity
             nextActivity(ID,v, serial, date, make, model, price, desc, comment);
+            //nextActivity(ID,v);
         }
     };
 
