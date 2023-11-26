@@ -1,7 +1,6 @@
 package com.example.myinventoryapp;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +65,7 @@ public class SelectListAdaptor extends RecyclerView.Adapter<SelectListAdaptor.Vi
             holder.photo.setImageBitmap(item.getImage(0));
 
         } else {
-            holder.photo.setImageResource(R.drawable.bg_colored_image);
+            holder.photo.setImageResource(R.drawable.no_image);
         }
 
         holder.value.setText("$ " + items.get(i).getEst_value());

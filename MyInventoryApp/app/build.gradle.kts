@@ -61,6 +61,9 @@ dependencies {
     implementation("androidx.camera:camera-view:1.3.0")
     implementation("androidx.camera:camera-extensions:1.3.0")
 
+    //Barcode
+    implementation("com.google.mlkit:barcode-scanning:17.2.0")
+
     //Espresso
     androidTestImplementation ("androidx.test:rules:1.3.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

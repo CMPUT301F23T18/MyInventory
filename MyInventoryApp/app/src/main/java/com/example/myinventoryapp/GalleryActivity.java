@@ -106,6 +106,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         image6 = findViewById(R.id.image6Edit); image6.setOnClickListener(this);
         image_total = findViewById(R.id.imageTotal);
 
+        // populate 2 arrays, first an array of imageviews, secondly an array of 1x1 bitmaps (to be replaced)
         images = new ArrayList<ImageView>();
         Bitmap.Config conf = Bitmap.Config.ARGB_8888;
         Bitmap bit = Bitmap.createBitmap(1,1,conf);
@@ -129,10 +130,15 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         capture_cam_btn = findViewById(R.id.captureButtonCam); capture_cam_btn.setOnClickListener(this);
         close_capture = findViewById(R.id.closeCaptureButton); close_capture.setOnClickListener(this);
 
+        // register process of grabbing an image from the phone's gallery
         galleryGrab = registerForActivityResult(
                 new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
                     @Override
                     public void onActivityResult(Uri o) {
+                        if (o == null) {
+                            Toast.makeText(GalleryActivity.this,"No photo was selected",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         try {
                             Bitmap image_bit = BitmapFactory.decodeStream(getApplicationContext()
                                     .getContentResolver().openInputStream(o));
@@ -240,11 +246,9 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
 
         } else if (vID == R.id.backButton) {
             // Go back to add activity
-            cameraProvider.unbindAll();
             finish();
         } else if (vID == R.id.saveButtonGallery) {
             // return to list activity
-            cameraProvider.unbindAll();
             Intent i = new Intent(this,ListActivity.class);
             startActivity(i);
         } else if (vID == R.id.captureButtonCam) {
@@ -302,7 +306,6 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         String permission = Manifest.permission.CAMERA;
 
         if (EasyPermissions.hasPermissions(this,permission)) {
-            //capture_layout.setVisibility(View.VISIBLE);
             animateCamera(true);
             // Activate the camera
             // Camera set up
@@ -450,9 +453,18 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
                 });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (cameraProvider != null) {
+            cameraProvider.unbindAll();
+            cameraProvider = null;
+        }
+    }
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// Dealing with permissions for camera/Gallery
+    /// Dealing with permissions for camera
 
     /**
      * Prompts the user to giver permission to access the camera, and photo picker
