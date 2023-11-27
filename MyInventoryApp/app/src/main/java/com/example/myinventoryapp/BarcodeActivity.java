@@ -164,7 +164,7 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
                             // For each barcode detected get its information
                             for (Barcode barcode: barcodes) {
                                 String rawValue = barcode.getRawValue();
-                                Log.i("BARCODE",String.valueOf(rawValue));
+                                //Log.i("BARCODE",String.valueOf(rawValue));
                                 int valueType = barcode.getValueType();
                                 if (valueType == Barcode.TYPE_PRODUCT) {
                                     Log.i("BARCODE",String.valueOf(barcode.getDisplayValue()));
