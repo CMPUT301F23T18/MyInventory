@@ -28,6 +28,7 @@ public class EditActivity extends AppCompatActivity {
     EditText editPriceField;
     EditText editDescField;
     Button updateButton;
+    Button exitButton;
     EditText editcomment;
     long itemId;
 
@@ -54,8 +55,16 @@ public class EditActivity extends AppCompatActivity {
         editDescField = findViewById(R.id.descEdit);
         updateButton = findViewById(R.id.saveButton);
         editcomment = findViewById(R.id.comEdit);
+        exitButton = findViewById(R.id.backArrow);
         this.itemId = getIntent().getLongExtra("item_id",0);
         populateUIFromFirestore(itemId); // Call the function to populate ui from Firestore
+
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
