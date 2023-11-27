@@ -199,12 +199,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <ImageView
+    <Button
         android:id="@+id/backArrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="4dp"
+        android:layout_width="83dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="18dp"
+        android:backgroundTint="@color/button"
+        android:pointerIcon="arrow"
+        app:icon="@drawable/back_arrow"
+        app:iconPadding="0dp"
+        app:iconSize="50dp"
+        app:iconTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/back_arrow" />
