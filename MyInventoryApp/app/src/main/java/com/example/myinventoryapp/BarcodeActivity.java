@@ -74,9 +74,6 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
 
         scanner = BarcodeScanning.getClient(options);
 
-        //TODO: set up camera
-
-        //TODO: scan a barcode from a captured image
         //TODO: get information from the barcode
     }
 

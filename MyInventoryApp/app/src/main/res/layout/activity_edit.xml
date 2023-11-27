@@ -19,6 +19,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/SerialLayout"
+        style="@style/TextInputLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColorHint="@color/white"
@@ -46,6 +47,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/DateLayout"
+        style="@style/TextInputLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColorHint="@color/white"
@@ -68,6 +70,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/MakeLayout"
+        style="@style/TextInputLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColorHint="@color/white"
@@ -96,6 +99,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/ModelLayout"
+        style="@style/TextInputLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColorHint="@color/white"
@@ -118,6 +122,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/PriceLayout"
+        style="@style/TextInputLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColorHint="@color/white"
@@ -145,6 +150,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout6"
+        style="@style/TextInputLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColorHint="@color/white"
@@ -173,6 +179,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout7"
+        style="@style/TextInputLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColorHint="@color/white"
