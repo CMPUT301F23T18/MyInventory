@@ -7,6 +7,19 @@
     android:id="@+id/barcode_scan"
     android:background="@color/bg_white">
 
+    <androidx.camera.view.PreviewView
+        android:id="@+id/barcodeView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="100"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.camera.view.PreviewView>
+
     <ImageView
         android:id="@+id/footerBarcode"
         android:layout_width="wrap_content"
@@ -16,19 +29,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/footer_bg" />
 
-
-    <androidx.camera.view.PreviewView
-        android:id="@+id/barcodeView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="100"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/footerBarcode"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </androidx.camera.view.PreviewView>
 
     <ImageView
         android:id="@+id/barcodeIcon"
@@ -41,7 +41,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/barcode_icon" />
-
+    
     <Button
         android:id="@+id/scanButton"
         android:layout_width="wrap_content"
@@ -59,8 +59,8 @@
         android:layout_width="120dp"
         android:layout_height="59dp"
         android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/bg_white"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="@color/black"
         android:text="Done"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/footerBarcode" />

@@ -8,16 +8,6 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/serialScanButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/button"
-        android:text="Scan Serial"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/serialNumEdit"
-        app:layout_constraintTop_toTopOf="@+id/serialNumEdit" />
-
-    <Button
         android:id="@+id/delete_btn"
         android:layout_width="60dp"
         android:layout_height="45dp"
@@ -33,8 +23,8 @@
 
     <EditText
         android:id="@+id/serialNumEdit"
-        android:layout_width="176dp"
-        android:layout_height="46dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:ems="10"
         android:enabled="false"
@@ -164,12 +154,11 @@
         android:id="@+id/cameraButton"
         android:layout_width="85dp"
         android:layout_height="70dp"
+        android:layout_marginBottom="10dp"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView4"
-        app:layout_constraintVertical_bias="0.166"
         app:srcCompat="@drawable/camera_button" />
 
     <Button
@@ -192,7 +181,6 @@
         android:id="@+id/backButton"
         android:layout_width="83dp"
         android:layout_height="66dp"
-        android:layout_marginTop="18dp"
         android:backgroundTint="@color/button"
         android:pointerIcon="arrow"
         app:icon="@drawable/back_arrow"
@@ -202,9 +190,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cameraButton"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView4"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imagePreview"

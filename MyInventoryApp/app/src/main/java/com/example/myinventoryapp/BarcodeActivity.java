@@ -130,10 +130,6 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
         }
     }
 
-    /**
-     * Begin the image processing on click
-     * @return null
-     */
     View.OnClickListener onScanClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -197,6 +193,10 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
         }
     };
 
+    /**
+     * Called when the activity is destroyed, unbinds the camera so it can be
+     * used for other purposes
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
