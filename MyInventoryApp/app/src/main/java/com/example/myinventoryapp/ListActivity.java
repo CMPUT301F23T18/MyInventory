@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,7 +41,7 @@ import java.util.Locale;
  * This is a class that represents an activity that displays the list of items.
  * The user can add, select, view, and delete items in the list
  */
-public class ListActivity extends AppCompatActivity{
+public class ListActivity extends AppCompatActivity {
     ImageView addButton;
     ListView itemList;
     ArrayAdapter<Item> itemAdapter;
@@ -51,11 +52,9 @@ public class ListActivity extends AppCompatActivity{
     Button filterbutton, sortbutton, deleteButton, tagButton;
 
     /**
-     *
      * @param savedInstanceState If the activity is being re-initialized after
-     *     previously being shut down then this Bundle contains the data it most
-     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
-     *
+     *                           previously being shut down then this Bundle contains the data it most
+     *                           recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,14 +91,14 @@ public class ListActivity extends AppCompatActivity{
                         item.setDescription(doc.getString("desc"));
                         item.setID(Long.parseLong(id));
 
-                        if (doc.contains("tags")){
+                        if (doc.contains("tags")) {
                             List<String> tags = (List<String>) doc.get("tags");
                             item.setTags(tags);
                         }
 
                         // set photos
                         StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
-                        item.generatePhotoArray(photosRef,id,itemAdapter);
+                        item.generatePhotoArray(photosRef, id, itemAdapter);
 
                         Log.d("Firestore", String.format("Item(%s, %s) fetched", item.getMake(), item.getModel()));
                         items.add(item);
@@ -140,7 +139,7 @@ public class ListActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ListActivity.this, DeleteActivity.class);
-                i.putParcelableArrayListExtra("list",items);
+                i.putParcelableArrayListExtra("list", items);
                 startActivity(i);
             }
         });
@@ -152,6 +151,42 @@ public class ListActivity extends AppCompatActivity{
                 startActivity(i);
             }
         });
+
+        filterbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FilterDialogFragment filterDialog = FilterDialogFragment.newInstance(getMakesListFromItems(), getTagsListFromItems());
+                filterDialog.show(getSupportFragmentManager(), "filterDialog");
+            }
+        });
+
+    }
+
+    private ArrayList<String> getMakesListFromItems() {
+        ArrayList<String> makesList = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            String make = items.get(i).getMake();
+            if (make != null) {
+                makesList.add(make);
+            }
+        }
+        return makesList;
+    }
+
+    private ArrayList<String> getTagsListFromItems() {
+        ArrayList<String> tagsList = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            List<String> tags = items.get(i).getTags();
+            if (tags != null) {
+                for (String tag : tags) {
+                    // Check if tag is not null and not already in the list
+                    if (tag != null && !tagsList.contains(tag)) {
+                        tagsList.add(tag);
+                    }
+                }
+            }
+        }
+        return tagsList;
     }
 
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {

@@ -38,6 +38,7 @@ public class Global extends Application {
     private String USER_PATH;
     private CollectionReference fbItemsRef; // firebase Items reference
     private CollectionReference fbTagsRef; // firebase Tags reference
+    private CollectionReference fbMakesRef; // firebase Makes reference
     private StorageReference photoStorageRef; // firebase storage reference -> for photos
 
     /**
@@ -93,6 +94,7 @@ public class Global extends Application {
      * @param ID the name of the item on firebase, generated using UTC
      * @return DocumentReference
      */
+
     public DocumentReference DocumentRef(long ID) {
         String str_id = Long.toString(ID);
         return fbItemsRef.document(str_id);
@@ -110,7 +112,6 @@ public class Global extends Application {
 
         return DocumentRef(ID);
     }
-
 
     /**
      * gets the storage reference for photos
