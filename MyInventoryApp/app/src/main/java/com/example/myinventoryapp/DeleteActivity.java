@@ -141,12 +141,27 @@ public class DeleteActivity extends AppCompatActivity implements DeletePopUp.OnF
         }else{
             str = delete_list.size()+" items deleted";
         }
+        DeleteImages();
         CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
         for(int i = 0; i < delete_list.size();i++){
             fb_items.document(Long.toString(delete_list.get(i))).delete();
         }
         finish();
         Toast.makeText(DeleteActivity.this, str ,Toast.LENGTH_SHORT).show();
+    }
+    /**
+     * Deletes the images of the selected delete items from the Firebase storage, if there are any.
+     */
+    private void DeleteImages(){
+        StorageReference photoRef = ((Global) getApplication()).getPhotoStorageRef();
+        for(int i = 0; i < items.size();i++){
+            //String str_id = String.valueOf(items.get(i).getID());
+            if (items.get(i).getChecked() && (items.get(i).getPhotosSize() >0)){
+                for(int j = 0; j < items.get(i).getPhotosSize();j++){
+                    photoRef.child(items.get(i).getID()+"/image"+(j)+".jpg").delete();
+                }
+            }
+        }
     }
 
     /**

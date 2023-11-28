@@ -16,20 +16,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/footer_bg" />
 
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="76dp"
-        android:layout_height="64dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:backgroundTint="@color/button"
-        android:pointerIcon="arrow"
-        app:icon="@drawable/back_arrow"
-        app:iconPadding="0dp"
-        app:iconSize="50dp"
-        app:iconTint="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/footerBarcode" />
 
     <androidx.camera.view.PreviewView
         android:id="@+id/barcodeView"
@@ -46,8 +32,8 @@
 
     <ImageView
         android:id="@+id/barcodeIcon"
-        android:layout_width="318dp"
-        android:layout_height="353dp"
+        android:layout_width="338dp"
+        android:layout_height="373dp"
         android:alpha="0.5"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/footerBarcode"
@@ -67,6 +53,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="120dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/bg_white"
+        android:text="Done"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/footerBarcode" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

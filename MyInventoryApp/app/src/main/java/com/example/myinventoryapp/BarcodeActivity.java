@@ -34,6 +34,7 @@ import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 
+import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -73,9 +74,6 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
 
         scanner = BarcodeScanning.getClient(options);
 
-        //TODO: set up camera
-
-        //TODO: scan a barcode from a captured image
         //TODO: get information from the barcode
     }
 
@@ -165,17 +163,11 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
                         public void onSuccess(List<Barcode> barcodes) {
                             // For each barcode detected get its information
                             for (Barcode barcode: barcodes) {
-                                Rect bounds = barcode.getBoundingBox();
-                                Point[] corners = barcode.getCornerPoints();
-
                                 String rawValue = barcode.getRawValue();
-
+                                Log.i("BARCODE",String.valueOf(rawValue));
                                 int valueType = barcode.getValueType();
-
-                                if (valueType == Barcode.TYPE_URL) {
-                                    String title = barcode.getUrl().getTitle();
-                                    String url = barcode.getUrl().getUrl();
-                                    Log.i("BARCODE",url);
+                                if (valueType == Barcode.TYPE_PRODUCT) {
+                                    Log.i("BARCODE",String.valueOf(barcode.getDisplayValue()));
                                     //TODO: autofill description of addActivity upon return
                                 }
                             }

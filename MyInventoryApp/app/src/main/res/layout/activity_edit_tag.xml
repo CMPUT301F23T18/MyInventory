@@ -18,47 +18,66 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/footer_bg" />
 
-    <EditText
-        android:id="@+id/tagEditText"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/AddConstraint"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:background="@color/white"
-        android:backgroundTint="@color/bg_white"
-        android:hint="Enter new tag name"
-        android:inputType="text"
-        android:minWidth="200dp"
-        android:minHeight="48dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></EditText>
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/create_tag"
-        android:layout_width="140dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="12dp"
-        android:backgroundTint="@color/button"
-        android:text="Add"
-        android:textColor="@color/black"
-        android:textSize="28dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tagEditText"></Button>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            style="@style/TextInputLayoutStyle"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColorHint="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/create_tag"
+            app:layout_constraintEnd_toEndOf="@+id/create_tag"
+            app:layout_constraintStart_toStartOf="@+id/create_tag"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/tagEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="68dp"
+                android:hint="Enter new tag name"
+                android:inputType="text"
+                android:minWidth="200dp"
+                android:minHeight="48dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></EditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/create_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/button"
+            android:text="Create New Tag"
+            android:textColor="@color/black"
+            android:textSize="28dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"></Button>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/tagConstraintLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/imageView9"
-        app:layout_constraintTop_toBottomOf="@id/create_tag"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_bias="0.498">
+        app:layout_constraintTop_toBottomOf="@+id/AddConstraint">
 
         <ListView
             android:id="@+id/tags_list"
@@ -69,7 +88,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
