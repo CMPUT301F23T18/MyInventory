@@ -30,6 +30,7 @@
     <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">@color/button</item>
         <item name="hintTextColor">@color/button</item>
+        <item name="android:textColorHint">@color/white</item>
     </style>
 
 </resources>

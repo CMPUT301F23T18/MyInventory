@@ -27,6 +27,8 @@
             android:gravity="center_vertical"
             android:hint="@string/serial_numb"
             android:inputType="textCapCharacters"
+            android:lines="1"
+            android:maxLines="1"
             android:textAppearance="@style/new_item_activity_text"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
@@ -54,6 +56,7 @@
             android:gravity="center_vertical"
             android:hint="@string/acquired_da"
             android:inputType="phone"
+            android:lines="1"
             android:maxLength="10"
             android:textAppearance="@style/new_item_activity_text"
             android:textColor="@color/white"
@@ -79,6 +82,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:hint="@string/make"
+            android:lines="1"
+            android:maxLines="1"
             android:textAppearance="@style/new_item_activity_text"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
@@ -95,7 +100,8 @@
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="@+id/space6"
         app:layout_constraintStart_toStartOf="@+id/space6"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.40">
 
         <EditText
             android:id="@+id/model"
@@ -104,6 +110,8 @@
             android:ems="10"
             android:hint="Model"
             android:inputType="text"
+            android:lines="1"
+            android:maxLines="1"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             tools:layout_editor_absoluteX="47dp"
@@ -128,6 +136,8 @@
             android:gravity="center_vertical"
             android:hint="@string/estimated_p"
             android:inputType="numberDecimal"
+            android:lines="1"
+            android:maxLines="1"
             android:textAppearance="@style/new_item_activity_text"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
@@ -151,8 +161,11 @@
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:gravity="top|center_vertical"
             android:hint="@string/description"
+            android:lines="4"
+            android:maxLines="5"
+            android:minLines="3"
             android:textAppearance="@style/new_item_activity_text"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
@@ -169,17 +182,21 @@
         app:layout_constraintEnd_toEndOf="@+id/space6"
         app:layout_constraintStart_toStartOf="@+id/space6"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout11">
+
         <EditText
-        android:id="@+id/comments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:hint="Comments"
-        android:textAppearance="@style/new_item_activity_text"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        tools:layout_editor_absoluteX="47dp"
-        tools:layout_editor_absoluteY="541dp" />
+            android:id="@+id/comments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|center_vertical"
+            android:hint="Comments"
+            android:lines="3"
+            android:maxLines="3"
+            android:minLines="3"
+            android:textAppearance="@style/new_item_activity_text"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            tools:layout_editor_absoluteX="47dp"
+            tools:layout_editor_absoluteY="541dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
@@ -193,8 +210,8 @@
 
     <Button
         android:id="@+id/scanBarcodeAdd"
-        android:layout_width="175dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:backgroundTint="@color/black"
         android:text="@string/scan_image"
         android:textAppearance="@style/scan_image"

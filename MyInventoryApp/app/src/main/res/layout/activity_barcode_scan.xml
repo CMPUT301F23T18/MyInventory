@@ -2,23 +2,189 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/barcode_scan"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/barcode_scan"
     android:background="@color/bg_white">
 
-    <androidx.camera.view.PreviewView
-        android:id="@+id/barcodeView"
-        android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout14"
+        style="@style/TextInputLayoutStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout16"
+        app:layout_constraintEnd_toEndOf="@+id/space7"
+        app:layout_constraintStart_toStartOf="@+id/space7"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/MakeBarcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/make"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout16"
+        style="@style/TextInputLayoutStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/space7"
+        app:layout_constraintEnd_toEndOf="@+id/space7"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/space7"
+        app:layout_constraintTop_toBottomOf="@+id/space8">
+
+        <EditText
+            android:id="@+id/ModelBarcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/model"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout15"
+        style="@style/TextInputLayoutStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/space7"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/space7"
+        app:layout_constraintTop_toBottomOf="@+id/space7">
+
+        <EditText
+            android:id="@+id/DescBarcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:hint="@string/description"
+            android:inputType="textMultiLine|textCapSentences"
+            android:maxLines="14"
+            android:minLines="14"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout17"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="100"
-        android:visibility="visible"
+        android:clickable="false"
+        android:hint="Tip"
+        android:textColorHint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/BarcodeQuestion"
+        app:layout_constraintEnd_toEndOf="@+id/space7"
+        app:layout_constraintStart_toStartOf="@+id/space7"
+        app:layout_constraintTop_toTopOf="@+id/BarcodeQuestion">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:allowClickWhenDisabled="false"
+            android:clickable="false"
+            android:contextClickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint="Tip"
+            android:inputType="none"
+            android:selectAllOnFocus="false"
+            android:text=" "
+            android:visibility="visible" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/BarcodeQuestion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="Modify the above fields to your liking then press &quot;Done&quot; or press &quot;Rescan&quot; to scan a different barcode"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/space7"
+        app:layout_constraintStart_toStartOf="@+id/space7"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout15" />
+
+    <Space
+        android:id="@+id/space7"
+        android:layout_width="208dp"
+        android:layout_height="17dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.27" />
+
+    <Space
+        android:id="@+id/space8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/space7"
+        app:layout_constraintEnd_toEndOf="@+id/space7"
+        app:layout_constraintStart_toStartOf="@+id/space7"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cameraLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </androidx.camera.view.PreviewView>
+        <androidx.camera.view.PreviewView
+            android:id="@+id/barcodeView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="100"
+            android:foregroundGravity="center"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </androidx.camera.view.PreviewView>
+
+        <ImageView
+            android:id="@+id/barcodeIcon"
+            android:layout_width="338dp"
+            android:layout_height="373dp"
+            android:alpha="0.5"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/barcodeView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/barcode_icon" />
+
+        <Button
+            android:id="@+id/scanButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/button"
+            android:text="Begin Scanning"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/barcodeIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/barcodeIcon" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/footerBarcode"
@@ -29,41 +195,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/footer_bg" />
 
-
-    <ImageView
-        android:id="@+id/barcodeIcon"
-        android:layout_width="338dp"
-        android:layout_height="373dp"
-        android:alpha="0.5"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/footerBarcode"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/barcode_icon" />
-    
     <Button
-        android:id="@+id/scanButton"
+        android:id="@+id/doneButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/button"
-        android:text="Begin Scanning"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/footerBarcode"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="120dp"
-        android:layout_height="59dp"
         android:layout_marginStart="10dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint="@color/black"
         android:text="Done"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/footerBarcode" />
+        app:layout_constraintStart_toStartOf="@+id/footerBarcode"
+        app:layout_constraintTop_toTopOf="@+id/footerBarcode" />
 
+    <Button
+        android:id="@+id/scanAgain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/black"
+        android:text="Rescan"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/footerBarcode" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

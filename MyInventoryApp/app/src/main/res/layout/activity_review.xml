@@ -178,7 +178,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/backButton"
+        android:id="@+id/doneButton"
         android:layout_width="83dp"
         android:layout_height="66dp"
         android:backgroundTint="@color/button"
