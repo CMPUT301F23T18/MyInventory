@@ -4,6 +4,7 @@ import android.app.Application;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -153,7 +154,7 @@ public class Global extends Application {
     public DocumentReference getBarcodeItem(String value) {
         StringBuilder prefix_bld = new StringBuilder();
         StringBuilder item_ref_bld = new StringBuilder();
-        for (int i = 0; i < value.length() - 1; i++) {
+        /*for (int i = 0; i < value.length() - 1; i++) {
             char c = value.charAt(i);
             if (i < 6) {
                 // First six digits are the Prefix
@@ -161,9 +162,19 @@ public class Global extends Application {
             } else {
                 item_ref_bld.append(c);
             }
+        }*/
+        // start at the end, because item_ref will always be 5 characters but prefix can be 6 or 7
+        for (int i = value.length()-2; i >= 0; i--) {
+            char c = value.charAt(i);
+            if (i >= value.length() - 6) {
+                item_ref_bld.append(c);
+            } else {
+                prefix_bld.append(c);
+            }
         }
-        String brand = prefix_bld.toString();
-        String item = item_ref_bld.toString();
+        String brand = prefix_bld.reverse().toString();
+        String item = item_ref_bld.reverse().toString();
+        Log.i("BARCODE","Global return: " + brand +" " + item);
         return FirebaseFirestore.getInstance().document("Barcodes/Brands/" + brand + "/" + item);
     }
 }

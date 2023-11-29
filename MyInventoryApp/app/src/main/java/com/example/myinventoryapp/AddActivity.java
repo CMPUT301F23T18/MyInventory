@@ -194,7 +194,7 @@ public class AddActivity extends AppCompatActivity {
     private void backActivity() {
         finish();
     }
-    //TODO: scan function -> scan barcode or scan serial number
+    //TODO: scan function -> scan serial number
 
     View.OnClickListener barcodeListener = new View.OnClickListener() {
         @Override
