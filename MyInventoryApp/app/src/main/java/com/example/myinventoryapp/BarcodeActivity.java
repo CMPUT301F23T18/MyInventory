@@ -165,7 +165,6 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
             animator(camera_layout,"open");
         } else if (vID == R.id.doneButton) {
             if (camera_hidden) {
-                //TODO: send information back to AddActivity
                 Intent data = new Intent();
                 data.putExtra("make",makeField.getText().toString());
                 data.putExtra("model",modelField.getText().toString());
@@ -290,7 +289,7 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
                             for (Barcode barcode : barcodes) {
                                 if (barcode != PrevCode) {
                                     int valueType = barcode.getValueType();
-                                    if (valueType == Barcode.TYPE_PRODUCT) {
+                                    if (valueType == Barcode.TYPE_PRODUCT || valueType == Barcode.TYPE_ISBN) {
                                         Log.i("BARCODE", String.valueOf(barcode.getDisplayValue()));
                                         handleBarcode(barcode);
                                     }
