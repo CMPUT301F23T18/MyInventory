@@ -150,4 +150,20 @@ public class Global extends Application {
         });
     }
 
+    public DocumentReference getBarcodeItem(String value) {
+        StringBuilder prefix_bld = new StringBuilder();
+        StringBuilder item_ref_bld = new StringBuilder();
+        for (int i = 0; i < value.length() - 1; i++) {
+            char c = value.charAt(i);
+            if (i < 6) {
+                // First six digits are the Prefix
+                prefix_bld.append(c);
+            } else {
+                item_ref_bld.append(c);
+            }
+        }
+        String brand = prefix_bld.toString();
+        String item = item_ref_bld.toString();
+        return FirebaseFirestore.getInstance().document("Barcodes/Brands/" + brand + "/" + item);
+    }
 }

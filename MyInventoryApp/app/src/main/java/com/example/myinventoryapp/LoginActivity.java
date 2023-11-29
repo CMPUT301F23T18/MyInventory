@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         EditText password = findViewById(R.id.PasswordButton);
 
         mAuth = FirebaseAuth.getInstance();
-        Button backButton = findViewById(R.id.backButton);
+        Button backButton = findViewById(R.id.doneButton);
         Button loginButton = findViewById(R.id.LoginButton);
 
         backButton.setOnClickListener(new View.OnClickListener() {

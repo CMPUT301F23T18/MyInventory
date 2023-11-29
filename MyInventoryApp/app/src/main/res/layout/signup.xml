@@ -113,20 +113,19 @@
         app:srcCompat="@drawable/footer_bg" />
 
     <Button
-        android:id="@+id/backButton"
-        android:layout_width="72dp"
-        android:layout_height="81dp"
+        android:id="@+id/doneButton"
+        android:layout_width="76dp"
+        android:layout_height="73dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="16dp"
         android:backgroundTint="@color/clear"
         android:pointerIcon="arrow"
         app:icon="@drawable/back_arrow"
         app:iconPadding="0dp"
         app:iconSize="50dp"
         app:iconTint="#000000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Space
         android:id="@+id/space5"

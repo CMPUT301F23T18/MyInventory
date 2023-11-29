@@ -28,11 +28,12 @@
             android:value="barcode" />
 
         <activity android:name=".AddActivity"
-            android:exported="false" />
+            android:exported="false"/>
         <activity android:name=".ListActivity"
             android:exported="true" />
         <activity android:name=".BarcodeActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity android:name=".EditActivity"
             android:exported="false"/>
         <activity android:name=".GalleryActivity"
