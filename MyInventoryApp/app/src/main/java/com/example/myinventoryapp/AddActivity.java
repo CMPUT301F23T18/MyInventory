@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,15 +33,10 @@ import java.util.Map;
 public class AddActivity extends AppCompatActivity {
     ImageView nextButton, backButton;
     Button barcodeButton;
-    EditText serialField;
-    EditText dateField;
-    EditText makeField;
-    EditText priceField;
-    EditText descField;
-    EditText modelField;
+    EditText serialField,dateField,makeField,priceField,descField,modelField,commentField;
     DocumentReference fb_new_item;
-    EditText commentField;
     ArrayList<String> new_item;
+    ActivityResultLauncher<Intent> barcodeGrab;
 
 
     /**
@@ -57,7 +56,6 @@ public class AddActivity extends AppCompatActivity {
         modelField = findViewById(R.id.model);
         priceField = findViewById(R.id.estimated_p);
         descField = findViewById(R.id.description);
-
         commentField = findViewById(R.id.comments);
 
         nextButton = findViewById(R.id.forwardButtonAdd); nextButton.setOnClickListener(nextListener);
@@ -73,6 +71,23 @@ public class AddActivity extends AppCompatActivity {
                 backActivity();
             }
         });
+
+        barcodeGrab = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == RESULT_OK) {
+                            Log.i("BARCODE","Result received");
+                            Intent data = result.getData();
+                            assert data != null;
+                            makeField.setText(data.getStringExtra("make"));
+                            modelField.setText(data.getStringExtra("model"));
+                            descField.setText(data.getStringExtra("desc"));
+                        } else {
+                            Log.i("BARCODE","Result failed to return or no result sent");
+                        }
+                    }
+                });
     }
 
     private final TextWatcher dateListener = new TextWatcher() {
@@ -144,6 +159,7 @@ public class AddActivity extends AppCompatActivity {
             }
             if (!FieldValidator.checkFieldSize(price)) {
                 Toast.makeText(getApplicationContext(),"price is required to proceed",Toast.LENGTH_SHORT).show();
+                return;
             }
 
             long ID = System.currentTimeMillis();
@@ -178,14 +194,14 @@ public class AddActivity extends AppCompatActivity {
     private void backActivity() {
         finish();
     }
-    //TODO: scan function -> scan barcode or scan serial number
+    //TODO: scan function -> scan serial number
 
     View.OnClickListener barcodeListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Log.i("BARCODE","CLICKED");
             Intent i = new Intent(AddActivity.this, BarcodeActivity.class);
-            startActivity(i);
+            barcodeGrab.launch(i);
         }
     };
 

@@ -107,7 +107,8 @@
         app:layout_constraintEnd_toEndOf="@+id/space3"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/space3"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45">
 
         <EditText
             android:id="@+id/modelEdit"
@@ -166,6 +167,8 @@
             android:ems="10"
             android:gravity="start|top"
             android:hint="Description"
+            android:maxLines="5"
+            android:minLines="5"
             android:inputType="textMultiLine"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
@@ -195,6 +198,8 @@
             android:ems="10"
             android:gravity="start|top"
             android:hint="Comments"
+            android:maxLines="3"
+            android:minLines="3"
             android:inputType="textMultiLine"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
