@@ -1,207 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_white">
-    <LinearLayout
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/makeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sort Make:"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"/>
+
+    <Spinner
+        android:id="@+id/makeSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_below="@id/makeLabel"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="2"
-            android:layout_marginTop="20dp"
-            android:text="Sort by"
-            android:textColor="@color/white"
-            android:textAlignment="viewStart"
-            android:textSize="50dp"></TextView>
-        <Button
-            android:id="@+id/closeCircle"
-            android:layout_width="0dp"
-            android:layout_height="71dp"
-            android:layout_weight="0.5"
-            android:backgroundTint="@color/bg_white"
-            app:icon="@drawable/close_circle"
-            app:iconSize="50dp"
-            app:iconTint="#000000"/>
-    </LinearLayout>
-    <LinearLayout
+    <TextView
+        android:id="@+id/tagsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sort Tags:"
+        android:textSize="18sp"
+        android:layout_below="@id/makeSpinner"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"/>
+
+    <Spinner
+        android:id="@+id/tagsSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@color/grey_dark"
-        android:orientation="horizontal">
+        android:layout_below="@id/tagsLabel"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="2"
-            android:text="Order"
-            android:textAlignment="viewStart"
-            android:textColor="@color/white"
-            android:textSize="40dp"
-            android:textStyle="bold"></TextView>
+    <TextView
+        android:id="@+id/dateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Sort Date:"
+        android:layout_below="@id/tagsSpinner"
+        android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/down_arrow_s6"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.5"
-            android:backgroundTint="@color/grey_dark"
-            app:icon="@drawable/down_arrow"
-            app:iconSize="50dp"
-            app:iconTint="#000000" />
-    </LinearLayout>
-
-    <LinearLayout
+    <Spinner
+        android:id="@+id/dateSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/dateLabel"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <TextView
+        android:id="@+id/valueLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Sort Value:"
+        android:layout_below="@id/dateSpinner"
+        android:textSize="18sp" />
+    <Spinner
+        android:id="@+id/valueSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/valueLabel"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp" />
+    <TextView
+        android:id="@+id/descLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Sort Description:"
+        android:layout_below="@id/valueSpinner"
+        android:textSize="18sp" />
+    <Spinner
+        android:id="@+id/descSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descLabel"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <Button
+        android:id="@+id/cancelSortButton"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descSpinner"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:background="@color/grey_dark"
-        android:orientation="horizontal">
+        android:text="Cancel" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="2"
-            android:text="Estimated Value"
-            android:textAlignment="viewStart"
-            android:textColor="@color/white"
-            android:textSize="40dp"
-            android:textStyle="bold"></TextView>
-
-        <Button
-            android:id="@+id/down_arrow_S1"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.5"
-            android:backgroundTint="@color/grey_dark"
-            app:icon="@drawable/down_arrow"
-            app:iconSize="50dp"
-            app:iconTint="#000000" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/applySortButton"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@color/grey_dark"
-        android:orientation="horizontal">
+        android:layout_below="@id/descSpinner"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="25dp"
+        android:layout_toRightOf="@id/cancelSortButton"
+        android:text="Apply" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="2"
-            android:text="Tags"
-            android:textAlignment="viewStart"
-            android:textColor="@color/white"
-            android:textSize="40dp"
-            android:textStyle="bold"></TextView>
-
-        <Button
-            android:id="@+id/down_arrow_s2"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.5"
-            android:backgroundTint="@color/grey_dark"
-            app:icon="@drawable/down_arrow"
-            app:iconSize="50dp"
-            app:iconTint="#000000" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@color/grey_dark"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="2"
-            android:text="Make"
-            android:textAlignment="viewStart"
-            android:textColor="@color/white"
-            android:textSize="40dp"
-            android:textStyle="bold"></TextView>
-
-        <Button
-            android:id="@+id/down_arrow_s3"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.5"
-            android:backgroundTint="@color/grey_dark"
-            app:icon="@drawable/down_arrow"
-            app:iconSize="50dp"
-            app:iconTint="#000000" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@color/grey_dark"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="2"
-            android:text="Date"
-            android:textAlignment="viewStart"
-            android:textColor="@color/white"
-            android:textSize="40dp"
-            android:textStyle="bold"></TextView>
-
-        <Button
-            android:id="@+id/down_arrow_s4"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.5"
-            android:backgroundTint="@color/grey_dark"
-            app:icon="@drawable/down_arrow"
-            app:iconSize="50dp"
-            app:iconTint="#000000" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@color/grey_dark"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="2"
-            android:text="Description"
-            android:textAlignment="viewStart"
-            android:textColor="@color/white"
-            android:textSize="40dp"
-            android:textStyle="bold"></TextView>
-
-        <Button
-            android:id="@+id/down_arrow_s5"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.5"
-            android:backgroundTint="@color/grey_dark"
-            app:icon="@drawable/down_arrow"
-            app:iconSize="50dp"
-            app:iconTint="#000000" />
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
