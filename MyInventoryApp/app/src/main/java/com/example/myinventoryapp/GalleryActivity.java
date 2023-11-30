@@ -10,10 +10,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,7 +28,6 @@ import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
-import androidx.camera.core.processing.SurfaceProcessorNode;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -40,7 +37,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 
@@ -51,7 +47,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import io.grpc.Context;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -135,7 +130,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         gallery_layout = findViewById(R.id.images_constraint);
         animationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-        back_btn = findViewById(R.id.backButton); back_btn.setOnClickListener(this);
+        back_btn = findViewById(R.id.doneButton); back_btn.setOnClickListener(this);
         save_btn = findViewById(R.id.saveButtonGallery); save_btn.setOnClickListener(this);
         capture_btn = findViewById(R.id.cameraButton); capture_btn.setOnClickListener(this);
         capture_cam_btn = findViewById(R.id.captureButtonCam); capture_cam_btn.setOnClickListener(this);
@@ -255,7 +250,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
             popUp.setArguments(bundle);
             popUp.show(getSupportFragmentManager(), "CAP_CHOOSE");
 
-        } else if (vID == R.id.backButton) {
+        } else if (vID == R.id.doneButton) {
             // Go back to add activity
             finish();
         } else if (vID == R.id.saveButtonGallery && edit_activity) {

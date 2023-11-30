@@ -148,7 +148,13 @@ public class ListActivity extends AppCompatActivity{
         filterbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               showAlertDialog();
+               //showAlertDialog();
+                Bundle bundle = new Bundle();
+                FilterDialogFragment filter_fragment = new FilterDialogFragment();
+                bundle.putStringArrayList("makesList",getMakesListFromItems());
+                bundle.putStringArrayList("tagsList",getTagsListFromItems());
+                filter_fragment.setArguments(bundle);
+                filter_fragment.show(getSupportFragmentManager(), "filter_items");
             }
         });
         sortbutton.setOnClickListener(new View.OnClickListener() {
@@ -174,6 +180,32 @@ public class ListActivity extends AppCompatActivity{
                 startActivity(i);
             }
         });
+    }
+    private ArrayList<String> getMakesListFromItems() {
+        ArrayList<String> makesList = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            String make = items.get(i).getMake();
+            if (make != null) {
+                makesList.add(make);
+            }
+        }
+        return makesList;
+    }
+
+    private ArrayList<String> getTagsListFromItems() {
+        ArrayList<String> tagsList = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            List<String> tags = items.get(i).getTags();
+            if (tags != null) {
+                for (String tag : tags) {
+                    // Check if tag is not null and not already in the list
+                    if (tag != null && !tagsList.contains(tag)) {
+                        tagsList.add(tag);
+                    }
+                }
+            }
+        }
+        return tagsList;
     }
 
     private void showAlertDialog() {
@@ -252,12 +284,12 @@ public class ListActivity extends AppCompatActivity{
 
     private void sortList(String makeData, String tagData, String dateData, String descData, String valData) {
         if (makeData.equals("Ascending")){
-            Collections.sort(items, new Comparator<Item>() {
-                @Override
-                public int compare(Item o1, Item o2) {
-                    return o1.getMake().compareTo(o2.getMake());
-                }
-            });
+//            Collections.sort(items, new Comparator<Item>() {
+//                @Override
+//                public int compare(Item o1, Item o2) {
+//                    return o1.getMake().compareTo(o2.getMake());
+//                }
+//            });
             Log.d("spinner","make:ascending");
         } else if (makeData.equals("Descending")) {
             Log.d("spinner","make:descending");
@@ -282,7 +314,7 @@ public class ListActivity extends AppCompatActivity{
         } else if (valData.equals("Descending")) {
             Log.d("spinner","val:descending");
         }
-//        Log.d("item", String.valueOf(items.get(0)));
+//        Log.d("item", String.valueOf(items.get(0).getDate()));
 //        Log.d("item", String.valueOf(items.get(1)));
 //        Log.d("item", String.valueOf(items.get(0)));
 //        Log.d("item", String.valueOf(items.get(1)));

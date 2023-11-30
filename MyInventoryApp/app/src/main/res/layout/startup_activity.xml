@@ -49,12 +49,12 @@
         android:layout_height="4dp"
         android:layout_alignParentLeft="false"
         android:layout_alignParentTop="false"
-        android:layout_marginTop="132dp"
         android:background="@drawable/line_1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SignupButton" />
+        app:layout_constraintTop_toBottomOf="@+id/LoginButton" />
 
     <View
         android:id="@+id/google_1"
@@ -62,7 +62,6 @@
         android:layout_height="52dp"
         android:layout_alignParentLeft="false"
         android:layout_alignParentTop="false"
-        android:layout_marginBottom="124dp"
         android:background="@drawable/google_1"
         android:clickable="true"
         android:focusable="auto"
@@ -71,7 +70,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line_1"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.25" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

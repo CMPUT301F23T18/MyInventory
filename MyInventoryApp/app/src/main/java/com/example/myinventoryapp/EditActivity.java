@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,6 +29,7 @@ public class EditActivity extends AppCompatActivity {
     EditText editPriceField;
     EditText editDescField;
     Button updateButton;
+    Button exitButton;
     EditText editcomment;
     long itemId;
 
@@ -53,9 +55,18 @@ public class EditActivity extends AppCompatActivity {
         editPriceField = findViewById(R.id.estPriceEdit);
         editDescField = findViewById(R.id.descEdit);
         updateButton = findViewById(R.id.saveButton);
+        ImageView back = findViewById(R.id.backArrow); back.setOnClickListener(backListener);
         editcomment = findViewById(R.id.comEdit);
+        exitButton = findViewById(R.id.backArrow);
         this.itemId = getIntent().getLongExtra("item_id",0);
         populateUIFromFirestore(itemId); // Call the function to populate ui from Firestore
+
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +125,13 @@ public class EditActivity extends AppCompatActivity {
         });
 
     }
+
+    View.OnClickListener backListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            finish();
+        }
+    };
 
 
     /**

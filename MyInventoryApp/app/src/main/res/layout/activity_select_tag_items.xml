@@ -69,11 +69,11 @@
                 android:layout_width="124dp"
                 android:layout_height="48dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="20dp"
                 android:backgroundTint="#F37135"
                 android:text="Unselect All"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/footer" />
 
             <Button
                 android:id="@+id/selectallButton"
@@ -82,25 +82,25 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="20dp"
                 android:backgroundTint="#F37135"
                 android:text="Select All"
                 app:iconSize="50dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/footer" />
 
             <ImageView
                 android:id="@+id/exitButton"
                 android:layout_width="40dp"
                 android:layout_height="45dp"
-                android:layout_marginBottom="42dp"
+                android:layout_marginBottom="27dp"
                 android:clickable="true"
+                android:contentDescription="Click to add item"
                 android:focusable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/exit_btn"
-                android:contentDescription="Click to add item"/>
+                app:srcCompat="@drawable/exit_btn" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </RelativeLayout>

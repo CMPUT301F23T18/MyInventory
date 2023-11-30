@@ -23,7 +23,6 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -51,7 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
         EditText password = findViewById(R.id.password);
 
         mAuth = FirebaseAuth.getInstance();
-        Button backButton = findViewById(R.id.backButton);
+        Button backButton = findViewById(R.id.doneButton);
         Button signUpButton = findViewById(R.id.LoginButton);
 
         backButton.setOnClickListener(new View.OnClickListener() {

@@ -5,48 +5,34 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
-import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
-import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.anything;
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.Matchers.hasToString;
 import static org.junit.Assert.assertEquals;
 
-import static java.lang.Thread.currentThread;
 import static java.lang.Thread.sleep;
 
 import android.Manifest;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
-import androidx.test.internal.platform.content.PermissionGranter;
 import androidx.test.rule.GrantPermissionRule;
 
 import org.junit.Rule; import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.Random;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -257,7 +243,7 @@ public class ListActivityTest {
         onView(withId(R.id.saveButton)).perform(click());
 
         //return to list
-        onView(withId(R.id.backButton)).perform(click());
+        onView(withId(R.id.doneButton)).perform(click());
         sleep(1000);
 
         //press on item again

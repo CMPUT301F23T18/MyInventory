@@ -45,6 +45,7 @@ public class Item implements Parcelable {
 
     private ArrayList<Bitmap> images = new ArrayList<Bitmap>(6);
     final long ONE_MEGABYTE = 1024 * 1024;
+    private String barcode;
 
     // photos
 
@@ -258,6 +259,17 @@ public class Item implements Parcelable {
         this.images.add(image);
     }
 
+    /**
+     * sets the barcode for the item
+     * @param barcode a barcode scanned by camera
+     */
+    public void setBarcode(String barcode) {this.barcode = barcode;}
+
+    /**
+     * returns the item's barcode
+     * @return String
+     */
+    public String getBarcode() {return this.barcode;}
     /**
      * Getter method to retrieve the date of purchased or acquisition of the Item.
      * @return date
