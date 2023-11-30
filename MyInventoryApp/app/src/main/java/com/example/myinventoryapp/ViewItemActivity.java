@@ -45,7 +45,6 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
-        //TODO: adjust textboxes in layout to support multiple lines for desc and comm
 
         // get id of the item that was clicked:
         this.id = getIntent().getLongExtra("ID",0);
