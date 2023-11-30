@@ -1,6 +1,8 @@
 package com.example.myinventoryapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -57,9 +59,27 @@ public class AddActivity extends AppCompatActivity {
         modelField = findViewById(R.id.model);
         priceField = findViewById(R.id.estimated_p);
         descField = findViewById(R.id.description);
-        scanButton = findViewById(R.id.scanButtonAdd);
         commentField = findViewById(R.id.comments);
+        Button scanSerialButton = findViewById(R.id.serialScanButton);
+        scanSerialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open the camera directly using the utility class
+                CameraUtils.openCameraDirectly(AddActivity.this, new CameraUtils.OnImageCapturedListener() {
+                    @Override
+                    public void onImageCaptured(Bitmap bitmap) {
+                        // Handle the captured image, e.g., display it in an ImageView
+                        // imageView.setImageBitmap(bitmap);
+                    }
 
+                    @Override
+                    public void onTextRecognized(String text) {
+                        // Update the serialField with the recognized text
+                        serialField.setText(text);
+                    }
+                });
+            }
+        });
         nextButton = findViewById(R.id.forwardButtonAdd);
         nextButton.setOnClickListener(nextListener);
 
@@ -71,6 +91,23 @@ public class AddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 backActivity();
+            }
+        });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        CameraUtils.handleActivityResult(this, requestCode, resultCode, data, new CameraUtils.OnImageCapturedListener() {
+            @Override
+            public void onImageCaptured(Bitmap bitmap) {
+                // Handle the captured image, e.g., display it in an ImageView
+                // imageView.setImageBitmap(bitmap);
+            }
+
+            @Override
+            public void onTextRecognized(String text) {
+                // Update the serialField with the recognized text
+                serialField.setText(text);
             }
         });
     }
