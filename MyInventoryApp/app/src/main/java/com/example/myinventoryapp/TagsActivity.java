@@ -56,7 +56,7 @@ public class TagsActivity extends AppCompatActivity {
     ArrayAdapter<String> tagAdaptor;
     ArrayList<Item> items;
     ArrayList<String> tags;
-    ArrayList<Boolean> selectedTags;
+    Map<String, Boolean> selectedTagsMap;
 
     /**
      * This is called to initialize any UI components, and to also retrieve item data from the
@@ -78,7 +78,7 @@ public class TagsActivity extends AppCompatActivity {
         tags = new ArrayList<>();
         tagAdaptor = new ArrayAdapter<>(this, R.layout.tags_content, this.tags);
         tagList.setAdapter(tagAdaptor);
-        selectedTags = new ArrayList<>();
+        selectedTagsMap = new HashMap<>();
 
         // Get tags from firebase
         DocumentReference docRef = ((Global) getApplication()).getFBTagsRef().document("TAGS");
@@ -90,9 +90,9 @@ public class TagsActivity extends AppCompatActivity {
                     List<String> tags_list = (List<String>) document.get("all_tags");
                     if (tags_list != null){tags.addAll(tags_list);}
                     tagAdaptor.notifyDataSetChanged();
-                    if (tags.size() > selectedTags.size()){
-                        for (int i = 0; i < tags.size() - selectedTags.size(); i++){
-                            selectedTags.add(false);
+                    for (String tag: tags){
+                        if (!selectedTagsMap.containsKey(tag)){
+                            selectedTagsMap.put(tag, false);
                         }
                     }
                 }
@@ -108,15 +108,19 @@ public class TagsActivity extends AppCompatActivity {
 
         tagList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (tagList.isItemChecked(position)){
-//                    tagList.setItemChecked(position, false);
-//                    view.setBackgroundColor(getResources().getColor(R.color.bg_white));
-//                    Log.i("Clicked", "Unselect");
-//                } else {
+                String selected_tag = (String) tagList.getItemAtPosition(position);
+                // Unselect already selected tag
+                if (selectedTagsMap.get(selected_tag)){
+                    selectedTagsMap.put(selected_tag, false);
+                    tagList.setItemChecked(position, false);
+                    view.setBackgroundColor(getResources().getColor(R.color.bg_white));
+                    Log.i("Clicked", "Unselect");
+                } else {
+                    selectedTagsMap.put(selected_tag, true);
                     tagList.setItemChecked(position, true);
                     view.setBackgroundColor(getResources().getColor(R.color.orange));
-//                    Log.i("Clicked", "Select");
-//                }
+                    Log.i("Clicked", "Select");
+                }
 
                 tagAdaptor.notifyDataSetChanged();
             }
