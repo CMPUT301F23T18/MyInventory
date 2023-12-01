@@ -27,13 +27,7 @@ import java.util.Map;
  */
 
 public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.OnFragmentInteractionListener {
-    EditText serialField;
-    EditText dateField;
-    EditText makeField;
-    EditText priceField;
-    EditText descField;
-    EditText modelField;
-    EditText commentField;
+    EditText serialField,dateField,makeField,priceField,descField,modelField,commentField;
     ImageView left_btn, right_btn, imageView;
     DocumentReference fb_view_item;
     long id;
@@ -51,7 +45,6 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
-        //TODO: adjust textboxes in layout to support multiple lines for desc and comm
 
         // get id of the item that was clicked:
         this.id = getIntent().getLongExtra("ID",0);
@@ -77,33 +70,32 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
         // get keys and set values to appropriate text fields
         fb_view_item.get().addOnSuccessListener(documentSnapshot -> {
             Map<String, Object> data = documentSnapshot.getData();
+            assert data != null;
 
-            serialField.setText((String) data.get("serial"));
-            dateField.setText((String) data.get("date"));
-            makeField.setText((String) data.get("make"));
-            priceField.setText((String) data.get("price"));
-            descField.setText((String) data.get("desc"));
-            modelField.setText((String) data.get("model"));
-            commentField.setText((String) data.get("comment"));
-
-            String date = (String) data.get("date");
-            String desc = (String) data.get("desc");
+            String serial = (String) data.get("serial");
             String make = (String) data.get("make");
             String model = (String) data.get("model");
-            String serial = (String) data.get("serial");
+            String date = (String) data.get("date");
             String value = (String) data.get("price");
+            String desc = (String) data.get("desc");
+            String comm = (String) data.get("comment");
+
+            populateField(serialField,serial);
+            dateField.setText((String) data.get("date"));
+            makeField.setText((String) data.get("make"));
+            modelField.setText((String) data.get("model"));
+            priceField.setText((String) data.get("price"));
+            populateField(descField,desc);
+            populateField(commentField,comm);
+
+
 
             List<String> tags = new ArrayList<>();
             if (data.containsKey("tags")){
                 tags = (List<String>)data.get("tags");
             }
 
-            serialField.setText(serial);
-            dateField.setText(date);
-            makeField.setText(make);
-            priceField.setText(value);
-            descField.setText(desc);
-            modelField.setText(model);
+
 
             item = new Item(date,desc,make,model,serial,value);
             item.setTags(tags);
@@ -171,6 +163,12 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
                 finish();
             }
         });
+    }
+
+    private void populateField(EditText field, String text) {
+        if (text != null) {
+            field.setText(text);
+        }
     }
 
     /**

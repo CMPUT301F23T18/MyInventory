@@ -8,11 +8,11 @@
     android:background="@color/bg_white">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout14"
+        android:id="@+id/MakeLayoutBar"
         style="@style/TextInputLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout16"
+        app:layout_constraintBottom_toTopOf="@+id/ModelLayoutBar"
         app:layout_constraintEnd_toEndOf="@+id/space7"
         app:layout_constraintStart_toStartOf="@+id/space7"
         app:layout_constraintTop_toTopOf="parent">
@@ -29,7 +29,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout16"
+        android:id="@+id/ModelLayoutBar"
         style="@style/TextInputLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout15"
+        android:id="@+id/DescLayoutBar"
         style="@style/TextInputLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/space7"
         app:layout_constraintStart_toStartOf="@+id/space7"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout15" />
+        app:layout_constraintTop_toBottomOf="@+id/DescLayoutBar" />
 
     <Space
         android:id="@+id/space7"

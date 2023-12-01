@@ -55,7 +55,7 @@ public class EditActivity extends AppCompatActivity {
         editPriceField = findViewById(R.id.estPriceEdit);
         editDescField = findViewById(R.id.descEdit);
         updateButton = findViewById(R.id.saveButton);
-        ImageView back = findViewById(R.id.backArrow); back.setOnClickListener(backListener);
+        Button back = findViewById(R.id.backArrow); back.setOnClickListener(backListener);
         editcomment = findViewById(R.id.comEdit);
         exitButton = findViewById(R.id.backArrow);
         this.itemId = getIntent().getLongExtra("item_id",0);
