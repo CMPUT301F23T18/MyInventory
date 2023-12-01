@@ -75,8 +75,20 @@ public class ItemList extends ArrayAdapter<Item> {
             photo.setImageResource(R.drawable.no_image);
         }
         value.setText("$" + item.getEst_value());
-        make.setText(item.getMake());
-        model.setText(item.getModel());
+
+        // Show ... if string for make and model is too long
+        int max_string = 25;
+        if (item.getMake().length() <= max_string){
+            make.setText(item.getMake());
+        } else {
+            make.setText(item.getMake().substring(0,max_string) + "...");
+        }
+        if (item.getModel().length() <= max_string){
+            model.setText(item.getModel());
+        } else {
+            model.setText(item.getModel().substring(0,max_string) + "...");
+        }
+
         if (item.getTags() != null){
         tags.setText("Tags: " + String.join(", ", item.getTags()));
         } else {
