@@ -10,7 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -32,6 +34,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,13 +47,14 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     ImageView addButton;
     ListView itemList;
     ArrayAdapter<Item> itemAdapter;
-    ArrayAdapter<String> spinneradapter;
+    ArrayAdapter<String> orderadapter, fieldadapter;
     ArrayList<Item> items, filtered_items, temp_list;
     List<Integer> delete_items;
     double totalValue = 0;
     TextView totalCostView;
     Button filterbutton, sortbutton, deleteButton, tagButton;
-    String makeData, tagData, dateData, descData, valData, dateString = "";
+    String fieldData, orderData, dateString = "";
+    boolean filtered;
 
     /**
      *
@@ -65,9 +70,14 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         totalCostView = findViewById(R.id.totalCostView);
         itemList = findViewById(R.id.item_list);
 
-        // Reset user id in case it's necessary.
+        // Reset user id in case it's necessary. Also if current user is null, performing tests
+        // so set it to test user uid.
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        ((DatabaseHandler) getApplication()).setUSER_PATH(mAuth.getCurrentUser().getUid());
+        if (mAuth.getCurrentUser() != null) {
+            ((DatabaseHandler) getApplication()).setUSER_PATH(mAuth.getCurrentUser().getUid());
+        } else{
+            ((DatabaseHandler) getApplication()).setUSER_PATH("test_user");
+        }
 
         items = new ArrayList<>();
         itemAdapter = new ItemList(this, items);
@@ -228,86 +238,112 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         alertDialog.show();
     }
     private void showSortDialog() {
-        //TODO
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//
-//        LayoutInflater inflater = getLayoutInflater();
-//        View view = inflater.inflate(R.layout.fragment_sort, null);
-//
-//        String[] options = {"None", "Ascending", "Descending"};
-//        spinneradapter = new ArrayAdapter<String>(ListActivity.this, android.R.layout.simple_spinner_item, options);
-//        spinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//        final Spinner makeSpinner = view.findViewById(R.id.makeSpinner);
-//        final Spinner tagSpinner = view.findViewById(R.id.tagsSpinner);
-//        final Spinner dateSpinner = view.findViewById(R.id.dateSpinner);
-//        final Spinner descSpinner = view.findViewById(R.id.descSpinner);
-//        final Spinner valSpinner = view.findViewById(R.id.valueSpinner);
-//
-//        makeSpinner.setAdapter(spinneradapter);
-//        tagSpinner.setAdapter(spinneradapter);
-//        dateSpinner.setAdapter(spinneradapter);
-//        descSpinner.setAdapter(spinneradapter);
-//        valSpinner.setAdapter(spinneradapter);
-//
-//        builder.setView(view)
-//                .setTitle("Apply Filters");
-//        Button possitiveButton = view.findViewById(R.id.applySortButton);
-//        Button negativeButton = view.findViewById(R.id.cancelSortButton);
-//        AlertDialog alertDialog = builder.create();
-//
-//        possitiveButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                makeData = makeSpinner.getSelectedItem().toString();
-//                tagData = tagSpinner.getSelectedItem().toString();
-//                dateData = dateSpinner.getSelectedItem().toString();
-//                descData = descSpinner.getSelectedItem().toString();
-//                valData = valSpinner.getSelectedItem().toString();
-//                sortList(makeData, tagData, dateData, descData, valData);
-//            }
-//        });
-//        negativeButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                alertDialog.dismiss();
-//            }
-//        });
-//        alertDialog.show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.fragment_sort, null);
+
+        String[] order = {"Select", "Ascending", "Descending"};
+        String[] fields = {"Select", "Make", "Date", "Value", "Description"};
+
+        orderadapter = new ArrayAdapter<String>(ListActivity.this, android.R.layout.simple_spinner_item, order);
+        fieldadapter = new ArrayAdapter<String>(ListActivity.this, android.R.layout.simple_spinner_item, fields);
+        orderadapter.setDropDownViewResource(R.layout.spinner_view);
+        fieldadapter.setDropDownViewResource(R.layout.spinner_view);
+
+        final Spinner fieldSpinner = view.findViewById(R.id.fieldSpinner);
+        final Spinner orderSpinner = view.findViewById(R.id.orderSpinner);
+
+
+        fieldSpinner.setAdapter(fieldadapter);
+        orderSpinner.setAdapter(orderadapter);
+
+        fieldSpinner.setSelection(0);
+
+        builder.setView(view)
+                .setTitle("Apply Filters");
+        Button possitiveButton = view.findViewById(R.id.applySortButton);
+        Button negativeButton = view.findViewById(R.id.cancelSortButton);
+        AlertDialog alertDialog = builder.create();
+
+        fieldSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (fieldSpinner.getSelectedItem().toString() != "Select") {
+                    orderSpinner.setVisibility(View.VISIBLE);
+                    orderSpinner.setSelection(0);
+                }
+                else{
+                    orderSpinner.setVisibility(View.INVISIBLE);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        possitiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fieldData = fieldSpinner.getSelectedItem().toString();
+                orderData = orderSpinner.getSelectedItem().toString();
+                sortList(fieldData, orderData);
+                alertDialog.dismiss();
+            }
+        });
+        negativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 
-    private void sortList(String makeData, String tagData, String dateData, String descData, String valData) {
-//        if (makeData.equals("Ascending")){
-////            Collections.sort(items, new Comparator<Item>() {
-////                @Override
-////                public int compare(Item o1, Item o2) {
-////                    return o1.getMake().compareTo(o2.getMake());
-////                }
-////            });
-//            Log.d("spinner","make:ascending");
-//        } else if (makeData.equals("Descending")) {
-//            Log.d("spinner","make:descending");
-//        }
-//        if (tagData.equals("Ascending")) {
-//            Log.d("spinner","tag:ascending");
-//        } else if (tagData.equals("Descending")) {
-//            Log.d("spinner","tag:descending");
-//        }
-//        if (dateData.equals("Ascending")) {
-//            Log.d("spinner","date:ascending");
-//        } else if (dateData.equals("Descending")) {
-//            Log.d("spinner","date:descending");
-//        }
-//        if (descData.equals("Ascending")) {
-//            Log.d("spinner","desc:ascending");
-//        } else if (descData.equals("Descending")) {
-//            Log.d("spinner","desc:descending");
-//        }
-//        if (valData.equals("Ascending")) {
-//            Log.d("spinner","val:ascending");
-//        } else if (valData.equals("Descending")) {
-//            Log.d("spinner","val:descending");
-//        }
+    private void sortList(String field, String order) {
+        if(filtered){
+            //TODO: set sort list to the filtered list
+        } else{
+            //TODO: keep the original list
+        }
+        if(!field.equals("Select") && order.equals("Select")){
+            Toast.makeText(ListActivity.this, "Please select the order to sort "+field+" by" ,Toast.LENGTH_SHORT).show();
+        } else{
+            if(field.equals("Make")){
+                if(order.equals("Ascending")){
+                    Collections.sort(items, Comparator.comparing(Item::getMake));
+                } else if (order.equals("Descending")) {
+                    Collections.sort(items, Comparator.comparing(Item::getMake));
+                    Collections.reverse(items);
+                }
+            }
+            if(field.equals("Date")){
+                if(order.equals("Ascending")){
+                    Collections.sort(items, Comparator.comparing(Item::getDate));
+                } else if (order.equals("Descending")) {
+                    Collections.sort(items, Comparator.comparing(Item::getDate));
+                    Collections.reverse(items);
+                }
+            }
+            if(field.equals("Value")){
+                if(order.equals("Ascending")){
+                    Collections.sort(items, Comparator.comparing(Item::getEst_value));
+                } else if (order.equals("Descending")) {
+                    Collections.sort(items, Comparator.comparing(Item::getEst_value));
+                    Collections.reverse(items);
+                }
+            }
+            if(field.equals("Description")){
+                if(order.equals("Ascending")){
+                    Collections.sort(items, Comparator.comparing(Item::getDescription));
+                } else if (order.equals("Descending")) {
+                    Collections.sort(items, Comparator.comparing(Item::getDescription));
+                    Collections.reverse(items);
+                }
+            }
+            itemAdapter.notifyDataSetChanged();
+        }
     }
 
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
@@ -339,12 +375,14 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         filtered_items = new ArrayList<>();
         if(fromDate.size()==0 && fMakes.size()==0 && fTags.size()==0) {
             filtered_items = items;
+            filtered = false;
         }
         //TODO: filter by make
         //TODO: filter bt tags
         //TODO: filter by description
         if (fromDate.size() > 0) {
             filtered_items = filterDate(fromDate, toDate, filtered_items);
+            filtered = true;
         }
         itemAdapter = new ItemList(this, filtered_items);
         itemAdapter.notifyDataSetChanged();
