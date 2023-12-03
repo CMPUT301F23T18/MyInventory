@@ -92,8 +92,8 @@ public class ItemList extends ArrayAdapter<Item> {
             model.setText(item.getModel().substring(0,max_string) + "...");
         }
 
-        if (item.getTags() != null){
-        tags.setText("Tags: " + String.join(", ", item.getTags()));
+        if (item.getTags() != null && item.getTags().size() > 0){
+            tags.setText("Tags: " + String.join(", ", item.getTags()));
         } else {
             tags.setText("Tags: None");
         }

@@ -129,6 +129,7 @@ public class Item implements Parcelable {
         this.model = model;
         this.serial_num = serial_num;
         this.est_value = est_value;
+        this.tags = new ArrayList<>();
 
         if (est_value != null){
             est_value_num = Double.parseDouble(est_value);
