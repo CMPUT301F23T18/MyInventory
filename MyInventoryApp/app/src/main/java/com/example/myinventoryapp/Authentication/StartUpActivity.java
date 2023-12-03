@@ -1,4 +1,4 @@
-package com.example.myinventoryapp;
+package com.example.myinventoryapp.Authentication;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.myinventoryapp.DatabaseHandler;
+import com.example.myinventoryapp.ListActivities.ListActivity;
+import com.example.myinventoryapp.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -26,8 +29,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
 
 /**
  * Class for handling Starting Activity
@@ -131,7 +132,7 @@ public class StartUpActivity extends AppCompatActivity {
                                                 startActivity(intent);
                                             }
                                             else{
-                                                ((Global) getApplication()).setUSER_PATH(user.getUid());
+                                                ((DatabaseHandler) getApplication()).setUSER_PATH(user.getUid());
                                                 Intent intent = new Intent(StartUpActivity.this, ListActivity.class);
                                                 startActivity(intent);
                                             }

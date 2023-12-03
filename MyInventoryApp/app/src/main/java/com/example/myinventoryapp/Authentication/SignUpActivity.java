@@ -1,4 +1,4 @@
-package com.example.myinventoryapp;
+package com.example.myinventoryapp.Authentication;
 
 import static android.content.ContentValues.TAG;
 
@@ -14,6 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myinventoryapp.DatabaseHandler;
+import com.example.myinventoryapp.ListActivities.ListActivity;
+import com.example.myinventoryapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -94,7 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign up success
                             FirebaseUser user = mAuth.getCurrentUser();
-                            ((Global) getApplication()).setUSER_PATH(user.getUid());
+                            ((DatabaseHandler) getApplication()).setUSER_PATH(user.getUid());
                             Intent intent = new Intent(SignUpActivity.this, ListActivity.class);
                             startActivity(intent);
                         } else {

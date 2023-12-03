@@ -1,33 +1,22 @@
 package com.example.myinventoryapp;
 
 import android.app.Application;
-import android.app.ProgressDialog;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.util.Log;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.myinventoryapp.ItemManagement.Item;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -35,7 +24,7 @@ import java.util.Map;
  */
 // Example of call for getting CollectionReference for items: CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
 // Example of call for setting username: ((Global) getApplication()).setUSER_PATH(username);
-public class Global extends Application {
+public class DatabaseHandler extends Application {
     private String USER_PATH;
     private CollectionReference fbItemsRef; // firebase Items reference
     private CollectionReference fbTagsRef; // firebase Tags reference

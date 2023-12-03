@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
 
     <application
-        android:name=".Global"
+        android:name=".DatabaseHandler"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -27,28 +27,28 @@
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="barcode" />
 
-        <activity android:name=".AddActivity"
+        <activity android:name=".ItemManagement.AddActivity"
             android:exported="false"/>
-        <activity android:name=".ListActivity"
+        <activity android:name=".ListActivities.ListActivity"
             android:exported="true" />
-        <activity android:name=".BarcodeActivity"
+        <activity android:name=".ItemManagement.BarcodeActivity"
             android:exported="false"
             android:windowSoftInputMode="stateVisible|adjustResize"/>
-        <activity android:name=".EditActivity"
+        <activity android:name=".ItemManagement.EditActivity"
             android:exported="false"/>
-        <activity android:name=".GalleryActivity"
+        <activity android:name=".ItemManagement.GalleryActivity"
             android:exported="false"/>
-        <activity android:name=".ViewItemActivity"
+        <activity android:name=".ItemManagement.ViewItemActivity"
             android:exported="true"/>
-        <activity android:name=".TagsActivity"
+        <activity android:name=".ItemManagement.TagsActivity"
             android:exported="false"/>
-        <activity android:name=".DeleteActivity"
+        <activity android:name=".ListActivities.DeleteActivity"
             android:exported="false"/>
-        <activity android:name=".SelectTagItemsActivity"
+        <activity android:name=".ListActivities.SelectTagItemsActivity"
             android:exported="false"/>
 
         <activity
-            android:name=".StartUpActivity"
+            android:name=".Authentication.StartUpActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,9 +56,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUpActivity"
+        <activity android:name=".Authentication.SignUpActivity"
             android:exported="true"/>
-        <activity android:name=".LoginActivity"
+        <activity android:name=".Authentication.LoginActivity"
             android:exported="true"/>
 
         <meta-data
