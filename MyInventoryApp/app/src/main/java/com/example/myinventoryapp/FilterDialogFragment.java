@@ -35,12 +35,14 @@ public class FilterDialogFragment extends DialogFragment {
     private ArrayList<Integer> tagListIndex = new ArrayList<>();
     private List<String> tagsList = new ArrayList<>();
     private List<Integer> fromDate = new ArrayList<>(), toDate = new ArrayList<>();
+    private String selectedDateRange;
     OnFragmentInteractionListener listener;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         makesList = getArguments().getStringArrayList("makesList");
         tagsList = getArguments().getStringArrayList("tagsList");
+        selectedDateRange = getArguments().getString("dateString");
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         View view = requireActivity().getLayoutInflater().inflate(R.layout.fragment_filter_dialog, null);
 
@@ -54,6 +56,10 @@ public class FilterDialogFragment extends DialogFragment {
 
         selectedMakes = new boolean[makesList.size()];
         selectedTags = new boolean[tagsList.size()];
+
+        if(selectedDateRange != "") {
+            dateTextView.setText(selectedDateRange);
+        }
 
         makeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +85,7 @@ public class FilterDialogFragment extends DialogFragment {
         cleardate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectedDateRange = "";
                 dateTextView.setText("");
                 dateTextView.setHint("Date");
                 fromDate.clear();
@@ -90,7 +97,7 @@ public class FilterDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 //TODO: finish method for applying filters
-                listener.onApplyPressed(fromDate, toDate, filterMakes, filterTags);
+                listener.onApplyPressed(selectedDateRange, fromDate, toDate, filterMakes, filterTags);
                 getDialog().dismiss();
             }
         });
@@ -105,6 +112,7 @@ public class FilterDialogFragment extends DialogFragment {
         clearfiltersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectedDateRange = "";
                 dateTextView.setText("");
                 dateTextView.setHint("Date");
                 fromDate.clear();
@@ -266,7 +274,7 @@ public class FilterDialogFragment extends DialogFragment {
             String endDateString = sdf.format(new Date(endDate));
 
             // Creating the date range string
-            String selectedDateRange = startDateString + " TO " + endDateString;
+            selectedDateRange = startDateString + " TO " + endDateString;
 
             // Displaying the selected date range in the TextView
             dateTextView.setText(selectedDateRange);
@@ -301,7 +309,7 @@ public class FilterDialogFragment extends DialogFragment {
         /**
          * Called when Apply is pressed in the filter dialog fragment.
          */
-        void onApplyPressed(List<Integer> fromDate, List<Integer> toDate, List<String> filterMakes, List<String> filterTags);
+        void onApplyPressed(String selectedDateRange, List<Integer> fromDate, List<Integer> toDate, List<String> filterMakes, List<String> filterTags);
     }
 
     /**

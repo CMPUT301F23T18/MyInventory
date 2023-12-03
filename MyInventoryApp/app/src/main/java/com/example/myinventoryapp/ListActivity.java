@@ -43,7 +43,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     double totalValue = 0;
     TextView totalCostView;
     Button filterbutton, sortbutton, deleteButton, tagButton;
-    String makeData, tagData, dateData, descData, valData;
+    String makeData, tagData, dateData, descData, valData, dateString = "";
 
     /**
      *
@@ -139,6 +139,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
                 FilterDialogFragment filter_fragment = new FilterDialogFragment();
                 bundle.putStringArrayList("makesList",getMakesListFromItems());
                 bundle.putStringArrayList("tagsList",getTagsListFromItems());
+                bundle.putString("dateString", dateString);
                 filter_fragment.setArguments(bundle);
                 filter_fragment.show(getSupportFragmentManager(), "filter_items");
             }
@@ -330,7 +331,8 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
      * Invoked when the "Apply" button is pressed in the filter fragment dialog.
      */
     @Override
-    public void onApplyPressed(List<Integer> fromDate, List<Integer> toDate, List<String> fMakes, List<String> fTags) {
+    public void onApplyPressed(String selectedDateRange, List<Integer> fromDate, List<Integer> toDate, List<String> fMakes, List<String> fTags) {
+        dateString = selectedDateRange;
         filtered_items = new ArrayList<>();
         if(fromDate.size()==0 && fMakes.size()==0 && fTags.size()==0) {
             filtered_items = items;
