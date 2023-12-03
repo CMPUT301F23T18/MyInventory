@@ -1,10 +1,6 @@
-package com.example.myinventoryapp;
+package com.example.myinventoryapp.ListActivities;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,21 +8,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.example.myinventoryapp.Adaptors.ItemList;
+import com.example.myinventoryapp.DatabaseHandler;
+import com.example.myinventoryapp.ItemManagement.AddActivity;
+import com.example.myinventoryapp.ItemManagement.Item;
+import com.example.myinventoryapp.ItemManagement.ViewItemActivity;
+import com.example.myinventoryapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -69,12 +64,12 @@ public class ListActivity extends AppCompatActivity{
 
         // Reset user id in case it's necessary.
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        ((Global) getApplication()).setUSER_PATH(mAuth.getCurrentUser().getUid());
+        ((DatabaseHandler) getApplication()).setUSER_PATH(mAuth.getCurrentUser().getUid());
 
         items = new ArrayList<>();
         itemAdapter = new ItemList(this, items);
 
-        CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
+        CollectionReference fb_items = ((DatabaseHandler) getApplication()).getFbItemsRef();
         fb_items.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot querySnapshots, @Nullable FirebaseFirestoreException error) {
@@ -101,7 +96,7 @@ public class ListActivity extends AppCompatActivity{
                         }
 
                         // set photos
-                        StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
+                        StorageReference photosRef = ((DatabaseHandler) getApplication()).getPhotoStorageRef();
                         item.generatePhotoArray(photosRef,id,itemAdapter);
 
                         Log.d("Firestore", String.format("Item(%s, %s) fetched", item.getMake(), item.getModel()));

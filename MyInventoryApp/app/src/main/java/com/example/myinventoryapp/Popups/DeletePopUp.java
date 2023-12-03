@@ -1,4 +1,4 @@
-package com.example.myinventoryapp;
+package com.example.myinventoryapp.Popups;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
+
+import com.example.myinventoryapp.R;
 
 import javax.annotation.Nullable;
 /**

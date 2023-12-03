@@ -8,258 +8,264 @@
     android:background="@color/bg_white"
     android:clipToOutline="true">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout13"
-        style="@style/TextInputLayoutStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout9"
-        app:layout_constraintEnd_toStartOf="@+id/serialScanButton"
-        app:layout_constraintStart_toStartOf="@+id/space6"
-        app:layout_constraintTop_toTopOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp">
 
-        <EditText
-            android:id="@+id/serial_numb"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout13"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:digits="1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-"
-            android:gravity="center_vertical"
-            android:hint="@string/serial_numb"
-            android:inputType="textCapCharacters"
-            android:lines="1"
-            android:maxLines="1"
-            android:textAppearance="@style/new_item_activity_text"
-            android:textColor="@color/white"
             android:textColorHint="@color/white"
-            tools:layout_editor_absoluteX="47dp"
-            tools:layout_editor_absoluteY="96dp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintEnd_toStartOf="@+id/serialScanButton"
+            app:layout_constraintStart_toStartOf="@+id/space6"
+            app:layout_constraintTop_toBottomOf="@+id/space6">
 
+            <EditText
+                android:id="@+id/serial_numb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ-"
+                android:gravity="center_vertical"
+                android:hint="@string/serial_numb"
+                android:inputType="textCapCharacters"
+                android:lines="1"
+                android:maxLines="1"
+                android:textAppearance="@style/new_item_activity_text"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                tools:layout_editor_absoluteX="47dp"
+                tools:layout_editor_absoluteY="96dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout9"
-        style="@style/TextInputLayoutStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout8"
-        app:layout_constraintEnd_toEndOf="@+id/space6"
-        app:layout_constraintStart_toStartOf="@+id/space6"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <EditText
-            android:id="@+id/acquired_da"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout9"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:digits="1234567890-"
-            android:gravity="center_vertical"
-            android:hint="@string/acquired_da"
-            android:inputType="phone"
-            android:lines="1"
-            android:maxLength="10"
-            android:textAppearance="@style/new_item_activity_text"
-            android:textColor="@color/white"
             android:textColorHint="@color/white"
-            tools:layout_editor_absoluteX="47dp"
-            tools:layout_editor_absoluteY="151dp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintBottom_toTopOf="@+id/textInputLayout8"
+            app:layout_constraintEnd_toEndOf="@+id/space6"
+            app:layout_constraintStart_toStartOf="@+id/space6"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout10"
-        style="@style/TextInputLayoutStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout8"
-        app:layout_constraintEnd_toEndOf="@+id/space6"
-        app:layout_constraintStart_toStartOf="@+id/space6"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout9">
+            <EditText
+                android:id="@+id/acquired_da"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="1234567890-"
+                android:gravity="center_vertical"
+                android:hint="@string/acquired_da"
+                android:inputType="phone"
+                android:lines="1"
+                android:maxLength="10"
+                android:textAppearance="@style/new_item_activity_text"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                tools:layout_editor_absoluteX="47dp"
+                tools:layout_editor_absoluteY="151dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/make"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout10"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:hint="@string/make"
-            android:lines="1"
-            android:maxLines="1"
-            android:textAppearance="@style/new_item_activity_text"
-            android:textColor="@color/white"
             android:textColorHint="@color/white"
-            tools:layout_editor_absoluteX="47dp"
-            tools:layout_editor_absoluteY="206dp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintBottom_toTopOf="@+id/textInputLayout8"
+            app:layout_constraintEnd_toEndOf="@+id/space6"
+            app:layout_constraintStart_toStartOf="@+id/space6"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout9">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout8"
-        style="@style/TextInputLayoutStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="@+id/space6"
-        app:layout_constraintStart_toStartOf="@+id/space6"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.40">
+            <EditText
+                android:id="@+id/make"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:hint="@string/make"
+                android:lines="1"
+                android:maxLines="1"
+                android:textAppearance="@style/new_item_activity_text"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                tools:layout_editor_absoluteX="47dp"
+                tools:layout_editor_absoluteY="206dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/model"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout8"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Model"
-            android:inputType="text"
-            android:lines="1"
-            android:maxLines="1"
-            android:textColor="@color/white"
             android:textColorHint="@color/white"
-            tools:layout_editor_absoluteX="47dp"
-            tools:layout_editor_absoluteY="261dp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="@+id/space6"
+            app:layout_constraintStart_toStartOf="@+id/space6"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.40">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout12"
-        style="@style/TextInputLayoutStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout11"
-        app:layout_constraintEnd_toEndOf="@+id/space6"
-        app:layout_constraintStart_toStartOf="@+id/space6"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout8">
+            <EditText
+                android:id="@+id/model"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Model"
+                android:inputType="text"
+                android:lines="1"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                tools:layout_editor_absoluteX="47dp"
+                tools:layout_editor_absoluteY="261dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/estimated_p"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout12"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:hint="@string/estimated_p"
-            android:inputType="numberDecimal"
-            android:lines="1"
-            android:maxLines="1"
-            android:textAppearance="@style/new_item_activity_text"
-            android:textColor="@color/white"
             android:textColorHint="@color/white"
-            tools:layout_editor_absoluteX="48dp"
-            tools:layout_editor_absoluteY="386dp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintBottom_toTopOf="@+id/textInputLayout11"
+            app:layout_constraintEnd_toEndOf="@+id/space6"
+            app:layout_constraintStart_toStartOf="@+id/space6"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout8">
 
+            <EditText
+                android:id="@+id/estimated_p"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:hint="@string/estimated_p"
+                android:inputType="numberDecimal"
+                android:lines="1"
+                android:maxLines="1"
+                android:textAppearance="@style/new_item_activity_text"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                tools:layout_editor_absoluteX="48dp"
+                tools:layout_editor_absoluteY="386dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout11"
-        style="@style/TextInputLayoutStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/scanBarcodeAdd"
-        app:layout_constraintEnd_toEndOf="@+id/space6"
-        app:layout_constraintStart_toStartOf="@+id/space6"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout8">
-
-        <EditText
-            android:id="@+id/description"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout11"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="top|center_vertical"
-            android:hint="@string/description"
-            android:lines="4"
-            android:maxLines="5"
-            android:minLines="3"
-            android:textAppearance="@style/new_item_activity_text"
-            android:textColor="@color/white"
             android:textColorHint="@color/white"
-            tools:layout_editor_absoluteX="48dp"
-            tools:layout_editor_absoluteY="442dp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="@+id/space6"
+            app:layout_constraintStart_toStartOf="@+id/space6"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout8"
+            app:layout_constraintVertical_bias="0.37">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="0dp"
-        style="@style/TextInputLayoutStyle"
-        android:layout_height="wrap_content"
-        android:textColorHint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/scanBarcodeAdd"
-        app:layout_constraintEnd_toEndOf="@+id/space6"
-        app:layout_constraintStart_toStartOf="@+id/space6"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout11">
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|center_vertical"
+                android:hint="@string/description"
+                android:lines="4"
+                android:maxLines="5"
+                android:minLines="3"
+                android:textAppearance="@style/new_item_activity_text"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                tools:layout_editor_absoluteX="48dp"
+                tools:layout_editor_absoluteY="442dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/comments"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout14"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="top|center_vertical"
-            android:hint="Comments"
-            android:lines="3"
-            android:maxLines="3"
-            android:minLines="3"
-            android:textAppearance="@style/new_item_activity_text"
-            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
             android:textColorHint="@color/white"
-            tools:layout_editor_absoluteX="47dp"
-            tools:layout_editor_absoluteY="541dp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintEnd_toEndOf="@+id/space6"
+            app:layout_constraintStart_toStartOf="@+id/space6"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout11">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/footer_bg" />
+            <EditText
+                android:id="@+id/comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|center_vertical"
+                android:hint="Comments"
+                android:lines="3"
+                android:maxLines="3"
+                android:minLines="3"
+                android:textAppearance="@style/new_item_activity_text"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                tools:layout_editor_absoluteX="47dp"
+                tools:layout_editor_absoluteY="541dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/scanBarcodeAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
-        android:text="@string/scan_image"
-        android:textAppearance="@style/scan_image"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/footer_bg" />
 
+        <Button
+            android:id="@+id/scanBarcodeAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/black"
+            android:text="@string/scan_image"
+            android:textAppearance="@style/scan_image"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout14" />
 
-    <ImageView
-        android:id="@+id/forwardButtonAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/forward_arrow" />
+        <ImageView
+            android:id="@+id/forwardButtonAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/forward_arrow" />
 
-    <ImageView
-        android:id="@+id/backButton1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/back_arrow" />
+        <ImageView
+            android:id="@+id/backButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/back_arrow" />
 
-    <Button
-        android:id="@+id/serialScanButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
-        android:text="Scan Serial"
-        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout13"
-        app:layout_constraintEnd_toEndOf="@+id/space6"
-        app:layout_constraintTop_toTopOf="@+id/textInputLayout13" />
+        <Button
+            android:id="@+id/serialScanButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/black"
+            android:text="Scan Serial"
+            app:layout_constraintEnd_toEndOf="@+id/space6"
+            app:layout_constraintTop_toBottomOf="@+id/space6" />
 
-    <Space
-        android:id="@+id/space6"
-        android:layout_width="296dp"
-        android:layout_height="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Space
+            android:id="@+id/space6"
+            android:layout_width="296dp"
+            android:layout_height="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

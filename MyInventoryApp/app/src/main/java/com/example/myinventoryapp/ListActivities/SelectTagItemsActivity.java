@@ -1,4 +1,4 @@
-package com.example.myinventoryapp;
+package com.example.myinventoryapp.ListActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,13 +14,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myinventoryapp.Adaptors.SelectListAdaptor;
+import com.example.myinventoryapp.DatabaseHandler;
+import com.example.myinventoryapp.ItemManagement.Item;
+import com.example.myinventoryapp.R;
+import com.example.myinventoryapp.ItemManagement.TagsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Activity displays a checked list of items and provides options to user including select and
@@ -54,7 +57,7 @@ public class SelectTagItemsActivity  extends AppCompatActivity {
 
         items = new ArrayList<>();
         items = getIntent().getParcelableArrayListExtra("list");
-        StorageReference photoRef = ((Global) getApplication()).getPhotoStorageRef();
+        StorageReference photoRef = ((DatabaseHandler) getApplication()).getPhotoStorageRef();
         for (Item item:items) {
             item.generatePhotoArray(photoRef, String.valueOf(item.getID()), new OnCompleteListener() {
                 @Override
