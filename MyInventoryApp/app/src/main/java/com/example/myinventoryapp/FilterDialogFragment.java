@@ -1,9 +1,10 @@
 package com.example.myinventoryapp;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,29 +13,29 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.util.Pair;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
-import java.text.DateFormat;
-import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 
 public class FilterDialogFragment extends DialogFragment {
-    private TextView makeTextView, tagTextView, dateTextView;
-    private Button applyBtn, cancelBtn;
+    private TextView makeTextView, tagTextView, dateTextView, cleardate;
+    private Button applyBtn, cancelBtn, clearfiltersBtn;
     private boolean[] selectedMakes;
     private boolean[] selectedTags;
-    private ArrayList<Integer> makeList = new ArrayList<>();
+    private ArrayList<Integer> makeListIndex = new ArrayList<>();
+    private List<String> filterMakes = new ArrayList<>(), filterTags = new ArrayList<>();
     private List<String> makesList = new ArrayList<>();
-    private ArrayList<Integer> tagList = new ArrayList<>();
+    private ArrayList<Integer> tagListIndex = new ArrayList<>();
     private List<String> tagsList = new ArrayList<>();
+    private List<Integer> fromDate = new ArrayList<>(), toDate = new ArrayList<>();
+    OnFragmentInteractionListener listener;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -48,6 +49,8 @@ public class FilterDialogFragment extends DialogFragment {
         dateTextView = view.findViewById(R.id.dateDropDown);
         applyBtn = view.findViewById(R.id.applyFilterButton);
         cancelBtn = view.findViewById(R.id.cancelFilterButton);
+        cleardate = view.findViewById(R.id.cleardatebtn);
+        clearfiltersBtn = view.findViewById(R.id.clearFilterButton);
 
         selectedMakes = new boolean[makesList.size()];
         selectedTags = new boolean[tagsList.size()];
@@ -66,32 +69,20 @@ public class FilterDialogFragment extends DialogFragment {
             }
         });
 
-        //TODO: finish method for filtering by date range
         dateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MaterialDatePicker.Builder<Pair<Long, Long>> date_builder = MaterialDatePicker.Builder.dateRangePicker();
-                date_builder.setTitleText("Select a date range");
+                showDatesDialog();
+            }
+        });
 
-                MaterialDatePicker<Pair<Long, Long>> rangePicker = date_builder.build();
-                rangePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
-                    @Override
-                    public void onPositiveButtonClick(Pair<Long, Long> selection) {
-                        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                        String from_date = new Date();
-                        format.format(from_date);
-
-//                        String from_date = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date(selection.first));
-//                        String to_date = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date(selection.second));
-//                        String day1 = Integer.toString(Integer.parseInt(from_date.substring(3,5))+1);
-//                        String day2 = Integer.toString(Integer.parseInt(to_date.substring(3,5))+1);
-                        from_date = from_date.substring(0,3)+day1+from_date.substring(5,10);
-                        to_date = to_date.substring(0,3)+day2+to_date.substring(5,10);
-                        String date_range = from_date+" to "+to_date;
-                        dateTextView.setText(date_range);
-                    }
-                });
-                rangePicker.show(getActivity().getSupportFragmentManager(), "date_range");
+        cleardate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dateTextView.setText("");
+                dateTextView.setHint("Date");
+                fromDate.clear();
+                toDate.clear();
             }
         });
 
@@ -99,6 +90,8 @@ public class FilterDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 //TODO: finish method for applying filters
+                listener.onApplyPressed(fromDate, toDate, filterMakes, filterTags);
+                getDialog().dismiss();
             }
         });
 
@@ -106,6 +99,24 @@ public class FilterDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 getDialog().dismiss();
+            }
+        });
+
+        clearfiltersBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dateTextView.setText("");
+                dateTextView.setHint("Date");
+                fromDate.clear();
+                toDate.clear();
+                makeListIndex.clear();
+                makeTextView.setText("");
+                makeTextView.setHint("Makes");
+                filterMakes.clear();
+                tagListIndex.clear();
+                tagTextView.setText("");
+                tagTextView.setHint("Tags");
+                filterTags.clear();
             }
         });
 
@@ -132,10 +143,10 @@ public class FilterDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i, boolean b) {
                 if (b) {
-                    makeList.add(i);
-                    Collections.sort(makeList);
+                    makeListIndex.add(i);
+                    Collections.sort(makeListIndex);
                 } else {
-                    makeList.remove(Integer.valueOf(i));
+                    makeListIndex.remove(Integer.valueOf(i));
                 }
             }
         });
@@ -143,10 +154,12 @@ public class FilterDialogFragment extends DialogFragment {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                filterMakes = new ArrayList<>();
                 StringBuilder stringBuilder = new StringBuilder();
-                for (int j = 0; j < makeList.size(); j++) {
-                    stringBuilder.append(makesList.get(makeList.get(j)));
-                    if (j != makeList.size() - 1) {
+                for (int j = 0; j < makeListIndex.size(); j++) {
+                    stringBuilder.append(makesList.get(makeListIndex.get(j)));
+                    filterMakes.add(makesList.get(makeListIndex.get(j)));
+                    if (j != makeListIndex.size() - 1) {
                         stringBuilder.append(", ");
                     }
                 }
@@ -167,8 +180,10 @@ public class FilterDialogFragment extends DialogFragment {
                 for (int j = 0; j < selectedMakes.length; j++) {
                     selectedMakes[j] = false;
                 }
-                makeList.clear();
+                makeListIndex.clear();
                 makeTextView.setText("");
+                makeTextView.setHint("Makes");
+                filterMakes.clear();
             }
         });
 
@@ -184,10 +199,10 @@ public class FilterDialogFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i, boolean b) {
                 if (b) {
-                    tagList.add(i);
-                    Collections.sort(tagList);
+                    tagListIndex.add(i);
+                    Collections.sort(tagListIndex);
                 } else {
-                    tagList.remove(Integer.valueOf(i));
+                    tagListIndex.remove(Integer.valueOf(i));
                 }
             }
         });
@@ -195,10 +210,12 @@ public class FilterDialogFragment extends DialogFragment {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                filterTags = new ArrayList<>();
                 StringBuilder stringBuilder = new StringBuilder();
-                for (int j = 0; j < tagList.size(); j++) {
-                    stringBuilder.append(tagList.get(tagList.get(j)));
-                    if (j != tagList.size() - 1) {
+                for (int j = 0; j < tagListIndex.size(); j++) {
+                    stringBuilder.append(tagsList.get(tagListIndex.get(j)));
+                    filterTags.add(tagsList.get(tagListIndex.get(j)));
+                    if (j != tagListIndex.size() - 1) {
                         stringBuilder.append(", ");
                     }
                 }
@@ -219,12 +236,86 @@ public class FilterDialogFragment extends DialogFragment {
                 for (int j = 0; j < selectedTags.length; j++) {
                     selectedTags[j] = false;
                 }
-                tagList.clear();
+                tagListIndex.clear();
                 tagTextView.setText("");
+                tagTextView.setHint("Tags");
+                filterTags.clear();
             }
         });
 
         builder.show();
+    }
+
+    private void showDatesDialog(){
+        // Creating a MaterialDatePicker builder for selecting a date range
+        MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
+        builder.setTitleText("Select a date range");
+
+        // Building the date picker dialog
+        MaterialDatePicker<Pair<Long, Long>> datePicker = builder.build();
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+
+            // Retrieving the selected start and end dates
+            Long startDate = selection.first;
+            Long endDate = selection.second;
+
+            // Formating the selected dates as strings
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+            sdf.setTimeZone(TimeZone.getTimeZone("Your_Timezone_ID"));
+            String startDateString = sdf.format(new Date(startDate));
+            String endDateString = sdf.format(new Date(endDate));
+
+            // Creating the date range string
+            String selectedDateRange = startDateString + " TO " + endDateString;
+
+            // Displaying the selected date range in the TextView
+            dateTextView.setText(selectedDateRange);
+            fromDate = parseDate(startDateString);
+            toDate = parseDate(endDateString);
+
+        });
+
+        // Showing the date picker dialog
+        datePicker.show(getParentFragmentManager(), "DATE_PICKER");
+    }
+
+    private List<Integer> parseDate(String date){
+        String[] dateParts = date.split("/");
+        int day = Integer.parseInt(dateParts[2]);
+        int month = Integer.parseInt(dateParts[1]);
+        int year = Integer.parseInt(dateParts[0]);
+
+        List<Integer> parts = new ArrayList<>();
+        parts.add(year);
+        parts.add(month);
+        parts.add(day);
+
+        return parts;
+    }
+
+    /**
+     * Interface FilterDialogFragment dialog fragment for the method to be implemented in
+     * ListActivity class.
+     */
+    public interface OnFragmentInteractionListener {
+        /**
+         * Called when Apply is pressed in the filter dialog fragment.
+         */
+        void onApplyPressed(List<Integer> fromDate, List<Integer> toDate, List<String> filterMakes, List<String> filterTags);
+    }
+
+    /**
+     * Fragment is attached to context (activity that is hosting the fragment).
+     * @param context is the context the fragment attaches itself to
+     */
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            listener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
+        }
     }
 }
 

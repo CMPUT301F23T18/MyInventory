@@ -1,10 +1,6 @@
 package com.example.myinventoryapp;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,22 +8,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -37,22 +26,19 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 /**
  * This is a class that represents an activity that displays the list of items.
  * The user can add, select, view, and delete items in the list
  */
-public class ListActivity extends AppCompatActivity{
+public class ListActivity extends AppCompatActivity implements FilterDialogFragment.OnFragmentInteractionListener{
     ImageView addButton;
     ListView itemList;
     ArrayAdapter<Item> itemAdapter;
     ArrayAdapter<String> spinneradapter;
-    ArrayList<Item> items;
+    ArrayList<Item> items, filtered_items, temp_list;
     List<Integer> delete_items;
     double totalValue = 0;
     TextView totalCostView;
@@ -339,4 +325,66 @@ public class ListActivity extends AppCompatActivity{
             startActivity(i);
         }
     };
+
+    /**
+     * Invoked when the "Apply" button is pressed in the filter fragment dialog.
+     */
+    @Override
+    public void onApplyPressed(List<Integer> fromDate, List<Integer> toDate, List<String> fMakes, List<String> fTags) {
+        filtered_items = new ArrayList<>();
+        if(fromDate.size()==0 && fMakes.size()==0 && fTags.size()==0) {
+            filtered_items = items;
+        }
+        //TODO: filter by make
+        //TODO: filter bt tags
+        //TODO: filter by description
+        if (fromDate.size() > 0) {
+            filtered_items = filterDate(fromDate, toDate, filtered_items);
+        }
+        itemAdapter = new ItemList(this, filtered_items);
+        itemAdapter.notifyDataSetChanged();
+        itemList.setOnItemClickListener(itemClicker);
+        itemList.setAdapter(itemAdapter);
+    }
+
+    private ArrayList<Item> filterDate(List<Integer> fromDate, List<Integer> toDate, ArrayList<Item> filtered_items){
+        if(fromDate.size()>0){
+            int fromday = fromDate.get(2);int frommonth = fromDate.get(1);int fromyear = fromDate.get(0);
+            int today = toDate.get(2);int tomonth = toDate.get(1);int toyear = toDate.get(0);
+            for(int i = 0; i < items.size(); i++) {
+                String[] dateParts = items.get(i).getDate().split("-");
+                int day = Integer.parseInt(dateParts[2]);
+                int month = Integer.parseInt(dateParts[1]);
+                int year = Integer.parseInt(dateParts[0]);
+
+                boolean withinFROMrange = false, withinTOrange = false;
+
+                if (year > fromyear) {withinFROMrange = true;}
+
+                if(year == fromyear) {
+                    if (month == frommonth) {
+                        if (day >= fromday) {withinFROMrange = true;}
+                    }
+                    else if (month > frommonth) {withinFROMrange = true;}
+                }
+
+                if(year < toyear) {withinTOrange = true;}
+
+                if (year == toyear ) {
+                    if (month < tomonth) {
+                        withinTOrange = true;
+                    } else if (month == tomonth) {
+                        if (day <= today) {
+                            withinTOrange = true;
+                        }
+                    }
+                }
+                if (withinFROMrange && withinTOrange) {
+                    filtered_items.add(items.get(i));
+                }
+
+            }
+        }
+        return filtered_items;
+    }
 }
