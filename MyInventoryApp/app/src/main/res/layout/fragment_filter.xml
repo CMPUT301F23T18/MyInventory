@@ -1,144 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_white">
-    <LinearLayout
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/makeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Make:"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"/>
+
+    <TextView
+        android:id="@+id/makeDropDown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_below="@id/makeLabel"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Select Makes"
+        android:padding="12dp"/>
 
-        android:layout_marginTop="20dp">
+    <TextView
+        android:id="@+id/tagsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Tags:"
+        android:textSize="18sp"
+        android:layout_below="@id/makeDropDown"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="2"
-            android:layout_marginTop="20dp"
-            android:text="Filter by"
-            android:textColor="@color/white"
-            android:textAlignment="viewStart"
-            android:textSize="50dp"></TextView>
-        <Button
-            android:id="@+id/closeCircle"
-            android:layout_width="0dp"
-            android:layout_height="71dp"
-            android:layout_weight="0.5"
-            android:backgroundTint="@color/bg_white"
-            app:icon="@drawable/close_circle"
-            app:iconSize="50dp"
-            app:iconTint="#000000"/>
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/tagDropDown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@color/grey_dark"
-        android:orientation="horizontal">
+        android:layout_below="@id/tagsLabel"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Select Tags"
+        android:padding="12dp"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="2"
-            android:text="Tags"
-            android:textAlignment="viewStart"
-            android:textColor="@color/white"
-            android:textSize="40dp"
-            android:textStyle="bold"></TextView>
+    <Button
+        android:id="@+id/positive"
+        android:layout_width="118dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/tagDropDown"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="17dp"
+        android:clickable="true"
+        android:text="Cancel" />
 
-        <Button
-            android:id="@+id/down_arrow_f1"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.5"
-            android:backgroundTint="@color/grey_dark"
-            app:icon="@drawable/down_arrow"
+    <Button
+        android:id="@+id/negative"
+        android:layout_width="111dp"
+        android:layout_height="55dp"
+        android:layout_below="@+id/tagDropDown"
+        android:layout_alignBaseline="@+id/positive"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="117dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="46dp"
+        android:layout_toEndOf="@+id/positive"
+        android:clickable="true"
+        android:text="Apply" />
 
-            app:iconSize="50dp"
-            app:iconTint="#000000" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@color/grey_dark"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="2"
-            android:text="Make"
-            android:textAlignment="viewStart"
-            android:textColor="@color/white"
-            android:textSize="40dp"
-            android:textStyle="bold"></TextView>
-
-        <Button
-            android:id="@+id/down_arrow_f2"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.5"
-            android:backgroundTint="@color/grey_dark"
-            app:icon="@drawable/down_arrow"
-            app:iconSize="50dp"
-            app:iconTint="#000000" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@color/grey_dark"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="2"
-            android:text="Date"
-            android:textColor="@color/white"
-            android:textAlignment="viewStart"
-            android:textSize="40dp"
-            android:textStyle="bold"></TextView>
-
-        <Button
-            android:id="@+id/down_arrow_f3"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.5"
-            android:backgroundTint="@color/grey_dark"
-            app:icon="@drawable/down_arrow"
-            app:iconSize="50dp"
-            app:iconTint="#000000" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="150dp">
-        <Button
-            android:id="@+id/positive"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cancel"
-            android:clickable="true"></Button>
-        <Button
-            android:id="@+id/negative"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Apply"
-            android:clickable="true">
-        </Button>
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
