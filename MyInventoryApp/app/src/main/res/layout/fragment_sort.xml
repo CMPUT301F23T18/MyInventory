@@ -4,101 +4,36 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/makeLabel"
-        android:layout_width="wrap_content"
+        android:id="@+id/fieldLabel"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sort Make:"
+        android:text="Sort by:"
         android:textSize="18sp"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"/>
 
     <Spinner
-        android:id="@+id/makeSpinner"
-        android:layout_width="match_parent"
+        android:id="@+id/fieldSpinner"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/makeLabel"
+        android:layout_below="@id/fieldLabel"
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"/>
-
-    <TextView
-        android:id="@+id/tagsLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sort Tags:"
-        android:textSize="18sp"
-        android:layout_below="@id/makeSpinner"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"/>
-
     <Spinner
-        android:id="@+id/tagsSpinner"
-        android:layout_width="match_parent"
+        android:id="@+id/orderSpinner"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tagsLabel"
+        android:layout_below="@id/fieldLabel"
         android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="200dp"
         android:layout_marginEnd="16dp"/>
-
-    <TextView
-        android:id="@+id/dateLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Sort Date:"
-        android:layout_below="@id/tagsSpinner"
-        android:textSize="18sp" />
-
-    <Spinner
-        android:id="@+id/dateSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/dateLabel"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp" />
-
-    <TextView
-        android:id="@+id/valueLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Sort Value:"
-        android:layout_below="@id/dateSpinner"
-        android:textSize="18sp" />
-    <Spinner
-        android:id="@+id/valueSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/valueLabel"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp" />
-    <TextView
-        android:id="@+id/descLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Sort Description:"
-        android:layout_below="@id/valueSpinner"
-        android:textSize="18sp" />
-    <Spinner
-        android:id="@+id/descSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/descLabel"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp" />
 
     <Button
         android:id="@+id/cancelSortButton"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/descSpinner"
+        android:layout_below="@id/fieldSpinner"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:text="Cancel" />
@@ -107,9 +42,9 @@
         android:id="@+id/applySortButton"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/descSpinner"
+        android:layout_below="@id/orderSpinner"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="50dp"
         android:layout_toRightOf="@id/cancelSortButton"
         android:text="Apply" />
 

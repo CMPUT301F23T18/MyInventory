@@ -222,89 +222,86 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         alertDialog.show();
     }
     private void showSortDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.fragment_sort, null);
-
-        String[] options = {"None", "Ascending", "Descending"};
-        spinneradapter = new ArrayAdapter<String>(ListActivity.this, android.R.layout.simple_spinner_item, options);
-        spinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        final Spinner makeSpinner = view.findViewById(R.id.makeSpinner);
-        final Spinner tagSpinner = view.findViewById(R.id.tagsSpinner);
-        final Spinner dateSpinner = view.findViewById(R.id.dateSpinner);
-        final Spinner descSpinner = view.findViewById(R.id.descSpinner);
-        final Spinner valSpinner = view.findViewById(R.id.valueSpinner);
-        
-        makeSpinner.setAdapter(spinneradapter);
-        tagSpinner.setAdapter(spinneradapter);
-        dateSpinner.setAdapter(spinneradapter);
-        descSpinner.setAdapter(spinneradapter);
-        valSpinner.setAdapter(spinneradapter);
-
-        builder.setView(view)
-                .setTitle("Apply Filters");
-        Button possitiveButton = view.findViewById(R.id.applySortButton);
-        Button negativeButton = view.findViewById(R.id.cancelSortButton);
-        AlertDialog alertDialog = builder.create();
-
-        possitiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                makeData = makeSpinner.getSelectedItem().toString();
-                tagData = tagSpinner.getSelectedItem().toString();
-                dateData = dateSpinner.getSelectedItem().toString();
-                descData = descSpinner.getSelectedItem().toString();
-                valData = valSpinner.getSelectedItem().toString();
-                sortList(makeData, tagData, dateData, descData, valData);
-            }
-        });
-        negativeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.show();
+        //TODO
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//
+//        LayoutInflater inflater = getLayoutInflater();
+//        View view = inflater.inflate(R.layout.fragment_sort, null);
+//
+//        String[] options = {"None", "Ascending", "Descending"};
+//        spinneradapter = new ArrayAdapter<String>(ListActivity.this, android.R.layout.simple_spinner_item, options);
+//        spinneradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        final Spinner makeSpinner = view.findViewById(R.id.makeSpinner);
+//        final Spinner tagSpinner = view.findViewById(R.id.tagsSpinner);
+//        final Spinner dateSpinner = view.findViewById(R.id.dateSpinner);
+//        final Spinner descSpinner = view.findViewById(R.id.descSpinner);
+//        final Spinner valSpinner = view.findViewById(R.id.valueSpinner);
+//
+//        makeSpinner.setAdapter(spinneradapter);
+//        tagSpinner.setAdapter(spinneradapter);
+//        dateSpinner.setAdapter(spinneradapter);
+//        descSpinner.setAdapter(spinneradapter);
+//        valSpinner.setAdapter(spinneradapter);
+//
+//        builder.setView(view)
+//                .setTitle("Apply Filters");
+//        Button possitiveButton = view.findViewById(R.id.applySortButton);
+//        Button negativeButton = view.findViewById(R.id.cancelSortButton);
+//        AlertDialog alertDialog = builder.create();
+//
+//        possitiveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                makeData = makeSpinner.getSelectedItem().toString();
+//                tagData = tagSpinner.getSelectedItem().toString();
+//                dateData = dateSpinner.getSelectedItem().toString();
+//                descData = descSpinner.getSelectedItem().toString();
+//                valData = valSpinner.getSelectedItem().toString();
+//                sortList(makeData, tagData, dateData, descData, valData);
+//            }
+//        });
+//        negativeButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                alertDialog.dismiss();
+//            }
+//        });
+//        alertDialog.show();
     }
 
     private void sortList(String makeData, String tagData, String dateData, String descData, String valData) {
-        if (makeData.equals("Ascending")){
-//            Collections.sort(items, new Comparator<Item>() {
-//                @Override
-//                public int compare(Item o1, Item o2) {
-//                    return o1.getMake().compareTo(o2.getMake());
-//                }
-//            });
-            Log.d("spinner","make:ascending");
-        } else if (makeData.equals("Descending")) {
-            Log.d("spinner","make:descending");
-        }
-        if (tagData.equals("Ascending")) {
-            Log.d("spinner","tag:ascending");
-        } else if (tagData.equals("Descending")) {
-            Log.d("spinner","tag:descending");
-        }
-        if (dateData.equals("Ascending")) {
-            Log.d("spinner","date:ascending");
-        } else if (dateData.equals("Descending")) {
-            Log.d("spinner","date:descending");
-        }
-        if (descData.equals("Ascending")) {
-            Log.d("spinner","desc:ascending");
-        } else if (descData.equals("Descending")) {
-            Log.d("spinner","desc:descending");
-        }
-        if (valData.equals("Ascending")) {
-            Log.d("spinner","val:ascending");
-        } else if (valData.equals("Descending")) {
-            Log.d("spinner","val:descending");
-        }
-//        Log.d("item", String.valueOf(items.get(0).getDate()));
-//        Log.d("item", String.valueOf(items.get(1)));
-//        Log.d("item", String.valueOf(items.get(0)));
-//        Log.d("item", String.valueOf(items.get(1)));
+//        if (makeData.equals("Ascending")){
+////            Collections.sort(items, new Comparator<Item>() {
+////                @Override
+////                public int compare(Item o1, Item o2) {
+////                    return o1.getMake().compareTo(o2.getMake());
+////                }
+////            });
+//            Log.d("spinner","make:ascending");
+//        } else if (makeData.equals("Descending")) {
+//            Log.d("spinner","make:descending");
+//        }
+//        if (tagData.equals("Ascending")) {
+//            Log.d("spinner","tag:ascending");
+//        } else if (tagData.equals("Descending")) {
+//            Log.d("spinner","tag:descending");
+//        }
+//        if (dateData.equals("Ascending")) {
+//            Log.d("spinner","date:ascending");
+//        } else if (dateData.equals("Descending")) {
+//            Log.d("spinner","date:descending");
+//        }
+//        if (descData.equals("Ascending")) {
+//            Log.d("spinner","desc:ascending");
+//        } else if (descData.equals("Descending")) {
+//            Log.d("spinner","desc:descending");
+//        }
+//        if (valData.equals("Ascending")) {
+//            Log.d("spinner","val:ascending");
+//        } else if (valData.equals("Descending")) {
+//            Log.d("spinner","val:descending");
+//        }
     }
 
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
