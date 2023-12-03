@@ -80,7 +80,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     //implementation("com.google.android.gms:play-services-mlkit-text-recognition:19.0.0")
     implementation("com.google.mlkit:text-recognition:16.0.0")
-    implementation("com.theartofdev.edmodo:android-image-cropper:2.8.0")
+//    implementation("com.theartofdev.edmodo:android-image-cropper:2.8.0")
     compileOnly(files("${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"))
 
 }
