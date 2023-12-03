@@ -72,7 +72,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
     Button back_btn, save_btn, capture_cam_btn, close_capture;
     ConstraintLayout capture_layout, gallery_layout;
     ArrayList<ImageView> images;
-    ArrayList<Bitmap> imageBits = new ArrayList<Bitmap>(6);;
+    ArrayList<Bitmap> imageBits = new ArrayList<Bitmap>(6);
     ActivityResultLauncher<String> galleryGrab;
     PreviewView cam_preview;
     long id;
