@@ -68,16 +68,12 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         // Reset user id in case it's necessary. Also if current user is null, performing tests
         // so set it to test user uid.
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-<<<<<<< HEAD:MyInventoryApp/app/src/main/java/com/example/myinventoryapp/ListActivity.java
         if (mAuth.getCurrentUser() != null) {
-            ((Global) getApplication()).setUSER_PATH(mAuth.getCurrentUser().getUid());
+            ((DatabaseHandler) getApplication()).setUSER_PATH(mAuth.getCurrentUser().getUid());
         } else{
-            ((Global) getApplication()).setUSER_PATH("test_user");
+            ((DatabaseHandler) getApplication()).setUSER_PATH("test_user");
         }
-=======
-        ((DatabaseHandler) getApplication()).setUSER_PATH(mAuth.getCurrentUser().getUid());
 
->>>>>>> 71e52d9b6c9414b6c0d85ee78f302d8487d2c0fe:MyInventoryApp/app/src/main/java/com/example/myinventoryapp/ListActivities/ListActivity.java
         items = new ArrayList<>();
         itemAdapter = new ItemList(this, items);
 
