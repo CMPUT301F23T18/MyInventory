@@ -31,6 +31,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.GrantPermissionRule;
 
+import com.google.firebase.auth.FirebaseAuth;
+
+import org.junit.Before;
 import org.junit.Rule; import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -41,16 +44,6 @@ public class ListActivityTest {
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(Manifest.permission.CAMERA);
     @Rule
     public ActivityScenarioRule<ListActivity> rule = new ActivityScenarioRule<ListActivity>(ListActivity.class);
-
-    //TODO: login in
-    @Test
-    public void testLogIn(){
-    }
-
-    //TODO: signup
-    @Test
-    public void testSignUp(){
-    }
 
     //Adds items, along with pictures
     @Test
@@ -175,9 +168,21 @@ public class ListActivityTest {
 
     }
 
-    //TODO: adding tags
     @Test
-    public void testAddTag(){
+    public void testAddTag() throws InterruptedException {
+        sleep(1000);
+        onView(withId(R.id.tag_btn)).perform(click());
+
+        //Click on select all
+        onView(withId(R.id.selectallButton)).perform(click());
+
+        onView(withId(R.id.add_tag_button)).perform(click());
+
+        // Add tag
+        onView(withId(R.id.tagEditText)).perform(ViewActions.typeText("Test Tag"),closeSoftKeyboard());
+        onView(withId(R.id.create_tag)).perform(click());
+
+        onView(withText("Test Tag")).check(matches(isDisplayed()));
     }
 
     //Edits an item

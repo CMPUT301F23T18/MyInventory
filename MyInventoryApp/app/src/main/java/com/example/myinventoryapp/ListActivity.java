@@ -59,10 +59,14 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         totalCostView = findViewById(R.id.totalCostView);
         itemList = findViewById(R.id.item_list);
 
-        // Reset user id in case it's necessary.
+        // Reset user id in case it's necessary. Also if current user is null, performing tests
+        // so set it to test user uid.
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        ((Global) getApplication()).setUSER_PATH(mAuth.getCurrentUser().getUid());
-
+        if (mAuth.getCurrentUser() != null) {
+            ((Global) getApplication()).setUSER_PATH(mAuth.getCurrentUser().getUid());
+        } else{
+            ((Global) getApplication()).setUSER_PATH("test_user");
+        }
         items = new ArrayList<>();
         itemAdapter = new ItemList(this, items);
 
