@@ -232,6 +232,7 @@ public class AddActivity extends AppCompatActivity implements EasyPermissions.Pe
         i.putExtra("comment",comment);
         startActivity(i);
     }
+
     /**
      * Send user to the ListActivity once they finish making an item
      */
@@ -331,6 +332,7 @@ public class AddActivity extends AppCompatActivity implements EasyPermissions.Pe
                     }
                 });
     }
+
     /**
      * Turns on the camera, sets options
      * @param cameraProvider a provider used to bind the lifecycle of cameras

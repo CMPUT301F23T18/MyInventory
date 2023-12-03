@@ -1,1 +1,6 @@
 com.example.myinventoryapp
+com.example.myinventoryapp.Adaptors
+com.example.myinventoryapp.Authentication
+com.example.myinventoryapp.ItemManagement
+com.example.myinventoryapp.ListActivities
+com.example.myinventoryapp.Popups
