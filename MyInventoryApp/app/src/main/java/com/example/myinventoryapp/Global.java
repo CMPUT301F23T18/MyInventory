@@ -39,7 +39,6 @@ public class Global extends Application {
     private String USER_PATH;
     private CollectionReference fbItemsRef; // firebase Items reference
     private CollectionReference fbTagsRef; // firebase Tags reference
-    private CollectionReference fbMakesRef; // firebase Makes reference
     private StorageReference photoStorageRef; // firebase storage reference -> for photos
 
     /**
