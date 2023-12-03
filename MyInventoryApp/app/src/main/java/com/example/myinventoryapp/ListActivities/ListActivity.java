@@ -1,5 +1,6 @@
 package com.example.myinventoryapp.ListActivities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,7 @@ import com.example.myinventoryapp.FilterDialogFragment;
 import com.example.myinventoryapp.ItemManagement.AddActivity;
 import com.example.myinventoryapp.ItemManagement.Item;
 import com.example.myinventoryapp.ItemManagement.ViewItemActivity;
+import com.example.myinventoryapp.ProfileActivity;
 import com.example.myinventoryapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -147,6 +149,15 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         tagButton = findViewById(R.id.tag_btn);
         filterbutton = findViewById(R.id.filterButton);
         sortbutton = findViewById(R.id.sortButton);
+        ImageView profileButton = findViewById(R.id.profileMain);
+
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profileIntent = new Intent(ListActivity.this , ProfileActivity.class);
+                startActivity(profileIntent);
+            }
+        });
 
         filterbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,33 +222,96 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         }
         return tagsList;
     }
-
-    private void showAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.fragment_filter, null);
-
-        builder.setView(view)
-                .setTitle("Apply Filters");
-        Button positiveButton = view.findViewById(R.id.positive);
-        Button negativeButton = view.findViewById(R.id.negative);
-        AlertDialog alertDialog = builder.create();
-
-        positiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
-        negativeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.show();
-    }
+//    private void showAlertDialog() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//
+//        LayoutInflater inflater = getLayoutInflater();
+//        View view = inflater.inflate(R.layout., null);
+//
+//        builder.setView(view)
+//                .setTitle("Apply Filters");
+//
+//        Button negativeButton = view.findViewById(R.id.positive);
+//        Button positiveButton = view.findViewById(R.id.negative);
+//        AlertDialog alertDialog = builder.create();
+//
+//        negativeButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                alertDialog.dismiss();
+//            }
+//        });
+//
+//        TextView tagsClick = view.findViewById(R.id.tagDropDown);
+//        TextView makeClick = view.findViewById(R.id.makeDropDown);
+//
+//        ArrayList<Integer> tagList = new ArrayList<>();
+//        String[] tagArray = {"Java", "C++", "Kotlin", "C", "Python", "Javascript"};
+//        boolean[] selectedTag = new boolean[tagArray.length];
+//
+//        tagsClick.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AlertDialog.Builder tagsBuilder = new AlertDialog.Builder(ListActivity.this);
+//                tagsBuilder.setTitle("Select Tags");
+//                tagsBuilder.setCancelable(false);
+//
+//                tagsBuilder.setMultiChoiceItems(tagArray, selectedTag, new DialogInterface.OnMultiChoiceClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+//                        if (b) {
+//                            tagList.add(i);
+//                            Collections.sort(tagList);
+//                        } else {
+//                            tagList.remove(Integer.valueOf(i));
+//                        }
+//                    }
+//                });
+//
+//                tagsBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        StringBuilder stringBuilder = new StringBuilder();
+//                        for (int j = 0; j < tagList.size(); j++) {
+//                            stringBuilder.append(tagArray[tagList.get(j)]);
+//                            if (j != tagList.size() - 1) {
+//                                stringBuilder.append(", ");
+//                            }
+//                        }
+//                        tagsClick.setText(stringBuilder.toString());
+//                    }
+//                });
+//
+//                tagsBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.dismiss();
+//                    }
+//                });
+//                tagsBuilder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        for (int j = 0; j < selectedTag.length; j++) {
+//                            selectedTag[j] = false;
+//                            tagList.clear();
+//                            tagsClick.setText("");
+//                        }
+//                    }
+//                });
+//                tagsBuilder.show();
+//
+//            }
+//        });
+//
+//        positiveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                alertDialog.dismiss();
+//            }
+//        });
+//
+//        alertDialog.show();
+//    }
     private void showSortDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
