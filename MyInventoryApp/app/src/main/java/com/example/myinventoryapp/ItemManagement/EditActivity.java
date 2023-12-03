@@ -1,16 +1,16 @@
-package com.example.myinventoryapp;
+package com.example.myinventoryapp.ItemManagement;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myinventoryapp.DatabaseHandler;
+import com.example.myinventoryapp.R;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -88,7 +88,7 @@ public class EditActivity extends AppCompatActivity {
             }
 
             private void updateItemInFirestore(long itemId, String editedSerial, String editedDate, String editedMake, String editedModel, String editedPrice, String editedDesc, String editcom) {
-                DocumentReference itemDocRef = ((Global) getApplication()).DocumentRef(itemId);
+                DocumentReference itemDocRef = ((DatabaseHandler) getApplication()).DocumentRef(itemId);
 
                 // Create a map to hold the updated item data
                 Map<String, Object> updatedData = new HashMap<>();
@@ -140,7 +140,7 @@ public class EditActivity extends AppCompatActivity {
      */
     // Function to populate ui elements from Firestore data
     private void populateUIFromFirestore(long itemId) {
-        DocumentReference itemDocRef = ((Global) getApplication()).DocumentRef(itemId);
+        DocumentReference itemDocRef = ((DatabaseHandler) getApplication()).DocumentRef(itemId);
 
         itemDocRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

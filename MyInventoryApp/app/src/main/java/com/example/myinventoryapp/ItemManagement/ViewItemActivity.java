@@ -1,4 +1,4 @@
-package com.example.myinventoryapp;
+package com.example.myinventoryapp.ItemManagement;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,6 +13,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myinventoryapp.DatabaseHandler;
+import com.example.myinventoryapp.Popups.DeletePopUp;
+import com.example.myinventoryapp.R;
 import com.google.firebase.firestore.CollectionReference;
 
 import com.google.firebase.firestore.DocumentReference;
@@ -65,7 +68,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
         right_btn = findViewById(R.id.imageRight); right_btn.setOnClickListener(left_right_listener);
 
         // access the database of default user make and model
-        fb_view_item = ((Global) getApplication()).DocumentRef(id);
+        fb_view_item = ((DatabaseHandler) getApplication()).DocumentRef(id);
 
         // get keys and set values to appropriate text fields
         fb_view_item.get().addOnSuccessListener(documentSnapshot -> {
@@ -99,7 +102,7 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
 
             item = new Item(date,desc,make,model,serial,value);
             item.setTags(tags);
-            StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
+            StorageReference photosRef = ((DatabaseHandler) getApplication()).getPhotoStorageRef();
             item.generatePhotoArray(photosRef, String.valueOf(id), task -> DisplayImage());
 
         });
@@ -176,8 +179,8 @@ public class ViewItemActivity extends AppCompatActivity implements DeletePopUp.O
      */
     @Override
     public void onYESPressed() {
-        CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
-        StorageReference photoRef = ((Global) getApplication()).getPhotoStorageRef();
+        CollectionReference fb_items = ((DatabaseHandler) getApplication()).getFbItemsRef();
+        StorageReference photoRef = ((DatabaseHandler) getApplication()).getPhotoStorageRef();
         if (num_of_imgs>0){
             for(int i = 0; i < num_of_imgs;i++){
                 photoRef.child(id+"/image"+(i)+".jpg").delete();

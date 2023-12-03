@@ -34,6 +34,8 @@ import androidx.test.rule.GrantPermissionRule;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.junit.Before;
+import com.example.myinventoryapp.ListActivities.ListActivity;
+
 import org.junit.Rule; import org.junit.Test;
 import org.junit.runner.RunWith;
 

@@ -1,4 +1,4 @@
-package com.example.myinventoryapp;
+package com.example.myinventoryapp.ListActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,13 +10,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myinventoryapp.Adaptors.ItemList;
+import com.example.myinventoryapp.DatabaseHandler;
+import com.example.myinventoryapp.FilterDialogFragment;
+import com.example.myinventoryapp.ItemManagement.AddActivity;
+import com.example.myinventoryapp.ItemManagement.Item;
+import com.example.myinventoryapp.ItemManagement.ViewItemActivity;
+import com.example.myinventoryapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -62,15 +68,20 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         // Reset user id in case it's necessary. Also if current user is null, performing tests
         // so set it to test user uid.
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
+<<<<<<< HEAD:MyInventoryApp/app/src/main/java/com/example/myinventoryapp/ListActivity.java
         if (mAuth.getCurrentUser() != null) {
             ((Global) getApplication()).setUSER_PATH(mAuth.getCurrentUser().getUid());
         } else{
             ((Global) getApplication()).setUSER_PATH("test_user");
         }
+=======
+        ((DatabaseHandler) getApplication()).setUSER_PATH(mAuth.getCurrentUser().getUid());
+
+>>>>>>> 71e52d9b6c9414b6c0d85ee78f302d8487d2c0fe:MyInventoryApp/app/src/main/java/com/example/myinventoryapp/ListActivities/ListActivity.java
         items = new ArrayList<>();
         itemAdapter = new ItemList(this, items);
 
-        CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
+        CollectionReference fb_items = ((DatabaseHandler) getApplication()).getFbItemsRef();
         fb_items.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot querySnapshots, @Nullable FirebaseFirestoreException error) {
@@ -97,7 +108,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
                         }
 
                         // set photos
-                        StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
+                        StorageReference photosRef = ((DatabaseHandler) getApplication()).getPhotoStorageRef();
                         item.generatePhotoArray(photosRef,id,itemAdapter);
 
                         Log.d("Firestore", String.format("Item(%s, %s) fetched", item.getMake(), item.getModel()));
