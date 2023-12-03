@@ -115,6 +115,7 @@
                 android:ems="10"
                 android:hint="Model"
                 android:inputType="text"
+                android:textAppearance="@style/new_item_activity_text"
                 android:lines="1"
                 android:maxLines="1"
                 android:textColor="@color/white"

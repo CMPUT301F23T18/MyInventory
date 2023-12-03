@@ -103,10 +103,11 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
                         item.setDescription(doc.getString("desc"));
                         item.setID(Long.parseLong(id));
 
+                        List<String> tags = new ArrayList<>();
                         if (doc.contains("tags")){
-                            List<String> tags = (List<String>) doc.get("tags");
-                            item.setTags(tags);
+                            tags = (List<String>) doc.get("tags");
                         }
+                        item.setTags(tags);
 
                         // set photos
                         StorageReference photosRef = ((DatabaseHandler) getApplication()).getPhotoStorageRef();
