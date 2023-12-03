@@ -1,11 +1,9 @@
-package com.example.myinventoryapp;
+package com.example.myinventoryapp.ListActivities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,6 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myinventoryapp.Adaptors.SelectListAdaptor;
+import com.example.myinventoryapp.DatabaseHandler;
+import com.example.myinventoryapp.ItemManagement.Item;
+import com.example.myinventoryapp.Popups.DeletePopUp;
+import com.example.myinventoryapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -55,7 +58,7 @@ public class DeleteActivity extends AppCompatActivity implements DeletePopUp.OnF
         items = new ArrayList<>();
         // Get photos from firebase
         items = getIntent().getParcelableArrayListExtra("list", Item.class);
-        StorageReference photoRef = ((Global) getApplication()).getPhotoStorageRef();
+        StorageReference photoRef = ((DatabaseHandler) getApplication()).getPhotoStorageRef();
         for (Item item:items) {
             item.generatePhotoArray(photoRef, String.valueOf(item.getID()), new OnCompleteListener() {
                 @Override
@@ -142,7 +145,7 @@ public class DeleteActivity extends AppCompatActivity implements DeletePopUp.OnF
             str = delete_list.size()+" items deleted";
         }
         DeleteImages();
-        CollectionReference fb_items = ((Global) getApplication()).getFbItemsRef();
+        CollectionReference fb_items = ((DatabaseHandler) getApplication()).getFbItemsRef();
         for(int i = 0; i < delete_list.size();i++){
             fb_items.document(Long.toString(delete_list.get(i))).delete();
         }
@@ -153,7 +156,7 @@ public class DeleteActivity extends AppCompatActivity implements DeletePopUp.OnF
      * Deletes the images of the selected delete items from the Firebase storage, if there are any.
      */
     private void DeleteImages(){
-        StorageReference photoRef = ((Global) getApplication()).getPhotoStorageRef();
+        StorageReference photoRef = ((DatabaseHandler) getApplication()).getPhotoStorageRef();
         for(int i = 0; i < items.size();i++){
             //String str_id = String.valueOf(items.get(i).getID());
             if (items.get(i).getChecked() && (items.get(i).getPhotosSize() >0)){

@@ -1,17 +1,15 @@
-package com.example.myinventoryapp;
+package com.example.myinventoryapp.ItemManagement;
 
 
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -35,12 +33,15 @@ import androidx.camera.view.PreviewView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import com.example.myinventoryapp.Popups.CapturePopUp;
+import com.example.myinventoryapp.DatabaseHandler;
+import com.example.myinventoryapp.ListActivities.ListActivity;
+import com.example.myinventoryapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.StorageReference;
-
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -174,7 +175,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
      */
     private void populateFromItem() {
         Item item = new Item();
-        item.generatePhotoArray(((Global)getApplication()).getPhotoStorageRef(), String.valueOf(id), new OnCompleteListener() {
+        item.generatePhotoArray(((DatabaseHandler)getApplication()).getPhotoStorageRef(), String.valueOf(id), new OnCompleteListener() {
             @Override
             public void onComplete(@NonNull Task task) {
                 Log.i("FATAL", String.valueOf(item.getImages().size()));
@@ -210,7 +211,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
      */
     @Override
     public void onDeletePressed() {
-        StorageReference photosRef = ((Global) getApplication()).getPhotoStorageRef();
+        StorageReference photosRef = ((DatabaseHandler) getApplication()).getPhotoStorageRef();
         // update list on app and firebase
         for (int i = img_idx; i < images.size()-1;++i) {
             // loop for each photo past the deleted one
@@ -222,7 +223,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
                 images.get(i).setImageBitmap(imageBits.get(i+1));
                 imageBits.set(i, imageBits.get(i+1));
                 photosRef.child(id + "/image"+i + ".jpg");
-                ((Global)getApplication()).setPhoto(id,imageBits.get(i),"image"+i);
+                ((DatabaseHandler)getApplication()).setPhoto(id,imageBits.get(i),"image"+i);
             }
 
         }
@@ -271,7 +272,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
             item_hash.put("ID",this.id);
 
             // create a document for firebase using the make and model as the name
-            fb_new_item = ((Global) getApplication()).DocumentRef(this.id);
+            fb_new_item = ((DatabaseHandler) getApplication()).DocumentRef(this.id);
             // add the item to firebase
             fb_new_item.set(item_hash).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -283,7 +284,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
                     }
                 }
             });
-            Intent i = new Intent(this,ListActivity.class);
+            Intent i = new Intent(this, ListActivity.class);
             startActivity(i);
         } else if (vID == R.id.captureButtonCam) {
             // The button that appears with the camera preview
@@ -320,7 +321,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
     /**
      * opens the dialog popup to ask if they want to capture or select a photo
      */
-    private void openPopup() {
+    public void openPopup() {
         Bundle bundle = new Bundle();
         bundle.putBoolean("onImage",true);
         CapturePopUp popUp = new CapturePopUp();
@@ -432,7 +433,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
      * Takes an image and attaches to a item, increments image total and sends image to firebase
      * @param image_bit the bit map of the image to be attached
      */
-    private void attachToItem(Bitmap image_bit) {
+    public void attachToItem(Bitmap image_bit) {
         // img_idx is set on view click, either equal to the total or the index of the clicked ImageView
         ImageView image = images.get(img_idx);
         if (imageBits.size() < 6 && imageBits.size() == img_idx) {
@@ -447,7 +448,7 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
         image_total.setText(text);
 
         // send to firebase storage
-        ((Global) getApplication()).setPhoto(id,image_bit,name);
+        ((DatabaseHandler) getApplication()).setPhoto(id,image_bit,name);
     }
 
     /**
@@ -494,11 +495,6 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
             cameraProvider.unbindAll();
             cameraProvider = null;
         }
-    }
-
-    public void addToGallery() {
-        Bitmap bm = BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.house_placeholder);
-        MediaStore.Images.Media.insertImage(getContentResolver(), bm, "TestImage", "Image to be used during test");
     }
 
 

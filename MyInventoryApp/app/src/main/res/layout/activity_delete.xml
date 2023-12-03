@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".DeleteActivity"
+    tools:context=".ListActivities.DeleteActivity"
     android:background="@color/bg_white">
 
     <TextView

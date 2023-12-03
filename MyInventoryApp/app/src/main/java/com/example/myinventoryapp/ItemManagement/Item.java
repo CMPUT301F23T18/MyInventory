@@ -1,4 +1,4 @@
-package com.example.myinventoryapp;
+package com.example.myinventoryapp.ItemManagement;
 
 
 import android.graphics.Bitmap;
@@ -18,13 +18,8 @@ import java.util.ArrayList;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.widget.CheckBox;
-
-import androidx.annotation.NonNull;
 
 import java.util.List;
-
-import io.grpc.Context;
 
 /**
  * Item is the object content item that implements parcelable interface whose instances can be

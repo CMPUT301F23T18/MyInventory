@@ -1,9 +1,8 @@
-package com.example.myinventoryapp;
+package com.example.myinventoryapp.ItemManagement;
 
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.media.Image;
@@ -13,12 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
@@ -32,8 +26,10 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.dynamicanimation.animation.DynamicAnimation;
 
+import com.example.myinventoryapp.DatabaseHandler;
+import com.example.myinventoryapp.FieldValidator;
+import com.example.myinventoryapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -119,7 +115,7 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
             return;
         }
         //For correct barcode, retrieve from firebase
-        DocumentReference item_ref = ((Global) getApplication()).getBarcodeItem(value);
+        DocumentReference item_ref = ((DatabaseHandler) getApplication()).getBarcodeItem(value);
         item_ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -160,8 +156,6 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
         int vID = v.getId();
         if (vID == R.id.scanButton) {
             // make the button disappear and start the camera, with overlay
-            icon.setVisibility(View.VISIBLE);
-            scan_btn.setVisibility(View.GONE);
             initializeCamera();
         } else if (vID == R.id.scanAgain) {
             // Reveal the camera so user may scan again
@@ -230,6 +224,10 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
     private void initializeCamera() {
         String permission = Manifest.permission.CAMERA;
         if (EasyPermissions.hasPermissions(this,permission)) {
+
+            icon.setVisibility(View.VISIBLE);
+            scan_btn.setVisibility(View.GONE);
+
             ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture = ProcessCameraProvider.getInstance(this);
             cameraProviderListenableFuture.addListener(new Runnable() {
                 @Override
