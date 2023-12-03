@@ -221,12 +221,11 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         }
         return tagsList;
     }
-
 //    private void showAlertDialog() {
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //
 //        LayoutInflater inflater = getLayoutInflater();
-//        View view = inflater.inflate(R.layout.fragment_filter, null);
+//        View view = inflater.inflate(R.layout., null);
 //
 //        builder.setView(view)
 //                .setTitle("Apply Filters");
