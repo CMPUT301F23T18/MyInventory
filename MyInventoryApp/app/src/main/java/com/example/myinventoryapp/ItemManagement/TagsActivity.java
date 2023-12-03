@@ -124,6 +124,7 @@ public class TagsActivity extends AppCompatActivity {
 
                 if (TagsActivity.this.tags.contains(userInput)){
                     Toast.makeText(getApplicationContext(), "Tag already created", Toast.LENGTH_SHORT).show();
+                    tagEditText.setText("");
                 }
                 else if (TextUtils.isEmpty(userInput)){
                     Toast.makeText(getApplicationContext(), "Tag cannot be empty", Toast.LENGTH_SHORT).show();
