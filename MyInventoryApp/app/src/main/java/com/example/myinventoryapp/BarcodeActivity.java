@@ -38,6 +38,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -62,6 +63,7 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
     Button done_btn, scan_btn, scanAgain_btn;
     EditText makeField,modelField,descField;
     ConstraintLayout camera_layout;
+    TextInputLayout makeLay,modelLay,descLay;
     ImageView footer;
     private static final int CAMERA_PERMISSION_CODE = 1111;
     BarcodeScannerOptions options;
@@ -84,14 +86,15 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
         icon = findViewById(R.id.barcodeIcon);
         camView = findViewById(R.id.barcodeView);
         footer = findViewById(R.id.footerBarcode);
+
         done_btn = findViewById(R.id.doneButton); done_btn.setOnClickListener(this);
         scan_btn = findViewById(R.id.scanButton); scan_btn.setOnClickListener(this);
         scanAgain_btn = findViewById(R.id.scanAgain); scanAgain_btn.setOnClickListener(this);
         camera_layout = findViewById(R.id.cameraLayout); camera_layout.setVisibility(View.VISIBLE);
 
-        makeField = findViewById(R.id.MakeBarcode);
-        modelField = findViewById(R.id.ModelBarcode);
-        descField = findViewById(R.id.DescBarcode);
+        makeField = findViewById(R.id.MakeBarcode); makeLay = findViewById(R.id.MakeLayoutBar); makeLay.setVisibility(View.INVISIBLE);
+        modelField = findViewById(R.id.ModelBarcode); modelLay = findViewById(R.id.ModelLayoutBar); modelLay.setVisibility(View.INVISIBLE);
+        descField = findViewById(R.id.DescBarcode); descLay = findViewById(R.id.DescLayoutBar); descLay.setVisibility(View.INVISIBLE);
 
         // set up barcode scanner
         options = new BarcodeScannerOptions.Builder()
@@ -193,6 +196,9 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
         } else if (Objects.equals(type, "open")) {
             focus.setVisibility(View.VISIBLE);
             scanAgain_btn.setVisibility(View.INVISIBLE);
+            makeLay.setVisibility(View.INVISIBLE);
+            modelLay.setVisibility(View.INVISIBLE);
+            descLay.setVisibility(View.INVISIBLE);
             camera_hidden = false;
             value = 0f;
         }
@@ -208,6 +214,9 @@ public class BarcodeActivity extends AppCompatActivity implements ImageAnalysis.
                 if (Objects.equals(type, "close")) {
                     focus.setVisibility(View.GONE);
                     scanAgain_btn.setVisibility(View.VISIBLE);
+                    makeLay.setVisibility(View.VISIBLE);
+                    modelLay.setVisibility(View.VISIBLE);
+                    descLay.setVisibility(View.VISIBLE);
                     camera_hidden = true;
                 }
             }

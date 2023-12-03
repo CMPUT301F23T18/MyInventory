@@ -5,11 +5,13 @@ import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -492,6 +494,11 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
             cameraProvider.unbindAll();
             cameraProvider = null;
         }
+    }
+
+    public void addToGallery() {
+        Bitmap bm = BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.house_placeholder);
+        MediaStore.Images.Media.insertImage(getContentResolver(), bm, "TestImage", "Image to be used during test");
     }
 
 

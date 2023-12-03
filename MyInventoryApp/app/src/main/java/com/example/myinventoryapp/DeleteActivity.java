@@ -30,7 +30,7 @@ public class DeleteActivity extends AppCompatActivity implements DeletePopUp.OnF
     RecyclerView itemList;
     SelectListAdaptor itemAdapter;
     ArrayList<Item> items;
-    TextView delete_btn;
+    Button delete_btn;
     Button selectAll_btn, unselectAll_btn;
     ImageView exit_btn;
 

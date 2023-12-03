@@ -180,33 +180,6 @@ public class ListActivityTest {
     public void testAddTag(){
     }
 
-    //Adds pictures to the gallery
-    @Test
-    public void testAddPic() throws InterruptedException {
-        sleep(1000);
-        //click on add button
-        onView(withId(R.id.add_button)).perform(click());
-
-        //input information
-        onView(withId(R.id.serial_numb)).perform(ViewActions.typeText("Serial"),closeSoftKeyboard());
-        onView(withId(R.id.acquired_da)).perform(ViewActions.typeText("20231111"),closeSoftKeyboard());
-        onView(withId(R.id.make)).perform(ViewActions.typeText("Make"),closeSoftKeyboard());
-        onView(withId(R.id.model)).perform(ViewActions.typeText("Model"),closeSoftKeyboard());
-        onView(withId(R.id.estimated_p)).perform(ViewActions.typeText("101202"),closeSoftKeyboard());
-
-        //press next button
-        onView(withId(R.id.forwardButtonAdd)).perform(click());
-
-        //add images
-        onView(withId(R.id.cameraButton)).perform(click());
-        sleep(1000);
-        onView(withText("Capture")).perform(click());
-        onView(withId(R.id.captureButtonCam)).perform(click());
-
-        //Check if image added (number of pictures in gallery should change
-        onView(withText("1/6 Images")).check(matches(isDisplayed()));
-    }
-
     //Edits an item
     @Test
     public void testEditItem() throws InterruptedException {

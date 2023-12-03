@@ -10,16 +10,16 @@
 
     <TextView
         android:id="@+id/header_title"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textColor="@color/white"
-        android:textSize="30sp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
         android:gravity="center"
-        android:textStyle="bold"
-        android:text="Please Select Items to Delete"/>
+        android:text="Please Select Items to Delete"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:textStyle="bold" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/delete_list"
         android:layout_width="match_parent"
@@ -45,9 +45,9 @@
                 android:layout_height="wrap_content"
                 android:background="@color/grey_dark"
                 android:gravity="center"
-                android:text="DELETE?"
+                android:text="DELETE"
                 android:textColor="@color/white"
-                android:textSize="24sp"
+                android:textSize="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/footer"/>

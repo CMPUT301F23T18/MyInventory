@@ -61,14 +61,23 @@ public class SelectListAdaptor extends RecyclerView.Adapter<SelectListAdaptor.Vi
     public void onBindViewHolder(@NonNull SelectListAdaptor.ViewHolder holder, int position) {
         final int i = position;
         Item item = items.get(i);
+
+        holder.value.setText("$ " + items.get(i).getEst_value());
+        holder.make.setText(item.getMake());
+        holder.model.setText(item.getModel());
+        if (item.getTags() != null){
+            holder.tags.setText("Tags: " + String.join(", ", item.getTags()));
+        } else {
+            holder.tags.setText("Tags: None");
+        }
+
+
         if (item.getImage(0) != null) {
             holder.photo.setImageBitmap(item.getImage(0));
 
         } else {
             holder.photo.setImageResource(R.drawable.no_image);
         }
-
-        holder.value.setText("$ " + items.get(i).getEst_value());
         if(select){
             holder.cBox.setChecked(true);
             items.get(i).setChecked(true);
@@ -140,11 +149,14 @@ public class SelectListAdaptor extends RecyclerView.Adapter<SelectListAdaptor.Vi
     public class ViewHolder extends RecyclerView.ViewHolder{
         CheckBox cBox;
         ImageView photo;
-        TextView value;
+        TextView value,make,model, tags;
         public ViewHolder(@NonNull View view){
             super(view);
             photo = view.findViewById(R.id.itemImageView);
             value = view.findViewById(R.id.itemCostView);
+            make = view.findViewById(R.id.makeView);
+            model = view.findViewById(R.id.modelView);
+            tags = view.findViewById(R.id.tagsView);
             cBox = view.findViewById(R.id.check);
         }
     }
