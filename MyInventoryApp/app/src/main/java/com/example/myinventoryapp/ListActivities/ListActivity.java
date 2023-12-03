@@ -244,7 +244,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         View view = inflater.inflate(R.layout.fragment_sort, null);
 
         String[] order = {"Select", "Ascending", "Descending"};
-        String[] fields = {"Select", "Make", "Date", "Value", "Description"};
+        String[] fields = {"Select", "Make", "Date", "Value", "Description", "Tags"};
 
         orderadapter = new ArrayAdapter<String>(ListActivity.this, android.R.layout.simple_spinner_item, order);
         fieldadapter = new ArrayAdapter<String>(ListActivity.this, android.R.layout.simple_spinner_item, fields);
@@ -302,11 +302,6 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     }
 
     private void sortList(String field, String order) {
-        if(filtered){
-            //TODO: set sort list to the filtered list
-        } else{
-            //TODO: keep the original list
-        }
         if(!field.equals("Select") && order.equals("Select")){
             Toast.makeText(ListActivity.this, "Please select the order to sort "+field+" by" ,Toast.LENGTH_SHORT).show();
         } else{
@@ -339,6 +334,14 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
                     Collections.sort(items, Comparator.comparing(Item::getDescription));
                 } else if (order.equals("Descending")) {
                     Collections.sort(items, Comparator.comparing(Item::getDescription));
+                    Collections.reverse(items);
+                }
+            }
+            if(field.equals("Tags")){
+                if(order.equals("Ascending")){
+                    Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
+                } else if (order.equals("Descending")) {
+                    Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
                     Collections.reverse(items);
                 }
             }
