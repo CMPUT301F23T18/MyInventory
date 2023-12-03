@@ -82,7 +82,6 @@ public class GalleryActivityTest {
 
         //Stub gallery opening, then attach custom bitmap to object
         doNothing().when(subject).openPopup();
-        subject.img_idx = subject.total;
         sleep(1000);
         subject.attachToItem(bm);
         sleep(1000);
