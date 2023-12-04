@@ -23,7 +23,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-
+/**
+ * This is a DialogFragment that shows a dialog popup where the user can filter the list by makes,
+ * tags,and date range.
+ */
 public class FilterDialogFragment extends DialogFragment {
     private TextView makeTextView, tagTextView, dateTextView, cleardate;
     private Button applyBtn, cancelBtn, clearfiltersBtn;
@@ -38,6 +41,12 @@ public class FilterDialogFragment extends DialogFragment {
     OnFragmentInteractionListener listener;
     private String selectedDateRange;
 
+    /**
+     * Called to create and return the view of the filter dialog fragment.
+     * @param savedInstanceState this fragment is being re-constructed
+     * from a previous saved state as given here.
+     * @return Returns the created dialog instance.
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         makesList = getArguments().getStringArrayList("makesList");
@@ -133,6 +142,12 @@ public class FilterDialogFragment extends DialogFragment {
         return builder.create();
     }
 
+    /**
+     * Creates a new instance of FilterDialogFragment with the makes and tags as arguments.
+     * @param makesList the list of all the makes
+     * @param tagsList the list of all the tags
+     * @return a new instance of FilterDialogFragment
+     */
     public static FilterDialogFragment newInstance(ArrayList<String> makesList, ArrayList<String> tagsList) {
         FilterDialogFragment fragment = new FilterDialogFragment();
         Bundle args = new Bundle();
@@ -142,6 +157,9 @@ public class FilterDialogFragment extends DialogFragment {
         return fragment;
     }
 
+    /**
+     * Builds and displays the dialog to select which make(s) to filter the list by.
+     */
     private void showMakesDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Select Makes");
@@ -198,6 +216,9 @@ public class FilterDialogFragment extends DialogFragment {
         builder.show();
     }
 
+    /**
+     * Builds and displays the dialog to select which tag(s) to filter the list by.
+     */
     private void showTagsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Select Tags");
@@ -254,6 +275,9 @@ public class FilterDialogFragment extends DialogFragment {
         builder.show();
     }
 
+    /**
+     * Builds and displays the dialog to select the date range to filter the list by.
+     */
     private void showDatesDialog(){
         // Creating a MaterialDatePicker builder for selecting a date range
         MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
@@ -287,6 +311,12 @@ public class FilterDialogFragment extends DialogFragment {
         datePicker.show(getParentFragmentManager(), "DATE_PICKER");
     }
 
+    /**
+     * Parses the string date to separate into year, month, and day (with this respective order).
+     * Returns a list of integers with the date parts.
+     * @param date the date to parse
+     * @return the integer list containing the date parts (year, month, day).
+     */
     private List<Integer> parseDate(String date){
         String[] dateParts = date.split("/");
         int day = Integer.parseInt(dateParts[2]);
