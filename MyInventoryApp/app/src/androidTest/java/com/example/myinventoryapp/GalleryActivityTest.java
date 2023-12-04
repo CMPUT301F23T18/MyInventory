@@ -74,7 +74,7 @@ public class GalleryActivityTest {
     @Test
     public void galleryGrabTest() throws InterruptedException {
         startActivity();
-        //NOTE: Gives error "unable to make mock of type GalleryActivity
+        //NOTE: Gives error "unable to make mock of type GalleryActivity"
         subject = spy(activityFactory.getActivityClassToIntercept());
         Bitmap bm = BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.house_placeholder);
 

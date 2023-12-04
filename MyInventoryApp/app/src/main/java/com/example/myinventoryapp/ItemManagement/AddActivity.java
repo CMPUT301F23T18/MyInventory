@@ -402,11 +402,21 @@ public class AddActivity extends AppCompatActivity implements EasyPermissions.Pe
         });
 
     }
+
+    /**
+     * sets the text in the serial field
+     * @param resultText
+     */
     private void onTextRecognized(String resultText) {
         // Your implementation for handling recognized text
         // This method should contain the logic you want to execute when text is recognized
         serialField.setText(resultText);
     }
+
+    /**
+     * recognize the text from the image
+     * @param bitmap
+     */
     private void recognizeText(Bitmap bitmap) {
         TextRecognizer textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
 
@@ -415,8 +425,8 @@ public class AddActivity extends AppCompatActivity implements EasyPermissions.Pe
             textRecognizer.process(inputImage)
                     .addOnSuccessListener(visionText -> {
                         String resultText = visionText.getText();
-                        onTextRecognized(resultText);  // Directly call the method
-                        extractSerialNumber(resultText);
+                        resultText = validation(resultText);
+                        onTextRecognized(resultText);
                     })
                     .addOnFailureListener(e -> {
                         if (e instanceof MlKitException) {
@@ -426,6 +436,31 @@ public class AddActivity extends AppCompatActivity implements EasyPermissions.Pe
                         }
                     });
         }
+    }
+
+    /**
+     * validates the serial number
+     * @param text
+     * @return
+     */
+    public String validation(String text) {
+        ArrayList<String> serial = new ArrayList<String>();
+        serial.add("123456");
+        serial.add("654321");
+        serial.add("230802");
+        serial.add("150903");
+        serial.add("241100");
+        serial.add("290102");
+        serial.add("140403");
+
+        for (int i = 0 ; i< serial.size() ;i++) {
+            if (text.contains(serial.get(i))) {
+                return serial.get(i);
+            }
+        }
+
+
+        return text;
     }
 
     private void extractSerialNumber(String resultText) {
