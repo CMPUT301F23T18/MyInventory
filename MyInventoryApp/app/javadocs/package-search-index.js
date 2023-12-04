@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.example.myinventoryapp"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.example.myinventoryapp"},{"l":"com.example.myinventoryapp.Adaptors"},{"l":"com.example.myinventoryapp.Authentication"},{"l":"com.example.myinventoryapp.ItemManagement"},{"l":"com.example.myinventoryapp.ListActivities"},{"l":"com.example.myinventoryapp.Popups"}];updateSearchResults();

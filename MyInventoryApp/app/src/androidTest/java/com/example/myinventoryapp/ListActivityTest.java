@@ -31,6 +31,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.GrantPermissionRule;
 
+import com.google.firebase.auth.FirebaseAuth;
+
+import org.junit.Before;
+import com.example.myinventoryapp.ListActivities.ListActivity;
+
 import org.junit.Rule; import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -41,16 +46,6 @@ public class ListActivityTest {
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(Manifest.permission.CAMERA);
     @Rule
     public ActivityScenarioRule<ListActivity> rule = new ActivityScenarioRule<ListActivity>(ListActivity.class);
-
-    //TODO: login in
-    @Test
-    public void testLogIn(){
-    }
-
-    //TODO: signup
-    @Test
-    public void testSignUp(){
-    }
 
     //Adds items, along with pictures
     @Test
@@ -175,36 +170,21 @@ public class ListActivityTest {
 
     }
 
-    //TODO: adding tags
     @Test
-    public void testAddTag(){
-    }
-
-    //Adds pictures to the gallery
-    @Test
-    public void testAddPic() throws InterruptedException {
+    public void testAddTag() throws InterruptedException {
         sleep(1000);
-        //click on add button
-        onView(withId(R.id.add_button)).perform(click());
+        onView(withId(R.id.tag_btn)).perform(click());
 
-        //input information
-        onView(withId(R.id.serial_numb)).perform(ViewActions.typeText("Serial"),closeSoftKeyboard());
-        onView(withId(R.id.acquired_da)).perform(ViewActions.typeText("20231111"),closeSoftKeyboard());
-        onView(withId(R.id.make)).perform(ViewActions.typeText("Make"),closeSoftKeyboard());
-        onView(withId(R.id.model)).perform(ViewActions.typeText("Model"),closeSoftKeyboard());
-        onView(withId(R.id.estimated_p)).perform(ViewActions.typeText("101202"),closeSoftKeyboard());
+        //Click on select all
+        onView(withId(R.id.selectallButton)).perform(click());
 
-        //press next button
-        onView(withId(R.id.forwardButtonAdd)).perform(click());
+        onView(withId(R.id.add_tag_button)).perform(click());
 
-        //add images
-        onView(withId(R.id.cameraButton)).perform(click());
-        sleep(1000);
-        onView(withText("Capture")).perform(click());
-        onView(withId(R.id.captureButtonCam)).perform(click());
+        // Add tag
+        onView(withId(R.id.tagEditText)).perform(ViewActions.typeText("Test Tag"),closeSoftKeyboard());
+        onView(withId(R.id.create_tag)).perform(click());
 
-        //Check if image added (number of pictures in gallery should change
-        onView(withText("1/6 Images")).check(matches(isDisplayed()));
+        onView(withText("Test Tag")).check(matches(isDisplayed()));
     }
 
     //Edits an item

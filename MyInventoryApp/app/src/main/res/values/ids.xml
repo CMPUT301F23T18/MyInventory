@@ -2,4 +2,6 @@
 <resources>
     <item name="makeChipGroup" type="id" />
     <item name="tagChipGroup" type="id" />
+    <item name="cleardatebtn" type="id" />
+    <item name="dateDropDown" type="id" />
 </resources>
