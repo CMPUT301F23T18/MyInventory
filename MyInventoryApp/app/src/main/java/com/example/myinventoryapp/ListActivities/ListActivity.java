@@ -54,13 +54,14 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     ListView itemList;
     ArrayAdapter<Item> itemAdapter;
     ArrayAdapter<String> orderadapter, fieldadapter;
-    ArrayList<Item> items, filtered_items, temp_list, filteredDesc;
+    ArrayList<Item> items, filteredDesc, filtered_items;
     List<Integer> delete_items;
     double totalValue = 0;
     TextView totalCostView, banner;
     Button filterbutton, sortbutton, deleteButton, tagButton;
-    String fieldData, orderData, dateString = "";
-    boolean filtered = false;
+    String fieldData, orderData;
+    private String dateRange;
+    boolean filtered;
 
     /**
      *
@@ -178,7 +179,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
                 FilterDialogFragment filter_fragment = new FilterDialogFragment();
                 bundle.putStringArrayList("makesList",getMakesListFromItems());
                 bundle.putStringArrayList("tagsList",getTagsListFromItems());
-                bundle.putString("dateString", dateString);
+                bundle.putString("dateString", dateRange);
                 filter_fragment.setArguments(bundle);
                 filter_fragment.show(getSupportFragmentManager(), "filter_items");
             }
@@ -420,33 +421,38 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
      */
     @Override
     public void onApplyPressed(String selectedDateRange, List<Integer> fromDate, List<Integer> toDate, List<String> fMakes, List<String> fTags) {
-        filtered_items = new ArrayList<>();
-        dateString = selectedDateRange;
+        dateRange = selectedDateRange;
+        filtered = true;
+
         if(fromDate.size()==0 && fMakes.size()==0 && fTags.size()==0) {
-            itemAdapter.clear();
-            itemAdapter.addAll(items);
-            itemAdapter.notifyDataSetChanged();
-            updateTotalValue(items);
-            Log.d("no filter", "when filters are removed/cleared");
-            Log.d("items ist", String.valueOf(items));
+            filtered = false;
         }
-        //TODO: filter by make
-        //TODO: filter bt tags
-        //TODO: filter by description
-        filtered_items = filterDate(fromDate, toDate, filtered_items);
-        if (filtered_items.size() > 0) {
-            filtered = true;
-            Log.d("date filter", "filtered is true");
-        }
+
+        filtered_items = filterDate(fromDate, toDate);
+
         if(filtered) {
-            itemAdapter.clear();
-            itemAdapter.addAll(filtered_items);
+            itemAdapter = new ItemList(this, filtered_items);
             itemAdapter.notifyDataSetChanged();
+            itemList.setAdapter(itemAdapter);
             updateTotalValue(filtered_items);
-            Log.d("change list", "chagnge list to filtered");
-            Log.d("filtered ist", String.valueOf(filtered_items));
+            if(filtered_items.size() == 0){
+                banner.setVisibility(View.VISIBLE);
+            } else {
+                banner.setVisibility(View.INVISIBLE);
+            }
+        } else {
+            itemAdapter = new ItemList(this, items);
+            itemAdapter.notifyDataSetChanged();
+            itemList.setAdapter(itemAdapter);
+            updateTotalValue(items);
+            if(items.size() == 0) {
+                banner.setVisibility(View.VISIBLE);
+            } else {
+                banner.setVisibility(View.INVISIBLE);
+            }
         }
     }
+
     private void updateTotalValue(List<Item> itemList) {
         double total = 0;
 
@@ -459,7 +465,8 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         totalCostView.setText(String.format(Locale.CANADA, "Total Value = $%.2f", total));
     }
 
-    private ArrayList<Item> filterDate(List<Integer> fromDate, List<Integer> toDate, ArrayList<Item> filtered_items){
+    private ArrayList<Item> filterDate(List<Integer> fromDate, List<Integer> toDate){
+        filtered_items = new ArrayList<>();
         if(fromDate.size()>0){
             int fromday = fromDate.get(2);int frommonth = fromDate.get(1);int fromyear = fromDate.get(0);
             int today = toDate.get(2);int tomonth = toDate.get(1);int toyear = toDate.get(0);
