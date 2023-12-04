@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +17,7 @@ import com.example.myinventoryapp.ItemManagement.Item;
 import com.example.myinventoryapp.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ItemList is a custom ArrayAdapter used for displaying a list of items in the UI.
@@ -36,7 +39,6 @@ public class ItemList extends ArrayAdapter<Item> {
         super(context, 0, items);
         this.items = items;
         this.context = context;
-
     }
 
     /**
@@ -100,4 +102,5 @@ public class ItemList extends ArrayAdapter<Item> {
 
         return view;
     }
+
 }
