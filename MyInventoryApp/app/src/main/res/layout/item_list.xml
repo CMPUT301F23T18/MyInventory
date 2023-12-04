@@ -135,4 +135,18 @@
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="Click to apply tags"/>
 
+    <SearchView
+        android:id="@+id/searchBar"
+        android:layout_width="197dp"
+        android:layout_height="33dp"
+        android:background="@color/white"
+        android:backgroundTint="#D1C4C4"
+        android:foregroundTint="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.574"
+        app:layout_constraintStart_toStartOf="@+id/tag_btn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.666" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

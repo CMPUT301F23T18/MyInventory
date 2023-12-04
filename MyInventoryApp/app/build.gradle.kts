@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+    implementation("com.android.car.ui:car-ui-lib:2.5.1")
     compileOnly(files("${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"))
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
