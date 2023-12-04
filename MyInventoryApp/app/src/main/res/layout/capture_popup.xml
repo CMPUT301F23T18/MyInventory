@@ -13,6 +13,7 @@
             android:id="@+id/capturePopQuestion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/capture_popup_question"
             android:textColor="@color/black" />
 

@@ -73,6 +73,12 @@ public class TagsActivity extends AppCompatActivity {
                     // Document found retrieve data
                     List<String> tags_list = (List<String>) document.get("all_tags");
                     if (tags_list != null){tags.addAll(tags_list);}
+                    if (!tags.contains("Personal")) {
+                        tags.add("Personal");
+                    }
+                    if (!tags.contains("Shared")) {
+                        tags.add("Shared");
+                    }
                     tagAdaptor.notifyDataSetChanged();
                     for (String tag: tags){
                         if (!selectedTagsMap.containsKey(tag)){
