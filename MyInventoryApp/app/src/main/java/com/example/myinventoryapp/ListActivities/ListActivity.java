@@ -1,6 +1,5 @@
 package com.example.myinventoryapp.ListActivities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,8 +44,11 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+<<<<<<< HEAD
 import java.util.Map;
 import java.util.Objects;
+=======
+>>>>>>> 5084f201217c3f2746a0d849117186280ad896da
 import java.util.Set;
 
 /**
@@ -57,12 +60,13 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     ListView itemList;
     ArrayAdapter<Item> itemAdapter;
     ArrayAdapter<String> orderadapter, fieldadapter;
-    ArrayList<Item> items, filtered_items, temp_list;
+    ArrayList<Item> items, filteredDesc, filtered_items;
     List<Integer> delete_items;
     double totalValue = 0;
-    TextView totalCostView;
+    TextView totalCostView, banner;
     Button filterbutton, sortbutton, deleteButton, tagButton;
-    String fieldData, orderData, dateString = "";
+    String fieldData, orderData;
+    private String dateRange;
     boolean filtered;
     // Original list to store all items
     private ArrayList<Item> originalItems;
@@ -81,11 +85,19 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+<<<<<<< HEAD
         if (savedInstanceState == null) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.item_list);
             totalCostView = findViewById(R.id.totalCostView);
             itemList = findViewById(R.id.item_list);
+=======
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.item_list);
+        totalCostView = findViewById(R.id.totalCostView);
+        itemList = findViewById(R.id.item_list);
+        banner = findViewById(R.id.nothingtoshowbanner);
+>>>>>>> 5084f201217c3f2746a0d849117186280ad896da
 
             // Reset user id in case it's necessary.
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -286,6 +298,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
                             tags.addAll(documentTags);
                         }
                     }
+<<<<<<< HEAD
 
                     // Now you have the distinct makes and tags
                     Set<String> originalMakes = new HashSet<>(makes);
@@ -298,6 +311,121 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
                 }
             }
         });
+=======
+                    if(items.size() == 0) {
+                        banner.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        banner.setVisibility(View.INVISIBLE);
+                    }
+                    totalCostView.setText(String.format(Locale.CANADA, "Total Value = $%.2f", totalValue));
+                    itemAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+        itemList.setOnItemClickListener(itemClicker);
+        itemList.setAdapter(itemAdapter);
+
+        addButton = findViewById(R.id.add_button);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), AddActivity.class);
+                startActivity(i);
+            }
+        });
+
+        deleteButton = findViewById(R.id.delete_btn);
+        tagButton = findViewById(R.id.tag_btn);
+        filterbutton = findViewById(R.id.filterButton);
+        sortbutton = findViewById(R.id.sortButton);
+        ImageView profileButton = findViewById(R.id.profileMain);
+
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profileIntent = new Intent(ListActivity.this , ProfileActivity.class);
+                startActivity(profileIntent);
+            }
+        });
+
+        filterbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               //showAlertDialog();
+                Bundle bundle = new Bundle();
+                FilterDialogFragment filter_fragment = new FilterDialogFragment();
+                bundle.putStringArrayList("makesList",getMakesListFromItems());
+                bundle.putStringArrayList("tagsList",getTagsListFromItems());
+                bundle.putString("dateString", dateRange);
+                filter_fragment.setArguments(bundle);
+                filter_fragment.show(getSupportFragmentManager(), "filter_items");
+            }
+        });
+        sortbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSortDialog();
+            }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ListActivity.this, DeleteActivity.class);
+                i.putParcelableArrayListExtra("list",items);
+                startActivity(i);
+            }
+        });
+        tagButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ListActivity.this, SelectTagItemsActivity.class);
+                i.putParcelableArrayListExtra("list", items);
+                startActivity(i);
+            }
+        });
+        filteredDesc = new ArrayList<>();
+
+        // Set up the SearchView
+        SearchView searchBar = findViewById(R.id.searchBar);
+
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Call the filterList method to update the list based on the search query
+                filterList(newText);
+                return true;
+            }
+        });
+    }
+
+    private void filterList(String query) {
+        filteredDesc.clear();
+
+        if (query.isEmpty()) {
+            filteredDesc.addAll(items); // If the query is empty, show all items
+        } else {
+            for (Item item : items) {
+                // Check if the make, model, or description contains the query (case-insensitive)
+                if (item.getMake() != null && item.getMake().toLowerCase().contains(query.toLowerCase())
+                        || item.getModel() != null && item.getModel().toLowerCase().contains(query.toLowerCase())
+                        || item.getDescription() != null && item.getDescription().toLowerCase().contains(query.toLowerCase())) {
+                    filteredDesc.add(item);
+                }
+            }
+        }
+        // Update the adapter and refresh the list
+        itemAdapter = new ItemList(this, filteredDesc);
+        itemAdapter.notifyDataSetChanged();
+        itemList.setAdapter(itemAdapter);
+>>>>>>> 5084f201217c3f2746a0d849117186280ad896da
     }
 
     @Override
@@ -415,107 +543,17 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         }
         return tagsList;
     }
-//    private void showAlertDialog() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//
-//        LayoutInflater inflater = getLayoutInflater();
-//        View view = inflater.inflate(R.layout., null);
-//
-//        builder.setView(view)
-//                .setTitle("Apply Filters");
-//
-//        Button negativeButton = view.findViewById(R.id.positive);
-//        Button positiveButton = view.findViewById(R.id.negative);
-//        AlertDialog alertDialog = builder.create();
-//
-//        negativeButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                alertDialog.dismiss();
-//            }
-//        });
-//
-//        TextView tagsClick = view.findViewById(R.id.tagDropDown);
-//        TextView makeClick = view.findViewById(R.id.makeDropDown);
-//
-//        ArrayList<Integer> tagList = new ArrayList<>();
-//        String[] tagArray = {"Java", "C++", "Kotlin", "C", "Python", "Javascript"};
-//        boolean[] selectedTag = new boolean[tagArray.length];
-//
-//        tagsClick.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AlertDialog.Builder tagsBuilder = new AlertDialog.Builder(ListActivity.this);
-//                tagsBuilder.setTitle("Select Tags");
-//                tagsBuilder.setCancelable(false);
-//
-//                tagsBuilder.setMultiChoiceItems(tagArray, selectedTag, new DialogInterface.OnMultiChoiceClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
-//                        if (b) {
-//                            tagList.add(i);
-//                            Collections.sort(tagList);
-//                        } else {
-//                            tagList.remove(Integer.valueOf(i));
-//                        }
-//                    }
-//                });
-//
-//                tagsBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        StringBuilder stringBuilder = new StringBuilder();
-//                        for (int j = 0; j < tagList.size(); j++) {
-//                            stringBuilder.append(tagArray[tagList.get(j)]);
-//                            if (j != tagList.size() - 1) {
-//                                stringBuilder.append(", ");
-//                            }
-//                        }
-//                        tagsClick.setText(stringBuilder.toString());
-//                    }
-//                });
-//
-//                tagsBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        dialogInterface.dismiss();
-//                    }
-//                });
-//                tagsBuilder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        for (int j = 0; j < selectedTag.length; j++) {
-//                            selectedTag[j] = false;
-//                            tagList.clear();
-//                            tagsClick.setText("");
-//                        }
-//                    }
-//                });
-//                tagsBuilder.show();
-//
-//            }
-//        });
-//
-//        positiveButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                alertDialog.dismiss();
-//            }
-//        });
-//
-//        alertDialog.show();
-//    }
     private void showSortDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_sort, null);
 
-        String[] order = {"Select", "Ascending", "Descending"};
-        String[] fields = {"Select", "Make", "Date", "Value", "Description", "Tags"};
+        String[] order = {"Ascending", "Descending"};
+        String[] fields = {"Default", "Make", "Date", "Value", "Description", "Tags"};
 
-        orderadapter = new ArrayAdapter<String>(ListActivity.this, android.R.layout.simple_spinner_item, order);
-        fieldadapter = new ArrayAdapter<String>(ListActivity.this, android.R.layout.simple_spinner_item, fields);
+        orderadapter = new ArrayAdapter<String>(ListActivity.this, R.layout.spinner_view, order);
+        fieldadapter = new ArrayAdapter<String>(ListActivity.this, R.layout.spinner_view, fields);
         orderadapter.setDropDownViewResource(R.layout.spinner_view);
         fieldadapter.setDropDownViewResource(R.layout.spinner_view);
 
@@ -528,8 +566,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
 
         fieldSpinner.setSelection(0);
 
-        builder.setView(view)
-                .setTitle("Apply Filters");
+        builder.setView(view);
         Button possitiveButton = view.findViewById(R.id.applySortButton);
         Button negativeButton = view.findViewById(R.id.cancelSortButton);
         AlertDialog alertDialog = builder.create();
@@ -537,7 +574,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         fieldSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (fieldSpinner.getSelectedItem().toString() != "Select") {
+                if (fieldSpinner.getSelectedItem().toString() != "Default") {
                     orderSpinner.setVisibility(View.VISIBLE);
                     orderSpinner.setSelection(0);
                 }
@@ -570,54 +607,140 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     }
 
     private void sortList(String field, String order) {
-        if(!field.equals("Select") && order.equals("Select")){
-            Toast.makeText(ListActivity.this, "Please select the order to sort "+field+" by" ,Toast.LENGTH_SHORT).show();
-        } else{
-            if(field.equals("Make")){
-                if(order.equals("Ascending")){
-                    Collections.sort(items, Comparator.comparing(Item::getMake));
-                } else if (order.equals("Descending")) {
-                    Collections.sort(items, Comparator.comparing(Item::getMake));
-                    Collections.reverse(items);
-                }
+        if(field.equals("Default")) {
+            if(order.equals("Ascending")){
+                Collections.sort(items, Comparator.comparing(Item::getID));
+            } else if (order.equals("Descending")) {
+                Collections.sort(items, Comparator.comparing(Item::getID));
+                Collections.reverse(items);
             }
-            if(field.equals("Date")){
-                if(order.equals("Ascending")){
-                    Collections.sort(items, Comparator.comparing(Item::getDate));
-                } else if (order.equals("Descending")) {
-                    Collections.sort(items, Comparator.comparing(Item::getDate));
-                    Collections.reverse(items);
-                }
+        }
+        if(field.equals("Make")){
+            if(order.equals("Ascending")){
+                Collections.sort(items, Comparator.comparing(Item::getMake));
+            } else if (order.equals("Descending")) {
+                Collections.sort(items, Comparator.comparing(Item::getMake));
+                Collections.reverse(items);
             }
-            if(field.equals("Value")){
-                if(order.equals("Ascending")){
-                    Collections.sort(items, Comparator.comparing(Item::getEst_value));
-                } else if (order.equals("Descending")) {
-                    Collections.sort(items, Comparator.comparing(Item::getEst_value));
-                    Collections.reverse(items);
-                }
+        }
+        if(field.equals("Date")){
+            if(order.equals("Ascending")){
+                Collections.sort(items, Comparator.comparing(Item::getDate));
+            } else if (order.equals("Descending")) {
+                Collections.sort(items, Comparator.comparing(Item::getDate));
+                Collections.reverse(items);
             }
-            if(field.equals("Description")){
-                if(order.equals("Ascending")){
-                    Collections.sort(items, Comparator.comparing(Item::getDescription));
-                } else if (order.equals("Descending")) {
-                    Collections.sort(items, Comparator.comparing(Item::getDescription));
-                    Collections.reverse(items);
-                }
+        }
+        if(field.equals("Value")){
+            if(order.equals("Ascending")){
+                Collections.sort(items, Comparator.comparing(Item::getEst_value));
+            } else if (order.equals("Descending")) {
+                Collections.sort(items, Comparator.comparing(Item::getEst_value));
+                Collections.reverse(items);
             }
-            if(field.equals("Tags")){
-                if(order.equals("Ascending")){
-                    Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
-                } else if (order.equals("Descending")) {
-                    Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
-                    Collections.reverse(items);
-                }
+        }
+        if(field.equals("Description")){
+            if(order.equals("Ascending")){
+                Collections.sort(items, Comparator.comparing(Item::getDescription));
+            } else if (order.equals("Descending")) {
+                Collections.sort(items, Comparator.comparing(Item::getDescription));
+                Collections.reverse(items);
             }
+        }
+        if(field.equals("Tags")) {
+            if (order.equals("Ascending")) {
+                Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
+            } else if (order.equals("Descending")) {
+                Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
+                Collections.reverse(items);
+            }
+        }
+        if(field.equals("Tags")){
+            if(order.equals("Ascending")){
+                Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
+            } else if (order.equals("Descending")) {
+                Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
+                Collections.reverse(items);
+            }
+        }
+        itemAdapter.notifyDataSetChanged();
+    }
+
+<<<<<<< HEAD
+    private ArrayList<Item> filterDate(List<Integer> fromDate, List<Integer> toDate, ArrayList<Item> filtered_items){
+=======
+    AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {
+        /**
+         * Handles item clicks in the list. The intent is to open the ViewItemActivity which allows
+         * the user to view a single item.
+         * @param parent The AdapterView where the click happened.
+         * @param view The view within the AdapterView that was clicked (this
+         *            will be a view provided by the adapter)
+         * @param position The position of the view in the adapter.
+         * @param id The row id of the item that was clicked.
+         */
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent i = new Intent(view.getContext(), ViewItemActivity.class);
+            long ID = items.get(position).getID();
+            i.putExtra("ID",ID);
+            i.putExtra("NumofImages",items.get(position).getPhotosSize());
+            startActivity(i);
+        }
+    };
+
+    /**
+     * Invoked when the "Apply" button is pressed in the filter fragment dialog.
+     */
+    @Override
+    public void onApplyPressed(String selectedDateRange, List<Integer> fromDate, List<Integer> toDate, List<String> fMakes, List<String> fTags) {
+        dateRange = selectedDateRange;
+        filtered = true;
+
+        if(fromDate.size()==0 && fMakes.size()==0 && fTags.size()==0) {
+            filtered = false;
+        }
+
+        filtered_items = filterDate(fromDate, toDate);
+
+        if(filtered) {
+            itemAdapter = new ItemList(this, filtered_items);
             itemAdapter.notifyDataSetChanged();
+            itemList.setAdapter(itemAdapter);
+            updateTotalValue(filtered_items);
+            if(filtered_items.size() == 0){
+                banner.setVisibility(View.VISIBLE);
+            } else {
+                banner.setVisibility(View.INVISIBLE);
+            }
+        } else {
+            itemAdapter = new ItemList(this, items);
+            itemAdapter.notifyDataSetChanged();
+            itemList.setAdapter(itemAdapter);
+            updateTotalValue(items);
+            if(items.size() == 0) {
+                banner.setVisibility(View.VISIBLE);
+            } else {
+                banner.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
-    private ArrayList<Item> filterDate(List<Integer> fromDate, List<Integer> toDate, ArrayList<Item> filtered_items){
+    private void updateTotalValue(List<Item> itemList) {
+        double total = 0;
+
+        for (Item item : itemList) {
+            String estValue = item.getEst_value();
+            if (estValue != null) {
+                total += Double.parseDouble(estValue);
+            }
+        }
+        totalCostView.setText(String.format(Locale.CANADA, "Total Value = $%.2f", total));
+    }
+
+    private ArrayList<Item> filterDate(List<Integer> fromDate, List<Integer> toDate){
+        filtered_items = new ArrayList<>();
+>>>>>>> 5084f201217c3f2746a0d849117186280ad896da
         if(fromDate.size()>0){
             int fromday = fromDate.get(2);int frommonth = fromDate.get(1);int fromyear = fromDate.get(0);
             int today = toDate.get(2);int tomonth = toDate.get(1);int toyear = toDate.get(0);
@@ -652,7 +775,6 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
                 if (withinFROMrange && withinTOrange) {
                     filtered_items.add(items.get(i));
                 }
-
             }
         }
         return filtered_items;

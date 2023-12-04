@@ -42,6 +42,10 @@ public class FilterDialogFragment extends DialogFragment {
     private Set<String> originalMakes, originalTags;
     private Set<String> appliedMakes, appliedTags;
     private List<Integer> fromDate = new ArrayList<>(), toDate = new ArrayList<>();
+<<<<<<< HEAD
+=======
+    OnFragmentInteractionListener listener;
+>>>>>>> 5084f201217c3f2746a0d849117186280ad896da
     private String selectedDateRange;
 
     private TextView dateTextView, cleardate;
@@ -79,10 +83,18 @@ public class FilterDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+<<<<<<< HEAD
         selectedDateRange = getArguments().getString("dateString");
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_filter_dialog, null);
+=======
+        makesList = getArguments().getStringArrayList("makesList");
+        tagsList = getArguments().getStringArrayList("tagsList");
+        selectedDateRange = getArguments().getString("dateRange");
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+        View view = requireActivity().getLayoutInflater().inflate(R.layout.fragment_filter_dialog, null);
+>>>>>>> 5084f201217c3f2746a0d849117186280ad896da
 
         makeChipGroup = view.findViewById(R.id.makeChipGroup);
         tagChipGroup = view.findViewById(R.id.tagChipGroup);
@@ -284,7 +296,6 @@ public class FilterDialogFragment extends DialogFragment {
         MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
         builder.setTitleText("Select a date range");
 
-        // Building the date picker dialog
         MaterialDatePicker<Pair<Long, Long>> datePicker = builder.build();
         datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
             @Override
@@ -299,8 +310,25 @@ public class FilterDialogFragment extends DialogFragment {
                 String startDateString = sdf.format(new Date(startDate));
                 String endDateString = sdf.format(new Date(endDate));
 
+<<<<<<< HEAD
                 // Creating the date range string
                 selectedDateRange = startDateString + " TO " + endDateString;
+=======
+
+            // Formating the selected dates as strings
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+            sdf.setTimeZone(TimeZone.getTimeZone("Your_Timezone_ID"));
+            String startDateString = sdf.format(new Date(startDate));
+            String endDateString = sdf.format(new Date(endDate));
+
+            // Creating the date range string
+            selectedDateRange = startDateString + " TO " + endDateString;
+
+            // Displaying the selected date range in the TextView
+            dateTextView.setText(selectedDateRange);
+            fromDate = parseDate(startDateString);
+            toDate = parseDate(endDateString);
+>>>>>>> 5084f201217c3f2746a0d849117186280ad896da
 
                 // Displaying the selected date range in the TextView
                 dateTextView.setText(selectedDateRange);
