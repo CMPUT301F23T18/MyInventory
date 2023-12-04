@@ -227,6 +227,10 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         });
     }
 
+    /**
+     * Filters the list by the description keywords in the search bar.
+     * @param query the keyword to filter the description of an item by.
+     */
     private void filterList(String query) {
         filteredDesc.clear();
 
@@ -247,6 +251,11 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         itemAdapter.notifyDataSetChanged();
         itemList.setAdapter(itemAdapter);
     }
+
+    /**
+     * Returns the list of all makes.
+     * @return a list of all the makes
+     */
     private ArrayList<String> getMakesListFromItems() {
         ArrayList<String> makesList = new ArrayList<>();
         for (int i = 0; i < items.size(); i++) {
@@ -258,6 +267,10 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         return makesList;
     }
 
+    /**
+     * Returns the list of all tags.
+     * @return a list of all the tags
+     */
     private ArrayList<String> getTagsListFromItems() {
         ArrayList<String> tagsList = new ArrayList<>();
         for (int i = 0; i < items.size(); i++) {
@@ -273,6 +286,11 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         }
         return tagsList;
     }
+
+    /**
+     * Shows the sort dialog fragment where the list can be sorted by make, date, value, description, or tags
+     * in ascending or descending order.
+     */
     private void showSortDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -336,6 +354,11 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         alertDialog.show();
     }
 
+    /**
+     * Sorts the list based on the field and order selected from the sort dialog fragment.
+     * @param field which field to sort by. Can pick default, make, date value, description, or tags.
+     * @param order which order to sort the field by. Can either be ascending or descending.
+     */
     private void sortList(String field, String order) {
         if(field.equals("Default")) {
             if(order.equals("Ascending")){
@@ -417,7 +440,12 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     };
 
     /**
-     * Invoked when the "Apply" button is pressed in the filter fragment dialog.
+     * Interface is invoked when the "Apply" button is pressed in the filter fragment dialog.
+     * @param selectedDateRange the string form of the date range selected to filter by.
+     * @param fromDate the start of the date range.
+     * @param toDate the end of the date range.
+     * @param fMakes the selected makes to filter by.
+     * @param fTags the selected tags to filter by.
      */
     @Override
     public void onApplyPressed(String selectedDateRange, List<Integer> fromDate, List<Integer> toDate, List<String> fMakes, List<String> fTags) {
@@ -453,6 +481,10 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         }
     }
 
+    /**
+     * Sets the total cost textview to the total value of the items being displayed currently.
+     * @param itemList the list of items currently in the view.
+     */
     private void updateTotalValue(List<Item> itemList) {
         double total = 0;
 
@@ -465,6 +497,12 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         totalCostView.setText(String.format(Locale.CANADA, "Total Value = $%.2f", total));
     }
 
+    /**
+     * Returns the list of makes.
+     * @param fromDate the start of the date range.
+     * @param toDate the end of the date range.
+     * @return an array list of the items that fit within the date range.
+     */
     private ArrayList<Item> filterDate(List<Integer> fromDate, List<Integer> toDate){
         filtered_items = new ArrayList<>();
         if(fromDate.size()>0){
