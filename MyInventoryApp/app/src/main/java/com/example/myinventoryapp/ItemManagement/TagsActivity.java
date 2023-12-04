@@ -99,6 +99,9 @@ public class TagsActivity extends AppCompatActivity {
         tagList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selected_tag = (String) tagList.getItemAtPosition(position);
+                if (!selectedTagsMap.containsKey(selected_tag)){
+                    selectedTagsMap.put(selected_tag, false);
+                }
                 // Unselect already selected tag
                 if (selectedTagsMap.get(selected_tag)){
                     selectedTagsMap.put(selected_tag, false);
