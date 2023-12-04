@@ -151,11 +151,8 @@ public class GalleryActivity extends AppCompatActivity implements CapturePopUp.O
                         try {
                             Bitmap image_bit = BitmapFactory.decodeStream(getApplicationContext()
                                     .getContentResolver().openInputStream(o));
-                            Matrix matrix = new Matrix();
-                            matrix.postRotate(90);
-                            Bitmap scaledBitmap = Bitmap.createScaledBitmap(image_bit, image_bit.getWidth(), image_bit.getHeight(), true);
-                            Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
-                            attachToItem(rotatedBitmap);
+
+                            attachToItem(image_bit);
                         } catch (FileNotFoundException e) {
                             throw new RuntimeException(e);
                         }
