@@ -35,14 +35,14 @@ public class FilterDialogFragment extends DialogFragment {
     private ArrayList<Integer> tagListIndex = new ArrayList<>();
     private List<String> tagsList = new ArrayList<>();
     private List<Integer> fromDate = new ArrayList<>(), toDate = new ArrayList<>();
-    private String selectedDateRange;
     OnFragmentInteractionListener listener;
+    private String selectedDateRange;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         makesList = getArguments().getStringArrayList("makesList");
         tagsList = getArguments().getStringArrayList("tagsList");
-        selectedDateRange = getArguments().getString("dateString");
+        selectedDateRange = getArguments().getString("dateRange");
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         View view = requireActivity().getLayoutInflater().inflate(R.layout.fragment_filter_dialog, null);
 
@@ -259,13 +259,13 @@ public class FilterDialogFragment extends DialogFragment {
         MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
         builder.setTitleText("Select a date range");
 
-        // Building the date picker dialog
         MaterialDatePicker<Pair<Long, Long>> datePicker = builder.build();
         datePicker.addOnPositiveButtonClickListener(selection -> {
 
             // Retrieving the selected start and end dates
             Long startDate = selection.first;
             Long endDate = selection.second;
+
 
             // Formating the selected dates as strings
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
