@@ -10,8 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -23,6 +25,7 @@ import com.example.myinventoryapp.FilterDialogFragment;
 import com.example.myinventoryapp.ItemManagement.AddActivity;
 import com.example.myinventoryapp.ItemManagement.Item;
 import com.example.myinventoryapp.ItemManagement.ViewItemActivity;
+import com.example.myinventoryapp.ProfileActivity;
 import com.example.myinventoryapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -51,7 +54,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     ListView itemList;
     ArrayAdapter<Item> itemAdapter;
     ArrayAdapter<String> orderadapter, fieldadapter;
-    ArrayList<Item> items, filtered_items, copyofItems;
+    ArrayList<Item> items, filtered_items, temp_list, filteredDesc;
     List<Integer> delete_items;
     double totalValue = 0;
     TextView totalCostView, banner;
@@ -107,10 +110,11 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
                         item.setDescription(doc.getString("desc"));
                         item.setID(Long.parseLong(id));
 
+                        List<String> tags = new ArrayList<>();
                         if (doc.contains("tags")){
-                            List<String> tags = (List<String>) doc.get("tags");
-                            item.setTags(tags);
+                            tags = (List<String>) doc.get("tags");
                         }
+                        item.setTags(tags);
 
                         // set photos
                         StorageReference photosRef = ((DatabaseHandler) getApplication()).getPhotoStorageRef();
@@ -139,8 +143,6 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
                 }
             }
         });
-
-        copyofItems = items;
         itemList.setOnItemClickListener(itemClicker);
         itemList.setAdapter(itemAdapter);
 
@@ -158,6 +160,15 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         tagButton = findViewById(R.id.tag_btn);
         filterbutton = findViewById(R.id.filterButton);
         sortbutton = findViewById(R.id.sortButton);
+        ImageView profileButton = findViewById(R.id.profileMain);
+
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profileIntent = new Intent(ListActivity.this , ProfileActivity.class);
+                startActivity(profileIntent);
+            }
+        });
 
         filterbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,6 +206,45 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
                 startActivity(i);
             }
         });
+        filteredDesc = new ArrayList<>();
+
+        // Set up the SearchView
+        SearchView searchBar = findViewById(R.id.searchBar);
+
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Call the filterList method to update the list based on the search query
+                filterList(newText);
+                return true;
+            }
+        });
+    }
+
+    private void filterList(String query) {
+        filteredDesc.clear();
+
+        if (query.isEmpty()) {
+            filteredDesc.addAll(items); // If the query is empty, show all items
+        } else {
+            for (Item item : items) {
+                // Check if the make, model, or description contains the query (case-insensitive)
+                if (item.getMake() != null && item.getMake().toLowerCase().contains(query.toLowerCase())
+                        || item.getModel() != null && item.getModel().toLowerCase().contains(query.toLowerCase())
+                        || item.getDescription() != null && item.getDescription().toLowerCase().contains(query.toLowerCase())) {
+                    filteredDesc.add(item);
+                }
+            }
+        }
+        // Update the adapter and refresh the list
+        itemAdapter = new ItemList(this, filteredDesc);
+        itemAdapter.notifyDataSetChanged();
+        itemList.setAdapter(itemAdapter);
     }
     private ArrayList<String> getMakesListFromItems() {
         ArrayList<String> makesList = new ArrayList<>();
@@ -222,33 +272,6 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         }
         return tagsList;
     }
-
-    private void showAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.fragment_filter, null);
-
-        builder.setView(view)
-                .setTitle("Apply Filters");
-        Button positiveButton = view.findViewById(R.id.positive);
-        Button negativeButton = view.findViewById(R.id.negative);
-        AlertDialog alertDialog = builder.create();
-
-        positiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
-        negativeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.show();
-    }
     private void showSortDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -256,7 +279,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         View view = inflater.inflate(R.layout.fragment_sort, null);
 
         String[] order = {"Ascending", "Descending"};
-        String[] fields = {"Default", "Make", "Date", "Value", "Description"};
+        String[] fields = {"Default", "Make", "Date", "Value", "Description", "Tags"};
 
         orderadapter = new ArrayAdapter<String>(ListActivity.this, R.layout.spinner_view, order);
         fieldadapter = new ArrayAdapter<String>(ListActivity.this, R.layout.spinner_view, fields);
@@ -313,12 +336,6 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     }
 
     private void sortList(String field, String order) {
-        if(filtered){
-            //temp_list = filtered_items;
-        } else{
-            //temp_list = items;
-        }
-        //itemAdapter = new ItemList(this, temp_list);
         if(field.equals("Default")) {
             if(order.equals("Ascending")){
                 Collections.sort(items, Comparator.comparing(Item::getID));
@@ -351,17 +368,31 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
                 Collections.reverse(items);
             }
         }
-        if(field.equals("Description")) {
-            if (order.equals("Ascending")) {
+        if(field.equals("Description")){
+            if(order.equals("Ascending")){
                 Collections.sort(items, Comparator.comparing(Item::getDescription));
             } else if (order.equals("Descending")) {
                 Collections.sort(items, Comparator.comparing(Item::getDescription));
                 Collections.reverse(items);
             }
         }
-
+        if(field.equals("Tags")) {
+            if (order.equals("Ascending")) {
+                Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
+            } else if (order.equals("Descending")) {
+                Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
+                Collections.reverse(items);
+            }
+        }
+        if(field.equals("Tags")){
+            if(order.equals("Ascending")){
+                Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
+            } else if (order.equals("Descending")) {
+                Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
+                Collections.reverse(items);
+            }
+        }
         itemAdapter.notifyDataSetChanged();
-        //itemList.setAdapter(itemAdapter);
     }
 
     AdapterView.OnItemClickListener itemClicker = new AdapterView.OnItemClickListener() {

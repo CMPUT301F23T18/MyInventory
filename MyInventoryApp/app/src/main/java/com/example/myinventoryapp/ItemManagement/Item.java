@@ -3,6 +3,8 @@ package com.example.myinventoryapp.ItemManagement;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -15,10 +17,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.List;
 
 /**
@@ -131,6 +129,7 @@ public class Item implements Parcelable {
         this.model = model;
         this.serial_num = serial_num;
         this.est_value = est_value;
+        this.tags = new ArrayList<>();
 
         if (est_value != null){
             est_value_num = Double.parseDouble(est_value);
@@ -254,17 +253,6 @@ public class Item implements Parcelable {
         this.images.add(image);
     }
 
-    /**
-     * sets the barcode for the item
-     * @param barcode a barcode scanned by camera
-     */
-    public void setBarcode(String barcode) {this.barcode = barcode;}
-
-    /**
-     * returns the item's barcode
-     * @return String
-     */
-    public String getBarcode() {return this.barcode;}
     /**
      * Getter method to retrieve the date of purchased or acquisition of the Item.
      * @return date
