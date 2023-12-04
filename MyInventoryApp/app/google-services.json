@@ -30,6 +30,14 @@
           }
         },
         {
+          "client_id": "816545990752-4rai2oap0phgp7djgdvvacn7917ul2lb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myinventoryapp",
+            "certificate_hash": "c3b677478b3628e887793eae68a0f4aa980fd114"
+          }
+        },
+        {
           "client_id": "816545990752-gq5gq8hqvqhvibau022sq57bhi2f7uj0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
