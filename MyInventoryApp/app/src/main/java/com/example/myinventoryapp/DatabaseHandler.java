@@ -83,6 +83,7 @@ public class DatabaseHandler extends Application {
      * @param ID the name of the item on firebase, generated using UTC
      * @return DocumentReference
      */
+
     public DocumentReference DocumentRef(long ID) {
         String str_id = Long.toString(ID);
         return fbItemsRef.document(str_id);
@@ -100,7 +101,6 @@ public class DatabaseHandler extends Application {
 
         return DocumentRef(ID);
     }
-
 
     /**
      * gets the storage reference for photos
