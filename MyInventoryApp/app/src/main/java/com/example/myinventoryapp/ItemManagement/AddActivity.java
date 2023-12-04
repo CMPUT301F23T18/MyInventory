@@ -439,7 +439,7 @@ public class AddActivity extends AppCompatActivity implements EasyPermissions.Pe
     }
 
     /**
-     * validates the serial number 
+     * validates the serial number
      * @param text
      * @return
      */
