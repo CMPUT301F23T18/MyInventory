@@ -76,7 +76,7 @@
 
     <TextView
         android:id="@+id/dateDropDown"
-        android:layout_width="255dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/dateLabel"
         android:layout_marginStart="16dp"
@@ -94,7 +94,7 @@
         android:layout_width="56dp"
         android:layout_height="40dp"
         android:layout_below="@id/dateLabel"
-        android:layout_marginStart="280dp"
+        android:layout_toRightOf="@id/dateDropDown"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:clickable="true"
@@ -108,8 +108,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/dateDropDown"
-        android:layout_marginLeft="215dp"
+        android:layout_marginLeft="150dp"
         android:layout_marginTop="16dp"
+        android:layout_toRightOf="@id/clearFilterButton"
         android:text="Apply" />
 
     <Button

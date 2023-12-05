@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static java.lang.Thread.sleep;
 
 import android.Manifest;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -31,6 +32,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.GrantPermissionRule;
 
+import com.example.myinventoryapp.Authentication.SignUpActivity;
+import com.example.myinventoryapp.Authentication.StartUpActivity;
+import com.example.myinventoryapp.ItemManagement.Item;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.junit.Before;
@@ -38,6 +42,8 @@ import com.example.myinventoryapp.ListActivities.ListActivity;
 
 import org.junit.Rule; import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -72,6 +78,8 @@ public class ListActivityTest {
         onView((withId(R.id.saveButtonGallery))).perform(click());
         sleep(1000);
 
+        ArrayList<Item> items = getItems(R.id.item_list);
+        Log.d("items", String.valueOf(items));
         //check if item displayed
         onData(anything()).inAdapterView(withId(R.id.item_list)).atPosition(0).onChildView(withText("$ 101202.00")).check(matches(isDisplayed()));
     }
@@ -134,17 +142,34 @@ public class ListActivityTest {
 
     //Get the number of items in the list
     private int getCount(int adapterViewId) {
-        final int[] items = {0};
+        final int[] count = new int[1];
 
         onView(allOf(withId(adapterViewId), isDisplayed())).check(new ViewAssertion() {
             @Override
             public void check(View view, NoMatchingViewException noViewFoundException) {
                 if (view instanceof AdapterView) {
-                    items[0] = ((AdapterView) view).getAdapter().getCount();
+                    count[0] = ((AdapterView) view).getAdapter().getCount();
                 }
             }
         });
-        return items[0];
+        return count[0];
+    }
+
+    private ArrayList<Item> getItems(int adapterViewId) {
+        ArrayList<Item> items = new ArrayList<>();
+        int count = getCount(adapterViewId);
+
+        onView(allOf(withId(adapterViewId), isDisplayed())).check(new ViewAssertion() {
+            @Override
+            public void check(View view, NoMatchingViewException noViewFoundException) {
+                if (view instanceof AdapterView) {
+                    for (int i = 0; i < count;i++){
+                        items.add((Item) ((AdapterView) view).getAdapter().getItem(i));
+                    }
+                }
+            }
+        });
+        return items;
     }
 
     //Deletes multiple items
