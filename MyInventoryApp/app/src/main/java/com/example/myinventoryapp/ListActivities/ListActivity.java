@@ -60,8 +60,9 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     TextView totalCostView, banner;
     Button filterbutton, sortbutton, deleteButton, tagButton;
     String fieldData, orderData;
-    private String dateRange;
     boolean filtered;
+    ArrayList<String> filteredMake = new ArrayList<>(), filteredTag = new ArrayList<>();
+    String fieldSelected = "", orderSelected = "";
 
     /**
      *
@@ -171,6 +172,9 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
             }
         });
 
+        filteredMake = new ArrayList<>();
+        filteredTag = new ArrayList<>();
+
         filterbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,7 +183,8 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
                 FilterDialogFragment filter_fragment = new FilterDialogFragment();
                 bundle.putStringArrayList("makesList",getMakesListFromItems());
                 bundle.putStringArrayList("tagsList",getTagsListFromItems());
-                bundle.putString("dateString", dateRange);
+                bundle.putStringArrayList("filteredMakes", filteredMake);
+                bundle.putStringArrayList("filteredTags", filteredTag);
                 filter_fragment.setArguments(bundle);
                 filter_fragment.show(getSupportFragmentManager(), "filter_items");
             }
@@ -260,7 +265,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         ArrayList<String> makesList = new ArrayList<>();
         for (int i = 0; i < items.size(); i++) {
             String make = items.get(i).getMake();
-            if (make != null) {
+            if (make != null && !makesList.contains(make)) {
                 makesList.add(make);
             }
         }
@@ -312,35 +317,40 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         fieldSpinner.setAdapter(fieldadapter);
         orderSpinner.setAdapter(orderadapter);
 
-        fieldSpinner.setSelection(0);
+        if(fieldSelected == "") {
+            fieldSpinner.setSelection(0);
+        } else if (fieldSelected == "Make") {
+            fieldSpinner.setSelection(1);
+        } else if (fieldSelected == "Date") {
+            fieldSpinner.setSelection(2);
+        } else if (fieldSelected == "Value") {
+            fieldSpinner.setSelection(3);
+        } else if (fieldSelected == "Description") {
+            fieldSpinner.setSelection(4);
+        } else if (fieldSelected == "Tags") {
+            fieldSpinner.setSelection(5);
+        }
+
+        if(orderSelected == "") {
+            orderSpinner.setSelection(0);
+        } else if (orderSelected == "Ascending") {
+            orderSpinner.setSelection(0);
+        } else if (orderSelected == "Descending") {
+            orderSpinner.setSelection(1);
+        }
 
         builder.setView(view);
         Button possitiveButton = view.findViewById(R.id.applySortButton);
         Button negativeButton = view.findViewById(R.id.cancelSortButton);
         AlertDialog alertDialog = builder.create();
 
-        fieldSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (fieldSpinner.getSelectedItem().toString() != "Default") {
-                    orderSpinner.setVisibility(View.VISIBLE);
-                    orderSpinner.setSelection(0);
-                }
-                else{
-                    orderSpinner.setVisibility(View.INVISIBLE);
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
         possitiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fieldData = fieldSpinner.getSelectedItem().toString();
+                fieldSelected =  fieldData;
                 orderData = orderSpinner.getSelectedItem().toString();
+                orderSelected = orderData;
                 sortList(fieldData, orderData);
                 alertDialog.dismiss();
             }
@@ -385,9 +395,9 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
             }
         }
         if(field.equals("Value")){
-            if(order.equals("Ascending")){
+            if(order.equals("Descending")){
                 Collections.sort(items, Comparator.comparing(Item::getEst_value));
-            } else if (order.equals("Descending")) {
+            } else if (order.equals("Ascending")) {
                 Collections.sort(items, Comparator.comparing(Item::getEst_value));
                 Collections.reverse(items);
             }
@@ -441,22 +451,33 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
 
     /**
      * Interface is invoked when the "Apply" button is pressed in the filter fragment dialog.
-     * @param selectedDateRange the string form of the date range selected to filter by.
      * @param fromDate the start of the date range.
      * @param toDate the end of the date range.
      * @param fMakes the selected makes to filter by.
      * @param fTags the selected tags to filter by.
      */
     @Override
-    public void onApplyPressed(String selectedDateRange, List<Integer> fromDate, List<Integer> toDate, List<String> fMakes, List<String> fTags) {
-        dateRange = selectedDateRange;
+    public void onApplyPressed(List<Integer> fromDate, List<Integer> toDate, ArrayList<String> fMakes, ArrayList<String> fTags) {
+        filtered_items = new ArrayList<>();
+
+        filteredMake = fMakes;
+        filteredTag = fTags;
+
         filtered = true;
 
         if(fromDate.size()==0 && fMakes.size()==0 && fTags.size()==0) {
             filtered = false;
         }
 
-        filtered_items = filterDate(fromDate, toDate);
+        if(fMakes.size() > 0) {
+            filtered_items = filterMakes(fMakes);
+        }
+        if(fTags.size() > 0) {
+            filtered_items = filterTags(fTags, filtered_items);
+        }
+        if(fromDate.size() > 0){
+            filtered_items = filterDate(fromDate, toDate, filtered_items);
+        }
 
         if(filtered) {
             itemAdapter = new ItemList(this, filtered_items);
@@ -481,20 +502,36 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         }
     }
 
-    /**
-     * Sets the total cost textview to the total value of the items being displayed currently.
-     * @param itemList the list of items currently in the view.
-     */
-    private void updateTotalValue(List<Item> itemList) {
-        double total = 0;
+    private ArrayList<Item> filterMakes(ArrayList<String> makes) {
+        filtered_items = new ArrayList<>();
 
-        for (Item item : itemList) {
-            String estValue = item.getEst_value();
-            if (estValue != null) {
-                total += Double.parseDouble(estValue);
+        for(int i = 0; i < items.size();i++){
+            if(makes.contains(items.get(i).getMake())){
+                filtered_items.add(items.get(i));
             }
         }
-        totalCostView.setText(String.format(Locale.CANADA, "Total Value = $%.2f", total));
+
+        return filtered_items;
+    }
+
+    private ArrayList<Item> filterTags(ArrayList<String> tags, ArrayList<Item> f_items) {
+        if(f_items.size() == 0){
+            f_items = items;
+        }
+        Log.d("tag f_items", String.valueOf(f_items));
+        Log.d("tag items", String.valueOf(items));
+
+        filtered_items = new ArrayList<>();
+
+        for(int i = 0; i < f_items.size();i++){
+            List<String> item_tags = f_items.get(i).getTags();
+            for(int j = 0; j < item_tags.size();i++){
+                if(tags.contains(item_tags.get(j))){
+                    filtered_items.add(f_items.get(i));
+                }
+            }
+        }
+        return filtered_items;
     }
 
     /**
@@ -503,13 +540,17 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
      * @param toDate the end of the date range.
      * @return an array list of the items that fit within the date range.
      */
-    private ArrayList<Item> filterDate(List<Integer> fromDate, List<Integer> toDate){
+    private ArrayList<Item> filterDate(List<Integer> fromDate, List<Integer> toDate, ArrayList<Item> f_items){
+        if(f_items.size() == 0){
+            f_items = items;
+        }
+
         filtered_items = new ArrayList<>();
         if(fromDate.size()>0){
             int fromday = fromDate.get(2);int frommonth = fromDate.get(1);int fromyear = fromDate.get(0);
             int today = toDate.get(2);int tomonth = toDate.get(1);int toyear = toDate.get(0);
-            for(int i = 0; i < items.size(); i++) {
-                String[] dateParts = items.get(i).getDate().split("-");
+            for(int i = 0; i < f_items.size(); i++) {
+                String[] dateParts = f_items.get(i).getDate().split("-");
                 int day = Integer.parseInt(dateParts[2]);
                 int month = Integer.parseInt(dateParts[1]);
                 int year = Integer.parseInt(dateParts[0]);
@@ -537,10 +578,26 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
                     }
                 }
                 if (withinFROMrange && withinTOrange) {
-                    filtered_items.add(items.get(i));
+                    filtered_items.add(f_items.get(i));
                 }
             }
         }
         return filtered_items;
+    }
+
+    /**
+     * Sets the total cost textview to the total value of the items being displayed currently.
+     * @param itemList the list of items currently in the view.
+     */
+    private void updateTotalValue(List<Item> itemList) {
+        double total = 0;
+
+        for (Item item : itemList) {
+            String estValue = item.getEst_value();
+            if (estValue != null) {
+                total += Double.parseDouble(estValue);
+            }
+        }
+        totalCostView.setText(String.format(Locale.CANADA, "Total Value = $%.2f", total));
     }
 }
