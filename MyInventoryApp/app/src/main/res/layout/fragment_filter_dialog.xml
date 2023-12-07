@@ -1,124 +1,91 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/fragment_filter_dialog.xml -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/grey_dark">
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <Button
-        android:id="@+id/cancelFilterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/clear"
-        app:icon="@drawable/cross" />
-
+    <!-- Make ChipGroup -->
     <TextView
-        android:id="@+id/makeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cancelFilterButton"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Select Make:"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/makeDropDown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/makeLabel"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Makes"
-        android:padding="12dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white" />
+        android:text="Select Makes"
+        android:textStyle="bold"
+        android:paddingBottom="8dp"
+        android:textColor="@color/black" />
 
-    <TextView
-        android:id="@+id/tagsLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/makeDropDown"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Select Tags:"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/tagDropDown"
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/makeChipGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tagsLabel"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Tags"
-        android:padding="12dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white" />
+        android:orientation="horizontal"
+        android:layout_below="@id/select_tag"/>
+
+    <!-- Tag ChipGroup -->
+    <TextView
+        android:id="@+id/select_tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Tags"
+        android:textStyle="bold"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp"
+        android:layout_below="@id/makeChipGroup"
+        android:textColor="@color/black" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/tagChipGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/date_label"/>
 
     <TextView
-        android:id="@+id/dateLabel"
+        android:id="@+id/date_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tagDropDown"
+        android:layout_below="@id/tagChipGroup"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Select Date Range:"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="18sp" />
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
 
-    <TextView
-        android:id="@+id/dateDropDown"
-        android:layout_width="240dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dateLabel"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:hint="Date"
-        android:padding="12dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white" />
+        android:layout_below="@id/date_label"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/cleardatebtn"
-        android:layout_width="56dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/dateLabel"
-        android:layout_toRightOf="@id/dateDropDown"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="12dp"
-        android:text="clear"
-        android:textColor="#2196F3" />
+        <TextView
+            android:id="@+id/dateDropDown"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:hint="Date"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:background="@drawable/date_border" />
 
-    <Button
-        android:id="@+id/applyFilterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/dateDropDown"
-        android:layout_marginLeft="150dp"
-        android:layout_marginTop="16dp"
-        android:layout_toRightOf="@id/clearFilterButton"
-        android:text="Apply" />
-
-    <Button
-        android:id="@+id/clearFilterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/dateDropDown"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="16dp"
-        android:text="Clear" />
-</RelativeLayout>
+        <TextView
+            android:id="@+id/cleardatebtn"
+            android:layout_width="56dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="12dp"
+            android:text="clear"
+            android:textColor="#2196F3" />
+    </LinearLayout>
+</LinearLayout>

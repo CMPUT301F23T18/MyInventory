@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,26 +44,30 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
  * This is a class that represents an activity that displays the list of items.
  * The user can add, select, view, and delete items in the list
  */
-public class ListActivity extends AppCompatActivity implements FilterDialogFragment.OnFragmentInteractionListener{
+public class ListActivity extends AppCompatActivity implements FilterDialogFragment.FilterListener {
     ImageView addButton;
     ListView itemList;
     ArrayAdapter<Item> itemAdapter;
     ArrayAdapter<String> orderadapter, fieldadapter;
-    ArrayList<Item> items, filteredDesc, filtered_items;
-    List<Integer> delete_items;
+    ArrayList<Item> items, filteredDesc;
     double totalValue = 0;
     TextView totalCostView, banner;
     Button filterbutton, sortbutton, deleteButton, tagButton;
     String fieldData, orderData;
-    boolean filtered;
-    ArrayList<String> filteredMake = new ArrayList<>(), filteredTag = new ArrayList<>();
-    String fieldSelected = "", orderSelected = "";
+    private ArrayList<Item> originalItems;
+    private Set<String> appliedMakes = new HashSet<>();
+    private Set<String> appliedTags = new HashSet<>();
+    private Set<String> appliedDate = new HashSet<>();
+    private String previousDate, fieldSelected = "", orderSelected = "";
 
     /**
      *
@@ -71,167 +76,241 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
      *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
      *
      */
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_list);
-        totalCostView = findViewById(R.id.totalCostView);
-        itemList = findViewById(R.id.item_list);
-        banner = findViewById(R.id.nothingtoshowbanner);
+        if (savedInstanceState == null) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.item_list);
+            totalCostView = findViewById(R.id.totalCostView);
+            itemList = findViewById(R.id.item_list);
 
-        // Reset user id in case it's necessary. Also if current user is null, performing tests
-        // so set it to test user uid.
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() != null) {
+            banner = findViewById(R.id.nothingtoshowbanner);
+
+            // Reset user id in case it's necessary.
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
             ((DatabaseHandler) getApplication()).setUSER_PATH(mAuth.getCurrentUser().getUid());
-        } else{
-            ((DatabaseHandler) getApplication()).setUSER_PATH("test_user");
+
+            items = new ArrayList<>();
+            originalItems = new ArrayList<>();
+            itemAdapter = new ItemList(this, items);
+
+            CollectionReference fb_items = ((DatabaseHandler) getApplication()).getFbItemsRef();
+            fb_items.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot querySnapshots, @Nullable FirebaseFirestoreException error) {
+                    if (error != null) {
+                        Log.e("Firestore", error.toString());
+                        return;
+                    }
+                    if (querySnapshots != null) {
+                        // Clear both original and filtered lists
+                        originalItems.clear();
+                        items.clear();
+
+                        // Populate the original list
+                        for (QueryDocumentSnapshot doc : querySnapshots) {
+                            Item item = new Item();
+                            String id = doc.getId();
+                            item.setSerial_num(doc.getString("serial"));
+                            item.setDate(doc.getString("date"));
+                            item.setMake(doc.getString("make"));
+                            item.setModel(doc.getString("model"));
+                            item.setEst_value(doc.getString("price"));
+                            item.setDescription(doc.getString("desc"));
+                            item.setID(Long.parseLong(id));
+
+                            if (doc.contains("tags")) {
+                                List<String> tags = (List<String>) doc.get("tags");
+                                item.setTags(tags);
+                            }
+
+                            // set photos
+                            StorageReference photosRef = ((DatabaseHandler)getApplication()).getPhotoStorageRef();
+                            item.generatePhotoArray(photosRef, id, itemAdapter);
+
+                            Log.d("Firestore", String.format("Item(%s, %s) fetched", item.getMake(), item.getModel()));
+                            originalItems.add(item); // Add to the original list
+                            items.add(item); // Add to the filtered list initially
+                        }
+                        // Calculate total value after resetting total.
+                        totalValue = 0;
+                        for (int i = 0; i < items.size(); i++) {
+                            String est_value = items.get(i).getEst_value();
+                            if (est_value != null) {
+                                totalValue += Double.parseDouble(est_value);
+                            }
+
+                        }
+                        if(items.size() == 0) {
+                            banner.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            banner.setVisibility(View.INVISIBLE);
+                        }
+                        totalCostView.setText(String.format(Locale.CANADA, "Total Value = $%.2f", totalValue));
+                        itemAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
+            itemList.setOnItemClickListener(itemClicker);
+            itemList.setAdapter(itemAdapter);
+
+            addButton = findViewById(R.id.add_button);
+
+            addButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(v.getContext(), AddActivity.class);
+                    startActivity(i);
+                }
+            });
+
+            deleteButton = findViewById(R.id.delete_btn);
+            tagButton = findViewById(R.id.tag_btn);
+            filterbutton = findViewById(R.id.filterButton);
+            sortbutton = findViewById(R.id.sortButton);
+            ImageView profileButton = findViewById(R.id.profileMain);
+
+            profileButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent profileIntent = new Intent(ListActivity.this , ProfileActivity.class);
+                    startActivity(profileIntent);
+                }
+            });
+
+            filterbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fetchDistinctMakesAndTags();
+                }
+            });
+            sortbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showSortDialog();
+                }
+            });
+
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(ListActivity.this, DeleteActivity.class);
+                    i.putParcelableArrayListExtra("list",items);
+                    startActivity(i);
+                }
+            });
+            tagButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(ListActivity.this, SelectTagItemsActivity.class);
+                    i.putParcelableArrayListExtra("list", items);
+                    startActivity(i);
+                }
+            });
+            filteredDesc = new ArrayList<>();
+
+            // Set up the SearchView
+            SearchView searchBar = findViewById(R.id.searchBar);
+
+            searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    // Call the filterList method to update the list based on the search query
+                    filterList(newText);
+                    return true;
+                }
+            });
+
         }
 
-        items = new ArrayList<>();
-        itemAdapter = new ItemList(this, items);
+    }
 
-        CollectionReference fb_items = ((DatabaseHandler) getApplication()).getFbItemsRef();
-        fb_items.addSnapshotListener(new EventListener<QuerySnapshot>() {
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // Save necessary data (e.g., applied filters) to the outState bundle
+        outState.putStringArrayList("appliedMakes", new ArrayList<>(appliedMakes));
+        outState.putStringArrayList("appliedTags", new ArrayList<>(appliedTags));
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // Restore necessary data from the savedInstanceState bundle
+        appliedMakes = new HashSet<>(Objects.requireNonNull(savedInstanceState.getStringArrayList("appliedMakes")));
+        appliedTags = new HashSet<>(Objects.requireNonNull(savedInstanceState.getStringArrayList("appliedTags")));
+
+    }
+
+
+
+    private void fetchDistinctMakesAndTags() {
+        CollectionReference fbItems = ((DatabaseHandler) getApplication()).getFbItemsRef();
+
+        fbItems.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot querySnapshots, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.e("Firestore", error.toString());
-                    return;
-                }
-                if (querySnapshots != null) {
-                    items.clear();
-                    for (QueryDocumentSnapshot doc : querySnapshots) {
-                        Item item = new Item();
-                        String id = doc.getId();
-                        item.setSerial_num(doc.getString("serial"));
-                        item.setDate(doc.getString("date"));
-                        item.setMake(doc.getString("make"));
-                        item.setModel(doc.getString("model"));
-                        item.setEst_value(doc.getString("price"));
-                        item.setDescription(doc.getString("desc"));
-                        item.setID(Long.parseLong(id));
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    Set<String> makes = new HashSet<>();
+                    Set<String> tags = new HashSet<>();
 
-                        List<String> tags = new ArrayList<>();
-                        if (doc.contains("tags")){
-                            tags = (List<String>) doc.get("tags");
-                        }
-                        item.setTags(tags);
-
-                        // set photos
-                        StorageReference photosRef = ((DatabaseHandler) getApplication()).getPhotoStorageRef();
-                        item.generatePhotoArray(photosRef,id,itemAdapter);
-
-                        Log.d("Firestore", String.format("Item(%s, %s) fetched", item.getMake(), item.getModel()));
-                        items.add(item);
-                    }
-                    // Calculate total value after resetting total.
-                    totalValue = 0;
-                    for (int i = 0; i < items.size(); i++) {
-                        String est_value = items.get(i).getEst_value();
-                        if (est_value != null) {
-                            totalValue += Double.parseDouble(est_value);
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String make = document.getString("make");
+                        if (make != null) {
+                            makes.add(make);
                         }
 
+                        List<String> documentTags = (List<String>) document.get("tags");
+                        if (documentTags != null) {
+                            tags.addAll(documentTags);
+                        }
                     }
-                    if(items.size() == 0) {
-                        banner.setVisibility(View.VISIBLE);
-                    }
-                    else {
-                        banner.setVisibility(View.INVISIBLE);
-                    }
-                    totalCostView.setText(String.format(Locale.CANADA, "Total Value = $%.2f", totalValue));
-                    itemAdapter.notifyDataSetChanged();
+
+                    // Now you have the distinct makes and tags
+                    Set<String> originalMakes = new HashSet<>(makes);
+                    Set<String> originalTags = new HashSet<>(tags);
+
+                    // Create a bundle and put the required arguments
+                    Bundle args = new Bundle();
+                    args.putStringArrayList("originalMakes", new ArrayList<>(originalMakes));
+                    args.putStringArrayList("originalTags", new ArrayList<>(originalTags));
+                    args.putStringArrayList("appliedMakes", new ArrayList<>(appliedMakes));
+                    args.putStringArrayList("appliedTags", new ArrayList<>(appliedTags));
+                    args.putString("previousDateRange", previousDate);
+
+                    // Create a new instance of FilterDialogFragment and set the arguments
+                    FilterDialogFragment filterDialog = new FilterDialogFragment();
+                    filterDialog.setArguments(args);
+
+                    // Set the listener
+                    filterDialog.setFilterListener(new FilterDialogFragment.FilterListener() {
+                        @Override
+                        public void onFilterApplied(Map<String, Set<String>> selectedFilters) {
+                            // Call a method in your ListActivity to apply the filter
+                            applyFilter(selectedFilters);
+                        }
+                    });
+
+                    // Show the FilterDialogFragment
+                    filterDialog.show(getSupportFragmentManager(), "FilterDialogFragment");
+                } else {
+                    Log.e("Firestore", "Error getting documents: ", task.getException());
+                    // Handle error
                 }
-            }
-        });
-        itemList.setOnItemClickListener(itemClicker);
-        itemList.setAdapter(itemAdapter);
-
-        addButton = findViewById(R.id.add_button);
-
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(v.getContext(), AddActivity.class);
-                startActivity(i);
-            }
-        });
-
-        deleteButton = findViewById(R.id.delete_btn);
-        tagButton = findViewById(R.id.tag_btn);
-        filterbutton = findViewById(R.id.filterButton);
-        sortbutton = findViewById(R.id.sortButton);
-        ImageView profileButton = findViewById(R.id.profileMain);
-
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent profileIntent = new Intent(ListActivity.this , ProfileActivity.class);
-                startActivity(profileIntent);
-            }
-        });
-
-        filteredMake = new ArrayList<>();
-        filteredTag = new ArrayList<>();
-
-        filterbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               //showAlertDialog();
-                Bundle bundle = new Bundle();
-                FilterDialogFragment filter_fragment = new FilterDialogFragment();
-                bundle.putStringArrayList("makesList",getMakesListFromItems());
-                bundle.putStringArrayList("tagsList",getTagsListFromItems());
-                bundle.putStringArrayList("filteredMakes", filteredMake);
-                bundle.putStringArrayList("filteredTags", filteredTag);
-                filter_fragment.setArguments(bundle);
-                filter_fragment.show(getSupportFragmentManager(), "filter_items");
-            }
-        });
-        sortbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showSortDialog();
-            }
-        });
-
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(ListActivity.this, DeleteActivity.class);
-                i.putParcelableArrayListExtra("list",items);
-                startActivity(i);
-            }
-        });
-        tagButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(ListActivity.this, SelectTagItemsActivity.class);
-                i.putParcelableArrayListExtra("list", items);
-                startActivity(i);
-            }
-        });
-        filteredDesc = new ArrayList<>();
-
-        // Set up the SearchView
-        SearchView searchBar = findViewById(R.id.searchBar);
-
-        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                // Call the filterList method to update the list based on the search query
-                filterList(newText);
-                return true;
             }
         });
     }
-
     /**
      * Filters the list by the description keywords in the search bar.
      * @param query the keyword to filter the description of an item by.
@@ -257,39 +336,123 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         itemList.setAdapter(itemAdapter);
     }
 
-    /**
-     * Returns the list of all makes.
-     * @return a list of all the makes
-     */
-    private ArrayList<String> getMakesListFromItems() {
-        ArrayList<String> makesList = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++) {
-            String make = items.get(i).getMake();
-            if (make != null && !makesList.contains(make)) {
-                makesList.add(make);
-            }
-        }
-        return makesList;
+    @Override
+    public void onFilterApplied(Map<String, Set<String>> selectedFilters) {
+        // Call a method in your ListActivity to apply the filter
+        applyFilter(selectedFilters);
     }
 
-    /**
-     * Returns the list of all tags.
-     * @return a list of all the tags
-     */
-    private ArrayList<String> getTagsListFromItems() {
-        ArrayList<String> tagsList = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++) {
-            List<String> tags = items.get(i).getTags();
-            if (tags != null) {
-                for (String tag : tags) {
-                    // Check if tag is not null and not already in the list
-                    if (tag != null && !tagsList.contains(tag)) {
-                        tagsList.add(tag);
-                    }
-                }
+    public void applyFilter(Map<String, Set<String>> selectedFilters) {
+        // Update the applied filters
+        appliedMakes.clear();
+        appliedTags.clear();
+        appliedDate.clear();
+
+        // Handle each criterion
+        for (Map.Entry<String, Set<String>> entry : selectedFilters.entrySet()) {
+            String criterion = entry.getKey();
+            Set<String> values = entry.getValue();
+
+            switch (criterion) {
+                case "makes":
+                    appliedMakes.addAll(values);
+                    break;
+                case "tags":
+                    appliedTags.addAll(values);
+                    break;
+                case "date":
+                    appliedDate.addAll(values);
+                    break;
             }
         }
-        return tagsList;
+
+        // Filter the items based on the selected filters from the original list
+        List<Item> filteredItems = filterItems(originalItems, selectedFilters);
+
+        // Update the adapter with the filtered items
+        itemAdapter.clear();
+        itemAdapter.addAll(filteredItems);
+        itemAdapter.notifyDataSetChanged();
+
+        if(filteredItems.size()>0){
+            banner.setVisibility(View.INVISIBLE);
+        } else{
+            banner.setVisibility(View.VISIBLE);
+        }
+
+        // Recalculate and update total value
+        updateTotalValue(filteredItems);
+    }
+
+
+    private List<Item> filterItems(List<Item> originalItems, Map<String, Set<String>> selectedFilters) {
+        List<Item> filteredItems = new ArrayList<>();
+
+        Set<String> dateRangeSet = selectedFilters.get("date");
+        List<Integer> fromDate = new ArrayList<>();
+        List<Integer> toDate = new ArrayList<>();
+
+        if (dateRangeSet != null && !dateRangeSet.isEmpty()) {
+            String dateRange = dateRangeSet.iterator().next();
+            previousDate = dateRange;
+            String[] dateParts = dateRange.split(" TO ");
+            fromDate = parseDate(dateParts[0]);
+            toDate = parseDate(dateParts[1]);
+        }
+
+        for (Item item : originalItems) {
+            Set<String> itemMakes = new HashSet<>(Collections.singletonList(item.getMake()));
+            Set<String> itemTags = item.getTags() != null ? new HashSet<>(item.getTags()) : Collections.emptySet();
+            // Get other criteria as needed
+
+            // Check if the item matches the selected filters for all criteria
+            boolean makesMatch = selectedFilters.get("makes").isEmpty() || !Collections.disjoint(itemMakes, selectedFilters.get("makes"));
+            boolean tagsMatch = selectedFilters.get("tags").isEmpty() || !Collections.disjoint(itemTags, selectedFilters.get("tags"));
+            boolean dateMatch = filterDate(fromDate, toDate, item.getDate());
+
+            if (makesMatch && tagsMatch && dateMatch) {
+                filteredItems.add(item);
+            }
+        }
+
+        return filteredItems;
+    }
+
+    public void clearFilters() {
+        if(items.size() == 0){
+            banner.setVisibility(View.VISIBLE);
+        } else {
+            banner.setVisibility(View.INVISIBLE);
+        }
+        // Clear the appliedMakes and appliedTags sets
+        appliedMakes.clear();
+        appliedTags.clear();
+        clearPreviousFilterDate();
+
+        // Reset the adapter with the original list
+        itemAdapter.clear();
+        itemAdapter.addAll(originalItems);
+        itemAdapter.notifyDataSetChanged();
+
+        // Recalculate and update total value for the original list
+        updateTotalValue(originalItems);
+    }
+
+    public void clearPreviousFilterDate() {
+        previousDate = "";
+    }
+
+    private void updateTotalValue(List<Item> itemList) {
+        double total = 0;
+
+        for (Item item : itemList) {
+            String estValue = item.getEst_value();
+            if (estValue != null) {
+                total += Double.parseDouble(estValue);
+            }
+        }
+
+        totalCostView.setText(String.format(Locale.CANADA, "Total Value = $%.2f", total));
     }
 
     /**
@@ -395,9 +558,9 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
             }
         }
         if(field.equals("Value")){
-            if(order.equals("Descending")){
+            if(order.equals("Ascending")){
                 Collections.sort(items, Comparator.comparing(Item::getEst_value));
-            } else if (order.equals("Ascending")) {
+            } else if (order.equals("Descending")) {
                 Collections.sort(items, Comparator.comparing(Item::getEst_value));
                 Collections.reverse(items);
             }
@@ -411,18 +574,10 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
             }
         }
         if(field.equals("Tags")) {
-            if (order.equals("Ascending")) {
-                Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
-            } else if (order.equals("Descending")) {
-                Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
-                Collections.reverse(items);
-            }
-        }
-        if(field.equals("Tags")){
             if(order.equals("Ascending")){
-                Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
+                Collections.sort(items, Comparator.comparing(Item::getTagSize));
             } else if (order.equals("Descending")) {
-                Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
+                Collections.sort(items, Comparator.comparing(Item::getTagSize));
                 Collections.reverse(items);
             }
         }
@@ -449,155 +604,57 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         }
     };
 
-    /**
-     * Interface is invoked when the "Apply" button is pressed in the filter fragment dialog.
-     * @param fromDate the start of the date range.
-     * @param toDate the end of the date range.
-     * @param fMakes the selected makes to filter by.
-     * @param fTags the selected tags to filter by.
-     */
-    @Override
-    public void onApplyPressed(List<Integer> fromDate, List<Integer> toDate, ArrayList<String> fMakes, ArrayList<String> fTags) {
-        filtered_items = new ArrayList<>();
 
-        filteredMake = fMakes;
-        filteredTag = fTags;
-
-        filtered = true;
-
-        if(fromDate.size()==0 && fMakes.size()==0 && fTags.size()==0) {
-            filtered = false;
+    private boolean filterDate(List<Integer> fromDate, List<Integer> toDate, String itemDate) {
+        if (fromDate.isEmpty() || toDate.isEmpty()) {
+            return true; // No date range specified, so no filtering needed
         }
 
-        if(fMakes.size() > 0) {
-            filtered_items = filterMakes(fMakes);
-        }
-        if(fTags.size() > 0) {
-            filtered_items = filterTags(fTags, filtered_items);
-        }
-        if(fromDate.size() > 0){
-            filtered_items = filterDate(fromDate, toDate, filtered_items);
-        }
+        String[] dateParts = itemDate.split("-");
+        int day = Integer.parseInt(dateParts[2]);
+        int month = Integer.parseInt(dateParts[1]);
+        int year = Integer.parseInt(dateParts[0]);
 
-        if(filtered) {
-            itemAdapter = new ItemList(this, filtered_items);
-            itemAdapter.notifyDataSetChanged();
-            itemList.setAdapter(itemAdapter);
-            updateTotalValue(filtered_items);
-            if(filtered_items.size() == 0){
-                banner.setVisibility(View.VISIBLE);
-            } else {
-                banner.setVisibility(View.INVISIBLE);
-            }
-        } else {
-            itemAdapter = new ItemList(this, items);
-            itemAdapter.notifyDataSetChanged();
-            itemList.setAdapter(itemAdapter);
-            updateTotalValue(items);
-            if(items.size() == 0) {
-                banner.setVisibility(View.VISIBLE);
-            } else {
-                banner.setVisibility(View.INVISIBLE);
-            }
-        }
-    }
+        boolean withinFROMrange = false, withinTOrange = false;
 
-    private ArrayList<Item> filterMakes(ArrayList<String> makes) {
-        filtered_items = new ArrayList<>();
-
-        for(int i = 0; i < items.size();i++){
-            if(makes.contains(items.get(i).getMake())){
-                filtered_items.add(items.get(i));
-            }
-        }
-
-        return filtered_items;
-    }
-
-    private ArrayList<Item> filterTags(ArrayList<String> tags, ArrayList<Item> f_items) {
-        if(f_items.size() == 0){
-            f_items = items;
-        }
-        Log.d("tag f_items", String.valueOf(f_items));
-        Log.d("tag items", String.valueOf(items));
-
-        filtered_items = new ArrayList<>();
-
-        for(int i = 0; i < f_items.size();i++){
-            List<String> item_tags = f_items.get(i).getTags();
-            for(int j = 0; j < item_tags.size();i++){
-                if(tags.contains(item_tags.get(j))){
-                    filtered_items.add(f_items.get(i));
+        if (year > fromDate.get(0)) {
+            withinFROMrange = true;
+        } else if (year == fromDate.get(0)) {
+            if (month > fromDate.get(1)) {
+                withinFROMrange = true;
+            } else if (month == fromDate.get(1)) {
+                if (day >= fromDate.get(2)) {
+                    withinFROMrange = true;
                 }
             }
         }
-        return filtered_items;
-    }
 
-    /**
-     * Returns the list of makes.
-     * @param fromDate the start of the date range.
-     * @param toDate the end of the date range.
-     * @return an array list of the items that fit within the date range.
-     */
-    private ArrayList<Item> filterDate(List<Integer> fromDate, List<Integer> toDate, ArrayList<Item> f_items){
-        if(f_items.size() == 0){
-            f_items = items;
-        }
-
-        filtered_items = new ArrayList<>();
-        if(fromDate.size()>0){
-            int fromday = fromDate.get(2);int frommonth = fromDate.get(1);int fromyear = fromDate.get(0);
-            int today = toDate.get(2);int tomonth = toDate.get(1);int toyear = toDate.get(0);
-            for(int i = 0; i < f_items.size(); i++) {
-                String[] dateParts = f_items.get(i).getDate().split("-");
-                int day = Integer.parseInt(dateParts[2]);
-                int month = Integer.parseInt(dateParts[1]);
-                int year = Integer.parseInt(dateParts[0]);
-
-                boolean withinFROMrange = false, withinTOrange = false;
-
-                if (year > fromyear) {withinFROMrange = true;}
-
-                if(year == fromyear) {
-                    if (month == frommonth) {
-                        if (day >= fromday) {withinFROMrange = true;}
-                    }
-                    else if (month > frommonth) {withinFROMrange = true;}
-                }
-
-                if(year < toyear) {withinTOrange = true;}
-
-                if (year == toyear ) {
-                    if (month < tomonth) {
-                        withinTOrange = true;
-                    } else if (month == tomonth) {
-                        if (day <= today) {
-                            withinTOrange = true;
-                        }
-                    }
-                }
-                if (withinFROMrange && withinTOrange) {
-                    filtered_items.add(f_items.get(i));
+        if (year < toDate.get(0)) {
+            withinTOrange = true;
+        } else if (year == toDate.get(0)) {
+            if (month < toDate.get(1)) {
+                withinTOrange = true;
+            } else if (month == toDate.get(1)) {
+                if (day <= toDate.get(2)) {
+                    withinTOrange = true;
                 }
             }
         }
-        return filtered_items;
+
+        return withinFROMrange && withinTOrange;
     }
 
-    /**
-     * Sets the total cost textview to the total value of the items being displayed currently.
-     * @param itemList the list of items currently in the view.
-     */
-    private void updateTotalValue(List<Item> itemList) {
-        double total = 0;
+    private List<Integer> parseDate(String date){
+        String[] dateParts = date.split("/");
+        int day = Integer.parseInt(dateParts[2]);
+        int month = Integer.parseInt(dateParts[1]);
+        int year = Integer.parseInt(dateParts[0]);
 
-        for (Item item : itemList) {
-            String estValue = item.getEst_value();
-            if (estValue != null) {
-                total += Double.parseDouble(estValue);
-            }
-        }
-        totalCostView.setText(String.format(Locale.CANADA, "Total Value = $%.2f", total));
+        List<Integer> parts = new ArrayList<>();
+        parts.add(year);
+        parts.add(month);
+        parts.add(day);
+
+        return parts;
     }
 }

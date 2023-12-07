@@ -9,6 +9,7 @@
     <color name="grey_dark">#474747</color>
     <color name="m3_textfield_label_color" tools:override="true">#6AD368</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#79747E</color>
+    <color name="disabled_chip_color">#C0C0C0</color>
 
 
 </resources>

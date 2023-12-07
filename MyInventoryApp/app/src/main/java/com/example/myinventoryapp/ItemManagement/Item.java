@@ -421,4 +421,12 @@ public class Item implements Parcelable {
         return selected;
     }
 
+    public int getTagSize(){
+        if(tags == null){
+            return 0;
+        }else{
+            return tags.size();
+        }
+    }
+
 }
