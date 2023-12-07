@@ -64,13 +64,12 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     TextView totalCostView, banner;
     Button filterbutton, sortbutton, deleteButton, tagButton;
     String fieldData, orderData;
-    private String dateRange;
     boolean filtered;
     // Original list to store all items
     private ArrayList<Item> originalItems;
     private Set<String> appliedMakes = new HashSet<>();
     private Set<String> appliedTags = new HashSet<>();
-
+    private Set<String> appliedDate = new HashSet<>();
 
     /**
      *
@@ -239,29 +238,21 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
         // Save necessary data (e.g., applied filters) to the outState bundle
         outState.putStringArrayList("appliedMakes", new ArrayList<>(appliedMakes));
         outState.putStringArrayList("appliedTags", new ArrayList<>(appliedTags));
-        // Save other relevant data...
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+
         // Restore necessary data from the savedInstanceState bundle
         appliedMakes = new HashSet<>(Objects.requireNonNull(savedInstanceState.getStringArrayList("appliedMakes")));
         appliedTags = new HashSet<>(Objects.requireNonNull(savedInstanceState.getStringArrayList("appliedTags")));
-        // Restore other relevant data...
     }
 
-    private void showFilterDialog(Set<String> originalMakes, Set<String> originalTags) {
-        // Create and show the filter dialog fragment
-        FilterDialogFragment filterDialog = new FilterDialogFragment(originalMakes, originalTags, appliedMakes, appliedTags, this);
-        Bundle args = new Bundle();
-        args.putString("dateString", dateRange); // Provide a default date string if needed
-        filterDialog.setArguments(args);
-        filterDialog.show(getSupportFragmentManager(), "FilterDialogFragment");
-    }
 
 
     private void fetchDistinctMakesAndTags() {
@@ -348,13 +339,13 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     public void onFilterApplied(Map<String, Set<String>> selectedFilters) {
         // Call a method in your ListActivity to apply the filter
         applyFilter(selectedFilters);
-
     }
 
     public void applyFilter(Map<String, Set<String>> selectedFilters) {
         // Update the applied filters
         appliedMakes.clear();
         appliedTags.clear();
+        appliedDate.clear();
 
         // Handle each criterion
         for (Map.Entry<String, Set<String>> entry : selectedFilters.entrySet()) {
@@ -368,7 +359,9 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
                 case "tags":
                     appliedTags.addAll(values);
                     break;
-                // Add more cases for other criteria as needed
+                case "date":
+                    appliedDate.addAll(values);
+                    break;
             }
         }
 
@@ -388,6 +381,17 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     private List<Item> filterItems(List<Item> originalItems, Map<String, Set<String>> selectedFilters) {
         List<Item> filteredItems = new ArrayList<>();
 
+        Set<String> dateRangeSet = selectedFilters.get("date");
+        List<Integer> fromDate = new ArrayList<>();
+        List<Integer> toDate = new ArrayList<>();
+
+        if (dateRangeSet != null && !dateRangeSet.isEmpty()) {
+            String dateRange = dateRangeSet.iterator().next();
+            String[] dateParts = dateRange.split(" TO ");
+            fromDate = parseDate(dateParts[0]);
+            toDate = parseDate(dateParts[1]);
+        }
+
         for (Item item : originalItems) {
             Set<String> itemMakes = new HashSet<>(Collections.singletonList(item.getMake()));
             Set<String> itemTags = item.getTags() != null ? new HashSet<>(item.getTags()) : Collections.emptySet();
@@ -396,9 +400,9 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
             // Check if the item matches the selected filters for all criteria
             boolean makesMatch = selectedFilters.get("makes").isEmpty() || !Collections.disjoint(itemMakes, selectedFilters.get("makes"));
             boolean tagsMatch = selectedFilters.get("tags").isEmpty() || !Collections.disjoint(itemTags, selectedFilters.get("tags"));
-            // Check other criteria as needed
+            boolean dateMatch = filterDate(fromDate, toDate, item.getDate());
 
-            if (makesMatch && tagsMatch /* && otherCriteriaMatch */) {
+            if (makesMatch && tagsMatch && dateMatch) {
                 filteredItems.add(item);
             }
         }
@@ -585,92 +589,57 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         }
     };
 
-//    /**
-//     * Interface is invoked when the "Apply" button is pressed in the filter fragment dialog.
-//     * @param selectedDateRange the string form of the date range selected to filter by.
-//     * @param fromDate the start of the date range.
-//     * @param toDate the end of the date range.
-//     * @param fMakes the selected makes to filter by.
-//     * @param fTags the selected tags to filter by.
-//     */
-//    @Override
-//    public void onApplyPressed(String selectedDateRange, List<Integer> fromDate, List<Integer> toDate, List<String> fMakes, List<String> fTags) {
-//        dateRange = selectedDateRange;
-//        filtered = true;
-//
-//        if(fromDate.size()==0 && fMakes.size()==0 && fTags.size()==0) {
-//            filtered = false;
-//        }
-//
-//        filtered_items = filterDate(fromDate, toDate);
-//
-//        if(filtered) {
-//            itemAdapter = new ItemList(this, filtered_items);
-//            itemAdapter.notifyDataSetChanged();
-//            itemList.setAdapter(itemAdapter);
-//            updateTotalValue(filtered_items);
-//            if(filtered_items.size() == 0){
-//                banner.setVisibility(View.VISIBLE);
-//            } else {
-//                banner.setVisibility(View.INVISIBLE);
-//            }
-//        } else {
-//            itemAdapter = new ItemList(this, items);
-//            itemAdapter.notifyDataSetChanged();
-//            itemList.setAdapter(itemAdapter);
-//            updateTotalValue(items);
-//            if(items.size() == 0) {
-//                banner.setVisibility(View.VISIBLE);
-//            } else {
-//                banner.setVisibility(View.INVISIBLE);
-//            }
-//        }
-//    }
-//
-//    /**
-//     * Returns the list of makes.
-//     * @param fromDate the start of the date range.
-//     * @param toDate the end of the date range.
-//     * @return an array list of the items that fit within the date range.
-//     */
-//    private ArrayList<Item> filterDate(List<Integer> fromDate, List<Integer> toDate){
-//        filtered_items = new ArrayList<>();
-//        if(fromDate.size()>0){
-//            int fromday = fromDate.get(2);int frommonth = fromDate.get(1);int fromyear = fromDate.get(0);
-//            int today = toDate.get(2);int tomonth = toDate.get(1);int toyear = toDate.get(0);
-//            for(int i = 0; i < items.size(); i++) {
-//                String[] dateParts = items.get(i).getDate().split("-");
-//                int day = Integer.parseInt(dateParts[2]);
-//                int month = Integer.parseInt(dateParts[1]);
-//                int year = Integer.parseInt(dateParts[0]);
-//
-//                boolean withinFROMrange = false, withinTOrange = false;
-//
-//                if (year > fromyear) {withinFROMrange = true;}
-//
-//                if(year == fromyear) {
-//                    if (month == frommonth) {
-//                        if (day >= fromday) {withinFROMrange = true;}
-//                    }
-//                    else if (month > frommonth) {withinFROMrange = true;}
-//                }
-//
-//                if(year < toyear) {withinTOrange = true;}
-//
-//                if (year == toyear ) {
-//                    if (month < tomonth) {
-//                        withinTOrange = true;
-//                    } else if (month == tomonth) {
-//                        if (day <= today) {
-//                            withinTOrange = true;
-//                        }
-//                    }
-//                }
-//                if (withinFROMrange && withinTOrange) {
-//                    filtered_items.add(items.get(i));
-//                }
-//            }
-//        }
-//        return filtered_items;
-//    }
+
+    private boolean filterDate(List<Integer> fromDate, List<Integer> toDate, String itemDate) {
+        if (fromDate.isEmpty() || toDate.isEmpty()) {
+            return true; // No date range specified, so no filtering needed
+        }
+
+        String[] dateParts = itemDate.split("-");
+        int day = Integer.parseInt(dateParts[2]);
+        int month = Integer.parseInt(dateParts[1]);
+        int year = Integer.parseInt(dateParts[0]);
+
+        boolean withinFROMrange = false, withinTOrange = false;
+
+        if (year > fromDate.get(0)) {
+            withinFROMrange = true;
+        } else if (year == fromDate.get(0)) {
+            if (month > fromDate.get(1)) {
+                withinFROMrange = true;
+            } else if (month == fromDate.get(1)) {
+                if (day >= fromDate.get(2)) {
+                    withinFROMrange = true;
+                }
+            }
+        }
+
+        if (year < toDate.get(0)) {
+            withinTOrange = true;
+        } else if (year == toDate.get(0)) {
+            if (month < toDate.get(1)) {
+                withinTOrange = true;
+            } else if (month == toDate.get(1)) {
+                if (day <= toDate.get(2)) {
+                    withinTOrange = true;
+                }
+            }
+        }
+
+        return withinFROMrange && withinTOrange;
+    }
+
+    private List<Integer> parseDate(String date){
+        String[] dateParts = date.split("/");
+        int day = Integer.parseInt(dateParts[2]);
+        int month = Integer.parseInt(dateParts[1]);
+        int year = Integer.parseInt(dateParts[0]);
+
+        List<Integer> parts = new ArrayList<>();
+        parts.add(year);
+        parts.add(month);
+        parts.add(day);
+
+        return parts;
+    }
 }

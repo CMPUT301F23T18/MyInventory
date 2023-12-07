@@ -32,6 +32,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -41,18 +42,16 @@ import java.util.TimeZone;
  */
 public class FilterDialogFragment extends DialogFragment {
 
-
+    private TextView dateTextView, cleardate;
     private ChipGroup makeChipGroup, tagChipGroup;
     private Set<String> originalMakes, originalTags;
     private Set<String> appliedMakes, appliedTags;
     private FilterListener filterListener;
+    private List<Integer> fromDate = new ArrayList<>(), toDate = new ArrayList<>();
+    private String selectedDateRange;
 
     public void setFilterListener(FilterListener filterListener) {
         this.filterListener = filterListener;
-    }
-
-    public FilterListener getFilterListener() {
-        return filterListener;
     }
 
 
@@ -62,17 +61,6 @@ public class FilterDialogFragment extends DialogFragment {
 
     public FilterDialogFragment() {
         // Default constructor required for DialogFragment
-    }
-
-    public FilterDialogFragment(Set<String> originalMakes, Set<String> originalTags, Set<String> appliedMakes, Set<String> appliedTags, FilterListener filterListener) {
-        this.originalMakes = originalMakes;
-        this.filterListener = filterListener;
-        this.originalTags = originalTags;
-        this.appliedMakes = appliedMakes;
-        this.appliedTags = appliedTags;
-
-        // Retain the instance of the Fragment across configuration changes
-        setRetainInstance(true);
     }
 
     @Override
@@ -100,8 +88,29 @@ public class FilterDialogFragment extends DialogFragment {
 
         makeChipGroup = view.findViewById(R.id.makeChipGroup);
         tagChipGroup = view.findViewById(R.id.tagChipGroup);
+        dateTextView = view.findViewById(R.id.dateDropDown);
+        cleardate = view.findViewById(R.id.cleardatebtn);
 
         populateChipGroups(originalMakes, originalTags, appliedMakes, appliedTags);
+
+        dateTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Show the date range picker dialog when the dateTextView is clicked
+                showDatesDialog();
+            }
+        });
+
+        cleardate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedDateRange = "";
+                dateTextView.setText("");
+                dateTextView.setHint("Date");
+                fromDate.clear();
+                toDate.clear();
+            }
+        });
 
 
         builder.setView(view)
@@ -113,6 +122,7 @@ public class FilterDialogFragment extends DialogFragment {
                         Map<String, Set<String>> selectedFilters = new HashMap<>();
                         selectedFilters.put("makes", getSelectedChips(makeChipGroup));
                         selectedFilters.put("tags", getSelectedChips(tagChipGroup));
+                        selectedFilters.put("date", getSelectedDateRangeAsSet());
 
                         // Call the listener to notify the ListActivity about the filter
                         filterListener.onFilterApplied(selectedFilters);
@@ -247,61 +257,70 @@ public class FilterDialogFragment extends DialogFragment {
         appliedTags.clear();
     }
 
-//    /**
-//     * Builds and displays the dialog to select the date range to filter the list by.
-//     */
-//    private void showDatesDialog(){
-//        // Creating a MaterialDatePicker builder for selecting a date range
-//        MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
-//        builder.setTitleText("Select a date range");
-//
-//        MaterialDatePicker<Pair<Long, Long>> datePicker = builder.build();
-//        datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
-//            @Override
-//            public void onPositiveButtonClick(Pair<Long, Long> selection) {
-//                // Retrieving the selected start and end dates
-//                Long startDate = selection.first;
-//                Long endDate = selection.second;
-//
-//                // Formatting the selected dates as strings
-//                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
-//                sdf.setTimeZone(TimeZone.getTimeZone("Your_Timezone_ID"));
-//                String startDateString = sdf.format(new Date(startDate));
-//                String endDateString = sdf.format(new Date(endDate));
-//
-//                // Creating the date range string
-//                selectedDateRange = startDateString + " TO " + endDateString;
-//
-//                // Displaying the selected date range in the TextView
-//                dateTextView.setText(selectedDateRange);
-//                fromDate = parseDate(startDateString);
-//                toDate = parseDate(endDateString);
-//            }
-//        });
-//
-//        // Showing the date picker dialog
-//        datePicker.show(getParentFragmentManager(), "DATE_PICKER");
-//    }
-//
-//    /**
-//     * Parses the string date to separate into year, month, and day (with this respective order).
-//     * Returns a list of integers with the date parts.
-//     * @param date the date to parse
-//     * @return the integer list containing the date parts (year, month, day).
-//     */
-//    private List<Integer> parseDate(String date){
-//        String[] dateParts = date.split("/");
-//        int day = Integer.parseInt(dateParts[2]);
-//        int month = Integer.parseInt(dateParts[1]);
-//        int year = Integer.parseInt(dateParts[0]);
-//
-//        List<Integer> parts = new ArrayList<>();
-//        parts.add(year);
-//        parts.add(month);
-//        parts.add(day);
-//
-//        return parts;
-//    }
+    /**
+     * Builds and displays the dialog to select the date range to filter the list by.
+     */
+    private void showDatesDialog(){
+        // Creating a MaterialDatePicker builder for selecting a date range
+        MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
+        builder.setTitleText("Select a date range");
+
+        MaterialDatePicker<Pair<Long, Long>> datePicker = builder.build();
+        datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>() {
+            @Override
+            public void onPositiveButtonClick(Pair<Long, Long> selection) {
+                // Retrieving the selected start and end dates
+                Long startDate = selection.first;
+                Long endDate = selection.second;
+
+                // Formatting the selected dates as strings
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+                sdf.setTimeZone(TimeZone.getTimeZone("Your_Timezone_ID"));
+                String startDateString = sdf.format(new Date(startDate));
+                String endDateString = sdf.format(new Date(endDate));
+
+                // Creating the date range string
+                selectedDateRange = startDateString + " TO " + endDateString;
+
+                // Displaying the selected date range in the TextView
+                dateTextView.setText(selectedDateRange);
+                fromDate = parseDate(startDateString);
+                toDate = parseDate(endDateString);
+            }
+        });
+
+        // Showing the date picker dialog
+        datePicker.show(getParentFragmentManager(), "DATE_PICKER");
+    }
+
+    /**
+     * Parses the string date to separate into year, month, and day (with this respective order).
+     * Returns a list of integers with the date parts.
+     * @param date the date to parse
+     * @return the integer list containing the date parts (year, month, day).
+     */
+    private List<Integer> parseDate(String date){
+        String[] dateParts = date.split("/");
+        int day = Integer.parseInt(dateParts[2]);
+        int month = Integer.parseInt(dateParts[1]);
+        int year = Integer.parseInt(dateParts[0]);
+
+        List<Integer> parts = new ArrayList<>();
+        parts.add(year);
+        parts.add(month);
+        parts.add(day);
+
+        return parts;
+    }
+
+    private Set<String> getSelectedDateRangeAsSet() {
+        Set<String> dateRangeSet = new HashSet<>();
+        if (selectedDateRange != null && !selectedDateRange.isEmpty()) {
+            dateRangeSet.add(selectedDateRange);
+        }
+        return dateRangeSet;
+    }
+
 
 }
 
