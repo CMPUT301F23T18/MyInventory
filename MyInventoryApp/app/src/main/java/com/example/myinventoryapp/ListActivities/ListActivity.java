@@ -70,7 +70,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     private Set<String> appliedMakes = new HashSet<>();
     private Set<String> appliedTags = new HashSet<>();
     private Set<String> appliedDate = new HashSet<>();
-    private String previousDate;
+    private String previousDate, fieldSelected = "", orderSelected = "";
 
     /**
      *
@@ -377,6 +377,13 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         itemAdapter.addAll(filteredItems);
         itemAdapter.notifyDataSetChanged();
 
+        if(items.size() == 0) {
+            banner.setVisibility(View.VISIBLE);
+        }
+        else {
+            banner.setVisibility(View.INVISIBLE);
+        }
+
         // Recalculate and update total value
         updateTotalValue(filteredItems);
     }
@@ -416,6 +423,13 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     }
 
     public void clearFilters() {
+        if(items.size() == 0) {
+            banner.setVisibility(View.VISIBLE);
+        }
+        else {
+            banner.setVisibility(View.INVISIBLE);
+        }
+
         // Clear the appliedMakes and appliedTags sets
         appliedMakes.clear();
         appliedTags.clear();
@@ -472,35 +486,40 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         fieldSpinner.setAdapter(fieldadapter);
         orderSpinner.setAdapter(orderadapter);
 
-        fieldSpinner.setSelection(0);
+        if(fieldSelected == "") {
+            fieldSpinner.setSelection(0);
+        } else if (fieldSelected == "Make") {
+            fieldSpinner.setSelection(1);
+        } else if (fieldSelected == "Date") {
+            fieldSpinner.setSelection(2);
+        } else if (fieldSelected == "Value") {
+            fieldSpinner.setSelection(3);
+        } else if (fieldSelected == "Description") {
+            fieldSpinner.setSelection(4);
+        } else if (fieldSelected == "Tags") {
+            fieldSpinner.setSelection(5);
+        }
+
+        if(orderSelected == "") {
+            orderSpinner.setSelection(0);
+        } else if (orderSelected == "Ascending") {
+            orderSpinner.setSelection(0);
+        } else if (orderSelected == "Descending") {
+            orderSpinner.setSelection(1);
+        }
 
         builder.setView(view);
-        Button positiveButton = view.findViewById(R.id.applySortButton);
+        Button possitiveButton = view.findViewById(R.id.applySortButton);
         Button negativeButton = view.findViewById(R.id.cancelSortButton);
         AlertDialog alertDialog = builder.create();
 
-        fieldSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (fieldSpinner.getSelectedItem().toString() != "Default") {
-                    orderSpinner.setVisibility(View.VISIBLE);
-                    orderSpinner.setSelection(0);
-                }
-                else{
-                    orderSpinner.setVisibility(View.INVISIBLE);
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        positiveButton.setOnClickListener(new View.OnClickListener() {
+        possitiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fieldData = fieldSpinner.getSelectedItem().toString();
+                fieldSelected =  fieldData;
                 orderData = orderSpinner.getSelectedItem().toString();
+                orderSelected = orderData;
                 sortList(fieldData, orderData);
                 alertDialog.dismiss();
             }
@@ -561,18 +580,10 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
             }
         }
         if(field.equals("Tags")) {
-            if (order.equals("Ascending")) {
-                Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
-            } else if (order.equals("Descending")) {
-                Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
-                Collections.reverse(items);
-            }
-        }
-        if(field.equals("Tags")){
             if(order.equals("Ascending")){
-                Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
+                Collections.sort(items, Comparator.comparing(Item::getTagSize));
             } else if (order.equals("Descending")) {
-                Collections.sort(items, Comparator.comparing(obj -> obj.getTags().size()));
+                Collections.sort(items, Comparator.comparing(Item::getTagSize));
                 Collections.reverse(items);
             }
         }
