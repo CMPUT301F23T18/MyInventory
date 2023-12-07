@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,7 +43,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -83,157 +81,153 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.item_list);
-            totalCostView = findViewById(R.id.totalCostView);
-            itemList = findViewById(R.id.item_list);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.item_list);
+        totalCostView = findViewById(R.id.totalCostView);
+        itemList = findViewById(R.id.item_list);
 
-            banner = findViewById(R.id.nothingtoshowbanner);
+        banner = findViewById(R.id.nothingtoshowbanner);
 
-            // Reset user id in case it's necessary.
-            FirebaseAuth mAuth = FirebaseAuth.getInstance();
-            ((DatabaseHandler) getApplication()).setUSER_PATH(mAuth.getCurrentUser().getUid());
+        // Reset user id in case it's necessary.
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        ((DatabaseHandler) getApplication()).setUSER_PATH(mAuth.getCurrentUser().getUid());
 
-            items = new ArrayList<>();
-            originalItems = new ArrayList<>();
-            itemAdapter = new ItemList(this, items);
+        items = new ArrayList<>();
+        originalItems = new ArrayList<>();
+        itemAdapter = new ItemList(this, items);
 
-            CollectionReference fb_items = ((DatabaseHandler) getApplication()).getFbItemsRef();
-            fb_items.addSnapshotListener(new EventListener<QuerySnapshot>() {
-                @Override
-                public void onEvent(@Nullable QuerySnapshot querySnapshots, @Nullable FirebaseFirestoreException error) {
-                    if (error != null) {
-                        Log.e("Firestore", error.toString());
-                        return;
+        CollectionReference fb_items = ((DatabaseHandler) getApplication()).getFbItemsRef();
+        fb_items.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot querySnapshots, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.e("Firestore", error.toString());
+                    return;
+                }
+                if (querySnapshots != null) {
+                    // Clear both original and filtered lists
+                    originalItems.clear();
+                    items.clear();
+
+                    // Populate the original list
+                    for (QueryDocumentSnapshot doc : querySnapshots) {
+                        Item item = new Item();
+                        String id = doc.getId();
+                        item.setSerial_num(doc.getString("serial"));
+                        item.setDate(doc.getString("date"));
+                        item.setMake(doc.getString("make"));
+                        item.setModel(doc.getString("model"));
+                        item.setEst_value(doc.getString("price"));
+                        item.setDescription(doc.getString("desc"));
+                        item.setID(Long.parseLong(id));
+
+                        if (doc.contains("tags")) {
+                            List<String> tags = (List<String>) doc.get("tags");
+                            item.setTags(tags);
+                        }
+
+                        // set photos
+                        StorageReference photosRef = ((DatabaseHandler)getApplication()).getPhotoStorageRef();
+                        item.generatePhotoArray(photosRef, id, itemAdapter);
+
+                        Log.d("Firestore", String.format("Item(%s, %s) fetched", item.getMake(), item.getModel()));
+                        originalItems.add(item); // Add to the original list
+                        items.add(item); // Add to the filtered list initially
                     }
-                    if (querySnapshots != null) {
-                        // Clear both original and filtered lists
-                        originalItems.clear();
-                        items.clear();
-
-                        // Populate the original list
-                        for (QueryDocumentSnapshot doc : querySnapshots) {
-                            Item item = new Item();
-                            String id = doc.getId();
-                            item.setSerial_num(doc.getString("serial"));
-                            item.setDate(doc.getString("date"));
-                            item.setMake(doc.getString("make"));
-                            item.setModel(doc.getString("model"));
-                            item.setEst_value(doc.getString("price"));
-                            item.setDescription(doc.getString("desc"));
-                            item.setID(Long.parseLong(id));
-
-                            if (doc.contains("tags")) {
-                                List<String> tags = (List<String>) doc.get("tags");
-                                item.setTags(tags);
-                            }
-
-                            // set photos
-                            StorageReference photosRef = ((DatabaseHandler)getApplication()).getPhotoStorageRef();
-                            item.generatePhotoArray(photosRef, id, itemAdapter);
-
-                            Log.d("Firestore", String.format("Item(%s, %s) fetched", item.getMake(), item.getModel()));
-                            originalItems.add(item); // Add to the original list
-                            items.add(item); // Add to the filtered list initially
+                    // Calculate total value after resetting total.
+                    totalValue = 0;
+                    for (int i = 0; i < items.size(); i++) {
+                        String est_value = items.get(i).getEst_value();
+                        if (est_value != null) {
+                            totalValue += Double.parseDouble(est_value);
                         }
-                        // Calculate total value after resetting total.
-                        totalValue = 0;
-                        for (int i = 0; i < items.size(); i++) {
-                            String est_value = items.get(i).getEst_value();
-                            if (est_value != null) {
-                                totalValue += Double.parseDouble(est_value);
-                            }
 
-                        }
-                        if(items.size() == 0) {
-                            banner.setVisibility(View.VISIBLE);
-                        }
-                        else {
-                            banner.setVisibility(View.INVISIBLE);
-                        }
-                        totalCostView.setText(String.format(Locale.CANADA, "Total Value = $%.2f", totalValue));
-                        itemAdapter.notifyDataSetChanged();
                     }
+                    if(items.size() == 0) {
+                        banner.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        banner.setVisibility(View.INVISIBLE);
+                    }
+                    totalCostView.setText(String.format(Locale.CANADA, "Total Value = $%.2f", totalValue));
+                    itemAdapter.notifyDataSetChanged();
                 }
-            });
-            itemList.setOnItemClickListener(itemClicker);
-            itemList.setAdapter(itemAdapter);
+            }
+        });
+        itemList.setOnItemClickListener(itemClicker);
+        itemList.setAdapter(itemAdapter);
 
-            addButton = findViewById(R.id.add_button);
+        addButton = findViewById(R.id.add_button);
 
-            addButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(v.getContext(), AddActivity.class);
-                    startActivity(i);
-                }
-            });
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), AddActivity.class);
+                startActivity(i);
+            }
+        });
 
-            deleteButton = findViewById(R.id.delete_btn);
-            tagButton = findViewById(R.id.tag_btn);
-            filterbutton = findViewById(R.id.filterButton);
-            sortbutton = findViewById(R.id.sortButton);
-            ImageView profileButton = findViewById(R.id.profileMain);
+        deleteButton = findViewById(R.id.delete_btn);
+        tagButton = findViewById(R.id.tag_btn);
+        filterbutton = findViewById(R.id.filterButton);
+        sortbutton = findViewById(R.id.sortButton);
+        ImageView profileButton = findViewById(R.id.profileMain);
 
-            profileButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent profileIntent = new Intent(ListActivity.this , ProfileActivity.class);
-                    startActivity(profileIntent);
-                }
-            });
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profileIntent = new Intent(ListActivity.this , ProfileActivity.class);
+                startActivity(profileIntent);
+            }
+        });
 
-            filterbutton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fetchDistinctMakesAndTags();
-                }
-            });
-            sortbutton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showSortDialog();
-                }
-            });
+        filterbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fetchDistinctMakesAndTags();
+            }
+        });
+        sortbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSortDialog();
+            }
+        });
 
-            deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(ListActivity.this, DeleteActivity.class);
-                    i.putParcelableArrayListExtra("list",items);
-                    startActivity(i);
-                }
-            });
-            tagButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(ListActivity.this, SelectTagItemsActivity.class);
-                    i.putParcelableArrayListExtra("list", items);
-                    startActivity(i);
-                }
-            });
-            filteredDesc = new ArrayList<>();
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ListActivity.this, DeleteActivity.class);
+                i.putParcelableArrayListExtra("list",items);
+                startActivity(i);
+            }
+        });
+        tagButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ListActivity.this, SelectTagItemsActivity.class);
+                i.putParcelableArrayListExtra("list", items);
+                startActivity(i);
+            }
+        });
+        filteredDesc = new ArrayList<>();
 
-            // Set up the SearchView
-            SearchView searchBar = findViewById(R.id.searchBar);
+        // Set up the SearchView
+        SearchView searchBar = findViewById(R.id.searchBar);
 
-            searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    return false;
-                }
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    // Call the filterList method to update the list based on the search query
-                    filterList(newText);
-                    return true;
-                }
-            });
-
-        }
-
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Call the filterList method to update the list based on the search query
+                filterList(newText);
+                return true;
+            }
+        });
     }
 
     @Override

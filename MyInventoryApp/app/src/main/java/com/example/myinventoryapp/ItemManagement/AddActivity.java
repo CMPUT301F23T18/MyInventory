@@ -452,6 +452,7 @@ public class AddActivity extends AppCompatActivity implements EasyPermissions.Pe
         serial.add("241100");
         serial.add("290102");
         serial.add("140403");
+        serial.add("3000045581");
 
         for (int i = 0 ; i< serial.size() ;i++) {
             if (text.contains(serial.get(i))) {
