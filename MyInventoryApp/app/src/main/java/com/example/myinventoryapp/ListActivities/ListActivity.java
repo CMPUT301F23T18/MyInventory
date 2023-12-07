@@ -70,6 +70,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
     private Set<String> appliedMakes = new HashSet<>();
     private Set<String> appliedTags = new HashSet<>();
     private Set<String> appliedDate = new HashSet<>();
+    private String previousDate;
 
     /**
      *
@@ -242,6 +243,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         // Save necessary data (e.g., applied filters) to the outState bundle
         outState.putStringArrayList("appliedMakes", new ArrayList<>(appliedMakes));
         outState.putStringArrayList("appliedTags", new ArrayList<>(appliedTags));
+
     }
 
     @Override
@@ -251,6 +253,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         // Restore necessary data from the savedInstanceState bundle
         appliedMakes = new HashSet<>(Objects.requireNonNull(savedInstanceState.getStringArrayList("appliedMakes")));
         appliedTags = new HashSet<>(Objects.requireNonNull(savedInstanceState.getStringArrayList("appliedTags")));
+
     }
 
 
@@ -287,6 +290,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
                     args.putStringArrayList("originalTags", new ArrayList<>(originalTags));
                     args.putStringArrayList("appliedMakes", new ArrayList<>(appliedMakes));
                     args.putStringArrayList("appliedTags", new ArrayList<>(appliedTags));
+                    args.putString("previousDateRange", previousDate);
 
                     // Create a new instance of FilterDialogFragment and set the arguments
                     FilterDialogFragment filterDialog = new FilterDialogFragment();
@@ -387,6 +391,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
 
         if (dateRangeSet != null && !dateRangeSet.isEmpty()) {
             String dateRange = dateRangeSet.iterator().next();
+            previousDate = dateRange;
             String[] dateParts = dateRange.split(" TO ");
             fromDate = parseDate(dateParts[0]);
             toDate = parseDate(dateParts[1]);
@@ -414,6 +419,7 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
         // Clear the appliedMakes and appliedTags sets
         appliedMakes.clear();
         appliedTags.clear();
+        clearPreviousFilterDate();
 
         // Reset the adapter with the original list
         itemAdapter.clear();
@@ -422,6 +428,10 @@ public class ListActivity extends AppCompatActivity implements FilterDialogFragm
 
         // Recalculate and update total value for the original list
         updateTotalValue(originalItems);
+    }
+
+    public void clearPreviousFilterDate() {
+        previousDate = "";
     }
 
     private void updateTotalValue(List<Item> itemList) {

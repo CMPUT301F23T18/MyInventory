@@ -49,6 +49,9 @@ public class FilterDialogFragment extends DialogFragment {
     private FilterListener filterListener;
     private List<Integer> fromDate = new ArrayList<>(), toDate = new ArrayList<>();
     private String selectedDateRange;
+    private String previousDateRange;
+
+
 
     public void setFilterListener(FilterListener filterListener) {
         this.filterListener = filterListener;
@@ -74,6 +77,7 @@ public class FilterDialogFragment extends DialogFragment {
             originalTags = new HashSet<>(args.getStringArrayList("originalTags"));
             appliedMakes = new HashSet<>(args.getStringArrayList("appliedMakes"));
             appliedTags = new HashSet<>(args.getStringArrayList("appliedTags"));
+            previousDateRange = args.getString("previousDateRange");
         }
     }
 
@@ -90,6 +94,11 @@ public class FilterDialogFragment extends DialogFragment {
         tagChipGroup = view.findViewById(R.id.tagChipGroup);
         dateTextView = view.findViewById(R.id.dateDropDown);
         cleardate = view.findViewById(R.id.cleardatebtn);
+
+        if ((previousDateRange != null) && (!previousDateRange.isEmpty())) {
+            selectedDateRange = previousDateRange;
+            dateTextView.setText(selectedDateRange);
+        }
 
         populateChipGroups(originalMakes, originalTags, appliedMakes, appliedTags);
 
@@ -109,9 +118,10 @@ public class FilterDialogFragment extends DialogFragment {
                 dateTextView.setHint("Date");
                 fromDate.clear();
                 toDate.clear();
+                ((ListActivity) getActivity()).clearPreviousFilterDate();
+
             }
         });
-
 
         builder.setView(view)
                 .setTitle("Filter Items")
