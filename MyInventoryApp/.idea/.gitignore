@@ -2,3 +2,5 @@
 /shelf/
 /workspace.xml
 .DS_Store
+/vcs.xml
+/modules.xml
